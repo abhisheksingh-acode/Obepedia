@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 
 const User = require("../../../models/signupmodel");
 const reviewsmodel = require("../../../models/Reviews/reviews");
+const CourseModel = require('../../../models/Course/course')
 
 // Getting all Reviews ( role:institute is deafult)
 // const getReviews = async (req, resp) => {
@@ -47,27 +48,16 @@ const postReview = (req, resp) => {
   });
 };
 
-// When admin want to see whole information of Institute
-const getReview = (req, resp) => {
-  User.find({ _id: req.params.id })
-    .then(() => {
-      reviewsmodel
-        .find({ ref_id: req.params.id })
-        .then((review) => {
-          resp.status(200).json({
-            Data: review,
-          });
-        })
-        .catch((err) => {
-          resp.status(500).json({
-            Error: err,
-          });
-        });
+// Getting all reviews
+const getAllReview = (req, resp) => {
+  reviewsmodel
+    .find()
+    .exec()
+    .then((result) => {
+      resp.status(200).json({ data: result });
     })
-    .catch((err) => {
-      resp.status(500).json({
-        Error: err,
-      });
+    .catch((error) => {
+      resp.status(500).json({ err });
     });
 };
 
@@ -89,29 +79,50 @@ const deleteReview = (req, resp) => {
     });
 };
 
-// lIST OF INSTITUTES AND NUMBER OF REVIEWS ON IT
-const InstituteReviews = (req, resp) => {
-  User.find({ role: "institute" })
-    .then((i) => {
-      reviewsmodel
-        .find({institute_id : i[0]._id})
-        .then((result) => {
-          resp
-            .status(200)
-            .json(
-              {data: result}
-            );
-        })
-        .catch((err) => {
-          resp.status(500).json({ err });
-        });
+const ReviewOnInstitute = (req, resp) => {
+  reviewsmodel
+    .find({ institute_id: req.params.id })
+
+    .then((result) => {
+      User.find({ _id: req.params.id })
+      .then(val2 => {resp.status(200).json({name: val2[0].name , "no_of_comments" : result.length})})
+      .catch((err) => {
+        resp.status(500).json({ error: err })
+      })
     })
-    // .then(i=>{
-    //   resp.status(200).json({data:i})
-    // })
     .catch((err) => {
-      resp.status(500).json({ err });
+      resp.status(500).json({ error: err })
     });
 };
 
-module.exports = { postReview, getReview, deleteReview , InstituteReviews };
+const ReviewOnCourse = (req, resp) => {
+    reviewsmodel.find({ course_id: req.params.id })
+
+    .then((result) => {
+      CourseModel.find({ _id: req.params.id })
+      .then(val2 => {resp.status(200).json({name: val2[0].name , "no_of_comments" : result.length})})
+      .catch((err) => {
+        resp.status(500).json({ error: err })
+      })
+    })
+    .catch((err) => {
+      resp.status(500).json({ error: err })
+    });
+};
+
+const ReviewByStudent = (req, resp) => {
+  reviewsmodel.find({ ref_id: req.params.id })
+
+  .then((result) => {
+    User.find({ _id: req.params.id })
+    .then(val2 => {resp.status(200).json({name: val2[0].name , "no_of_comments" : result.length})})
+    .catch((err) => {
+      resp.status(500).json({ error: err })
+    })
+  })
+  .catch((err) => {
+    resp.status(500).json({ error: err })
+  });
+};
+
+module.exports = { postReview, getAllReview, deleteReview, ReviewOnInstitute , ReviewOnCourse , ReviewByStudent };

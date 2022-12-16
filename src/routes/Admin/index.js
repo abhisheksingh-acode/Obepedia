@@ -51,13 +51,13 @@ router.delete('/homepage/deletefaq/:id' , deleteFaq)
 
 
 // Reviews Module
-const {postReview , getReview , deleteReview , InstituteReviews}  = require('../Admin/Reviews/index')
+const {postReview , getAllReview , deleteReview , ReviewOnInstitute , ReviewOnCourse , ReviewByStudent  }  = require('../Admin/Reviews/index')
 
 
 router.post('/reviews/postreview/:id' , postReview)
 // router.put('/reviews/putreview/:id' , putReview)
-router.get('/reviews/getreview/:id' , getReview)
-router.get('/reviews/getinstitutereviews' , InstituteReviews)
+router.get('/reviews/getallreview' , getAllReview)
+router.get('/reviews/intitutereview/:id' , intituteReview)
 router.delete('/reviews/deletereview/:id' , deleteReview)
 
 module.exports = router ;
