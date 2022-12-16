@@ -14,10 +14,10 @@ router.post("/login", (req, resp) => {
     .exec()
     .then((user) => {
       if (!user) {
-        resp.send("user not found");
+        resp.json({msg: "user not found"});
       } else {
         if (user.role !== "admin") {
-          resp.send("You arent admin");
+          resp.json({msg:"You arent admin"});
         } else {
           bcrypt.compare(req.body.password, user.password, (err, result) => {
             if (err) {
