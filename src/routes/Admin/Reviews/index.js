@@ -100,7 +100,7 @@ const ReviewOnCourse = (req, resp) => {
 
     .then((result) => {
       CourseModel.find({ _id: req.params.id })
-      .then(val2 => {resp.status(200).json({name: val2[0].name , "no_of_comments" : result.length})})
+      .then(val2 => {resp.status(200).json({course_name: val2[0].course , "no_of_comments" : result.length})})
       .catch((err) => {
         resp.status(500).json({ error: err })
       })

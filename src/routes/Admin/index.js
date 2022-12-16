@@ -55,9 +55,10 @@ const {postReview , getAllReview , deleteReview , ReviewOnInstitute , ReviewOnCo
 
 
 router.post('/reviews/postreview/:id' , postReview)
-// router.put('/reviews/putreview/:id' , putReview)
 router.get('/reviews/getallreview' , getAllReview)
-router.get('/reviews/intitutereview/:id' , intituteReview)
+router.get('/reviews/reviewsoninstitute/:id' , ReviewOnInstitute)
+router.get('/reviews/reviewsoncourse/:id' , ReviewOnCourse)
+router.get('/reviews/reviewsbystudent/:id' , ReviewByStudent)
 router.delete('/reviews/deletereview/:id' , deleteReview)
 
 module.exports = router ;
