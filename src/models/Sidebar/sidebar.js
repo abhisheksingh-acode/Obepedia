@@ -3,10 +3,12 @@ const mongoose = require('mongoose');
 const SidebarSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     link:{
-        type:String
+        type:String,
+        required:true
     },
     banner:{
-        type:String
+        type:String,
+        required:true
     }
 })
 

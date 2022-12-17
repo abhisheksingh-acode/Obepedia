@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const TokenAuth = require('../../middlewares/TokenAuth')
+
 // Account Module 
 const accountRouter = require('./account/index');
 

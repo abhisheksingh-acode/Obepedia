@@ -9,9 +9,8 @@ router.get("/login", (req, resp) => {
   resp.send("Hello, Please Login!");
 });
 
-router.post("/login", (req, resp) => {
+router.post("/login",  (req, resp) => {
   User.findOne({ email: req.body.email })
-    .exec()
     .then((user) => {
       if (!user) {
         resp.json({msg: "user not found"});
@@ -53,13 +52,10 @@ router.post("/login", (req, resp) => {
     });
 });
 
-const logout = async (req,res) => {
-    return res.json({msg:'token deleted'})
+const logout = async (req, res) => {
+  return res.json({ msg: "token deleted" });
 };
 
-router.post('/logout',logout);
-
-  
-
+router.post("/logout", logout);
 
 module.exports = router;

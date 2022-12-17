@@ -3,22 +3,28 @@ const mongoose = require('mongoose');
 const ReviewsSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name:{
-        type:String
+        type:String,
+        required:true
     },
     desc:{
-        type:String
+        type:String,
+        required:true
     },
     rating:{
-        type:Number
+        type:Number,
+        required:true
     },
     ref_id:{
-        type:String
+        type:String,
+        required:true
     },
     course_id:{
-        type:String
+        type:String,
+        required:true
     },
     institute_id:{
-        type:String
+        type:String,
+        required:true
     },
 })
 
