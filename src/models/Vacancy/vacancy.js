@@ -21,6 +21,10 @@ const VacancySchema = mongoose.Schema({
     company:{
         type: String,
         required:true
+    },
+    institute_id:{
+        type: String,
+        required:true
     }
 })
 

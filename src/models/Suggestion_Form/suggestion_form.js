@@ -1,23 +1,23 @@
 const mongoose = require('mongoose')
 
-const facultySchema = mongoose.Schema({
+const SuggestionSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name:{
         type: String,
         required:true
     },
+    email:{
+        type: String,
+        required:true
+    },
+    number:{
+        type: Number,
+        required:true
+    },
     description:{
-        type: String,
-        required:true
-    },
-    subject:{
-        type: String,
-        required:true
-    },
-    institute_id:{
         type: String,
         required:true
     }
 })
 
-module.exports = mongoose.model('facultyModel' , facultySchema)
+module.exports = mongoose.model('SuggestionModel' , SuggestionSchema)

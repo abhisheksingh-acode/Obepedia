@@ -4,10 +4,11 @@ const GallaryModel = require("../../../models/Gallary/gallary");
 
 // Adding Gallary Information
 const postGallary = (req, resp) => {
-  const { files} = req.body;
+  const { files , institute_id} = req.body;
   const Gallary = new GallaryModel({
     _id: new mongoose.Types.ObjectId(),
-    files
+    files,
+    institute_id : req.params.id
   })
     .save()
     .then((result) => {
@@ -19,8 +20,10 @@ const postGallary = (req, resp) => {
 };
 
 // Getting Gallary Information
-const getGallary = (req, resp) => {
-  GallaryModel.findOne()
+const getGallary = (req, resp) => 
+{
+  const institute_id = req.params.id
+  GallaryModel.findOne({institute_id})
     .then((result) => {
       resp.status(200).json({ YourData: result });
     })

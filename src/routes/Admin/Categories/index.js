@@ -22,6 +22,19 @@ const postCategory = (req, resp) => {
     });
 };
 
+const getCategoryName = (req, resp) => {
+  CatergoriesModel.find()
+    .then((result) => {
+      // resp.status(200).json({ result });
+      for (let i = 0; i < result.length; i++) {
+        resp.json({name : result[i].name , id : result[i]._id})
+      }
+    })
+    .catch((err) => {
+      resp.status(500).json({ err });
+    });
+};
+
 const getCategory = (req, resp) => {
   CatergoriesModel.find()
     .then((result) => {
@@ -43,4 +56,4 @@ const delCategory = (req,resp)=>{
     })
 }
 
-module.exports = { postCategory, getCategory , delCategory };
+module.exports = { postCategory, getCategory , delCategory , getCategoryName };

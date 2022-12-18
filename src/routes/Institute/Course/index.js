@@ -4,7 +4,7 @@ const CourseModel = require("../../../models/Course/course");
 
 // Adding course Information
 const postCourse = (req, resp) => {
-  const { course, online, offline, medium, duration } = req.body;
+  const { course, online, offline, medium, duration , institute_id } = req.body;
   const Course = new CourseModel({
     _id: new mongoose.Types.ObjectId(),
     course,
@@ -12,6 +12,7 @@ const postCourse = (req, resp) => {
     offline,
     medium,
     duration,
+    institute_id : req.params.id
   })
     .save()
     .then((result) => {
@@ -24,7 +25,8 @@ const postCourse = (req, resp) => {
 
 // Getting course Information
 const getCourse = (req, resp) => {
-  CourseModel.find()
+  const institute_id = req.params.id ; 
+  CourseModel.find({institute_id})
     .then((result) => {
       resp.status(200).json({ YourData: result });
     })

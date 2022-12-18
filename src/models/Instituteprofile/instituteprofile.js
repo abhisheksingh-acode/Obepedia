@@ -22,6 +22,11 @@ const InstituteProfileSchema = mongoose.Schema({
         type: String,
         required:true
     }
+    ,
+    institute_id:{
+        type: String,
+        required:true
+    }
 })
 
 module.exports = mongoose.model('InstituteProfileModel' , InstituteProfileSchema)

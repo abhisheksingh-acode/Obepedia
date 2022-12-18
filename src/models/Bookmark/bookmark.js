@@ -1,15 +1,15 @@
 const mongoose = require('mongoose')
 
-const GallarySchema = mongoose.Schema({
+const BookmarkSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    files:{
+    object_id:{
         type: String,
         required:true
     },
-    institute_id:{
-        type: String,
+    user_id:{
+        type:String,
         required:true
     }
 })
 
-module.exports = mongoose.model('GallaryModel' , GallarySchema)
+module.exports = mongoose.model('BookmarkModel' , BookmarkSchema)

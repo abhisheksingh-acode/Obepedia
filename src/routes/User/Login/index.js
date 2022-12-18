@@ -2,14 +2,11 @@ const express = require("express");
 const mongoose = require("mongoose");
 const router = express.Router();
 const bcrypt = require("bcrypt");
-const User = require("../../models/signupmodel");
+const User = require("../../../models/signupmodel");
 const jwt = require("jsonwebtoken");
 
-router.get("/login", (req, resp) => {
-  resp.send("Hello, Please Login!");
-});
 
-router.post("/login", (req, resp) => {
+const Login = (req, resp) => {
   User.findOne({ email: req.body.email })
     .exec()
     .then((user) => {
@@ -17,7 +14,7 @@ router.post("/login", (req, resp) => {
         resp.send("user not found");
       } else {
         if (user.role !== "user") {
-          resp.send("You aren't Registerd user");
+          resp.send("You aren't registerd User!");
         } else {
           bcrypt.compare(req.body.password, user.password, (err, result) => {
             if (err) {
@@ -25,22 +22,21 @@ router.post("/login", (req, resp) => {
             } else if (result) {
               const token = jwt.sign(
                 {
-                  name: user.name,
-                  role: user.role,
-                  email: user.email,
+                name: user.name,
+                role: user.role,
+                email: user.email,
                 },
-                "This is Token Key",
+                'This is Token Key',
                 {
-                  expiresIn: "24h",
+                  expiresIn:"24h"
                 }
               );
 
               resp.status(200).json({
-                greeting: "Hello User",
-                Name: user.name,
-                Role: user.role,
-                token: token,
-              });
+                greeting: `Hello ${user.name}!`,
+                user,
+                token:token
+              })
             }
             else{
               resp.status(500).json({Mgs:"Password is wrong!"})
@@ -50,9 +46,13 @@ router.post("/login", (req, resp) => {
       }
     })
     .catch((err) => {
-      resp.status(500).json({ error: err });
+      resp.status(500).json({error:err});
     });
-});
+};
 
-module.exports = router;
-  
+
+const getLogin = (req,resp)=>{
+    resp.status(200).json({msg:"hello Please Login"})
+}
+
+module.exports = {Login , getLogin};

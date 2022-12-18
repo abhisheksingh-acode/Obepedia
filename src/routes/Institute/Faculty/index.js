@@ -4,12 +4,13 @@ const facultyModel = require("../../../models/Faculty/faculty");
 
 // Adding faculty Information
 const postfaculty = (req, resp) => {
-  const { name, description, subject } = req.body;
+  const { name, description, subject , institute_id } = req.body;
   const faculty = new facultyModel({
     _id: new mongoose.Types.ObjectId(),
     name,
     description,
     subject,
+    institute_id : req.params.id
   })
     .save()
     .then((result) => {
@@ -22,7 +23,8 @@ const postfaculty = (req, resp) => {
 
 // Getting faculty Information
 const getfaculty = (req, resp) => {
-  facultyModel.find()
+  const institute_id = req.params.id
+  facultyModel.find({institute_id})
     .then((result) => {
       resp.status(200).json({ YourData: result });
     })

@@ -4,14 +4,15 @@ const instituteProfileModel = require("../../../models/Instituteprofile/institut
 
 // Adding profile Information
 const postProfile = (req, resp) => {
-  const { name, about, video, image, sliding_banner } = req.body;
+  const { name, about, video, image, sliding_banner , institute_id } = req.body;
   const Profile = new instituteProfileModel({
     _id: new mongoose.Types.ObjectId(),
     name,
     about,
     video,
     image,
-    sliding_banner
+    sliding_banner,
+    institute_id : req.params.id
   })
     .save()
     .then((result) => {
@@ -24,8 +25,9 @@ const postProfile = (req, resp) => {
 
 // Getting profile Information
 const getProfile = (req, resp) => {
+  const institute_id = req.params.id
   instituteProfileModel
-    .find()
+    .find({institute_id})
     .then((result) => {
       resp.status(200).json({ YourData: result });
     })

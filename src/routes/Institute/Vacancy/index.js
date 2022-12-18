@@ -4,7 +4,7 @@ const VacancyModel = require("../../../models/Vacancy/vacancy");
 
 // Posting  Vacancy
 const postVacancy = (req, resp) => {
-  const { name, timming, location, about, company } = req.body;
+  const { name, timming, location, about, company , institute_id } = req.body;
   const vacancy = new VacancyModel({
     _id: new mongoose.Types.ObjectId(),
     name,
@@ -12,6 +12,7 @@ const postVacancy = (req, resp) => {
     location,
     about,
     company,
+    institute_id : req.params.id
   })
     .save()
     .then((result) => {
@@ -24,7 +25,8 @@ const postVacancy = (req, resp) => {
 
 // Get Vacancy
 const getVacancy = (req, resp) => {
-  VacancyModel.find()
+  const institute_id = req.params.id
+  VacancyModel.find({institute_id})
     .then((result) => {
       resp.status(200).json({ YourData: result });
     })

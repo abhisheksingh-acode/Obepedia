@@ -12,7 +12,6 @@ app.use(cors())
 const signupRouter = require('./src/routes/Signup')
 const adminRouter = require('./src/routes/Admin/auth')
 const adminallRouter = require('./src/routes/Admin/index')
-const userRouter = require('./src/routes/User/login')
 const userallRouter = require('./src/routes/User/index')
 const instiallRouter = require('./src/routes/Institute/index')
 
@@ -46,7 +45,6 @@ app.use('/admin', adminRouter)
 app.use('/admin/', adminallRouter)
 
 // User Routes
-app.use('/user' , userRouter)
 app.use('/user/' , userallRouter)
 
 // Institute Routes

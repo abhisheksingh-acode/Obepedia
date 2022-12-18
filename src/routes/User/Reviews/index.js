@@ -16,7 +16,7 @@ const postReview = (req, resp) => {
       name: val.name,
       desc,
       rating,
-      ref_id: req.params.id,
+      ref_id: req.params.id, // Referencing student
       course_id,
       institute_id
     })
