@@ -16,7 +16,7 @@ const postCourse = (req, resp) => {
   })
     .save()
     .then((result) => {
-      resp.status(200).json({ result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ err });
@@ -28,7 +28,7 @@ const getCourse = (req, resp) => {
   const institute_id = req.params.id ; 
   CourseModel.find({institute_id})
     .then((result) => {
-      resp.status(200).json({ YourData: result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ error: err });
@@ -40,7 +40,7 @@ const delCourse = (req, resp) => {
   CourseModel.findOne({ _id: req.params.id })
     .deleteOne()
     .then((result) => {
-      resp.status(200).json({ YourData: result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ error: err });

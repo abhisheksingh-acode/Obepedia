@@ -16,7 +16,7 @@ const postHomepage = (req, resp) => {
   })
     .save()
     .then((result) => {
-      resp.status(200).json({ result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ err });
@@ -28,7 +28,7 @@ const getHomepage = (req, resp) => {
   HomepageModel
     .find()
     .then((result) => {
-      resp.status(200).json({ result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ err });
@@ -65,7 +65,7 @@ const postFaq = (req, resp) => {
   })
     .save()
     .then((result) => {
-      resp.status(200).json({ result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ err });

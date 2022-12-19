@@ -8,9 +8,7 @@ const getUsers = async (req, resp) => {
   const val =  req.body.role ? req.body.role : "user"  ;
   User.find({ role: val })
     .then((result) => {
-      resp.status(200).json({
-        UserDetails: result,
-      });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({
@@ -44,9 +42,7 @@ const GetUserDet = (req, resp) => {
         .then((fulldet) => {
           // const arr = flat(result , fulldet)
           Array.prototype.push.apply(result, fulldet);
-          resp.status(200).json({
-            Data: result 
-          });
+          resp.status(200).json(result);
         })
         .catch((err) => {
           resp.status(500).json({

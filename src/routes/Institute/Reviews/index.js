@@ -10,9 +10,7 @@ const getReview = (req, resp) => {
       reviewsmodel
         .find({ ref_id: req.params.id })
         .then((review) => {
-          resp.status(200).json({
-            Data: review,
-          });
+          resp.status(200).json(review);
         })
         .catch((err) => {
           resp.status(500).json({
@@ -32,9 +30,7 @@ const getAllReviews = (req, resp) => {
   reviewsmodel
     .find()
     .then((review) => {
-      resp.status(200).json({
-        Data: review,
-      });
+      resp.status(200).json(review);
     })
     .catch((err) => {
       resp.status(500).json({
@@ -49,7 +45,7 @@ const delReview = (req, resp) => {
     .findOne({ _id: req.params.id })
     .deleteOne()
     .then((result) => {
-      resp.status(200).json({ YourData: result });
+      resp.status(200).json(review);
     })
     .catch((err) => {
       resp.status(500).json({ error: err });

@@ -15,7 +15,7 @@ const postCategory = (req, resp) => {
   })
     .save()
     .then((result) => {
-      resp.status(200).json({ result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ err });
@@ -38,7 +38,7 @@ const getCategoryName = (req, resp) => {
 const getCategory = (req, resp) => {
   CatergoriesModel.find()
     .then((result) => {
-      resp.status(200).json({ result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ err });
@@ -49,7 +49,7 @@ const delCategory = (req,resp)=>{
     CatergoriesModel.findOne({_id:req.params.id})
     .remove()
     .then(result=>{
-        resp.status(200).json({Message:result})
+        resp.status(200).json(result)
     })
     .catch(err=>{
         resp.status(500).json({Error:err})

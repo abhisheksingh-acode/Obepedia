@@ -47,7 +47,7 @@ const UserDet = (req, resp) => {
 const GetDet  =  (req,resp)=>{
 UserModel.find({ref_id:req.params.id})
 .then((res)=>{
-    resp.status(200).json({res})
+    resp.status(200).json(res)
 })
 }
 

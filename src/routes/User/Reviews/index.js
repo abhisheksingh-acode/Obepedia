@@ -24,7 +24,7 @@ const postReview = (req, resp) => {
 
       .then((result) => {
         console.log(result);
-        resp.status(200).json({ review: result });
+        resp.status(200).json(result);
       })
 
       .catch((err) => {

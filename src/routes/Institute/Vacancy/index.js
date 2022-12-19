@@ -16,7 +16,7 @@ const postVacancy = (req, resp) => {
   })
     .save()
     .then((result) => {
-      resp.status(200).json({ YourData: result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ error: err });
@@ -28,7 +28,7 @@ const getVacancy = (req, resp) => {
   const vacancy_id = req.params.id
   VacancyModel.find({_id : vacancy_id})
     .then((result) => {
-      resp.status(200).json({ YourData: result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ error: err });
@@ -40,7 +40,7 @@ const getVacancyByInstitute = (req, resp) => {
   const institute_id = req.params.id
   VacancyModel.find({institute_id})
     .then((result) => {
-      resp.status(200).json({ YourData: result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ error: err });
@@ -52,7 +52,7 @@ const delVacancy = (req,resp)=>{
   VacancyModel.findOne({_id:req.params.id})
   .deleteOne()
   .then(result=>{
-    resp.status(200).json({YourData:result})
+    resp.status(200).json(result)
   })
   .catch(err=>{
     resp.status(500).json({error:err})

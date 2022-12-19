@@ -16,7 +16,7 @@ const postProfile = (req, resp) => {
   })
     .save()
     .then((result) => {
-      resp.status(200).json({ result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ err });
@@ -27,9 +27,9 @@ const postProfile = (req, resp) => {
 const getProfile = (req, resp) => {
   const institute_id = req.params.id
   instituteProfileModel
-    .find({institute_id})
+    .findOne({institute_id})
     .then((result) => {
-      resp.status(200).json({ YourData: result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ error: err });
@@ -42,7 +42,7 @@ const delProfile = (req, resp) => {
     .findOne({ _id: req.params.id })
     .deleteOne()
     .then((result) => {
-      resp.status(200).json({ YourData: result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ error: err });

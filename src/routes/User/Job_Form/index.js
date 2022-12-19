@@ -15,7 +15,7 @@ const postJobForm = (req, resp) => {
   })
     .save()
     .then((result) => {
-      resp.status(200).json({ result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ err });
@@ -26,7 +26,7 @@ const postJobForm = (req, resp) => {
 const getJobForm = (req, resp) => {
     Job_Form_Model.find()
     .then((result) => {
-      resp.status(200).json({ YourData: result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ error: err });

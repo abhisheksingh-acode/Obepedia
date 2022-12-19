@@ -29,7 +29,7 @@ const getBookmark = (req, resp) => {
   const user_id = req.params.id;
   BookmarkModel.find({ user_id })
     .then((result) => {
-      resp.status(200).json({ result, msg: `Here is  your Bookmarked list` });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ error: err });
@@ -42,7 +42,7 @@ const unMark = (req, resp) => {
   BookmarkModel.find({ _id })
     .deleteOne()
     .then((result) => {
-      resp.status(200).json({ result });
+      resp.status(200).json(result);
     })
     .catch((error) => {
       resp.status(500).json({ error });
@@ -76,7 +76,7 @@ const getFollow = (req, resp) => {
     .then((result) => {
       resp
         .status(200)
-        .json({ result, msg: `Here is  your Followed Institute list` });
+        .json(result);
     })
     .catch((err) => {
       resp.status(500).json({ error: err });
@@ -88,7 +88,7 @@ const unFollow = (req, resp) => {
   FollowModel.find({ _id })
     .deleteOne()
     .then((result) => {
-      resp.status(200).json({ result });
+      resp.status(200).json(result);
     })
     .catch((error) => {
       resp.status(500).json({ error });

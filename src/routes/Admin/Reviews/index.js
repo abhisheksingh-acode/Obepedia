@@ -38,7 +38,7 @@ const postReview = (req, resp) => {
 
       .then((result) => {
         console.log(result);
-        resp.status(200).json({ review: result });
+        resp.status(200).json(result);
       })
 
       .catch((err) => {
@@ -54,7 +54,7 @@ const getAllReview = (req, resp) => {
     .find()
     .exec()
     .then((result) => {
-      resp.status(200).json({ data: result });
+      resp.status(200).json(result);
     })
     .catch((error) => {
       resp.status(500).json({ err });
