@@ -77,7 +77,7 @@ const getFaq = (req, resp) => {
   FaqModel
     .find()
     .then((result) => {
-      resp.status(200).json({ result });
+      resp.status(200).json(result);
     })
     .catch((err) => {
       resp.status(500).json({ err });
