@@ -36,6 +36,19 @@ const getBookmark = (req, resp) => {
     });
 };
 
+// UnMark 
+const unMark = (req, resp) => {
+  const _id = req.params.id;
+  BookmarkModel.find({ _id })
+    .deleteOne()
+    .then((result) => {
+      resp.status(200).json({ result });
+    })
+    .catch((error) => {
+      resp.status(500).json({ error });
+    });
+};
+
 // Follow Request
 const postFollow = (req, resp) => {
   const ref_id = req.params.id;
@@ -82,4 +95,4 @@ const unFollow = (req, resp) => {
     });
 };
 
-module.exports = { postBookmark, getBookmark, postFollow, getFollow , unFollow };
+module.exports = { postBookmark, getBookmark, unMark , postFollow, getFollow , unFollow };

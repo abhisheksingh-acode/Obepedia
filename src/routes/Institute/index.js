@@ -30,11 +30,13 @@ router.delete('/faculty/delfaculty/:id' , TokenAuth ,  delfaculty)
 
 
 // Vacancy Module
-const {postVacancy, getVacancy ,delVacancy} = require('./Vacancy/index')
+const {postVacancy, getVacancy ,delVacancy , getVacancyByInstitute} = require('./Vacancy/index')
 
 router.post('/vacancy/postvacancy/:id' , postVacancy)
 router.get('/vacancy/getvacancy/:id' , getVacancy)
+router.get('/vacancy/getvacancybyinstitute/:id' , getVacancyByInstitute)
 router.delete('/vacancy/delvacancy/:id' , delVacancy)
+
 
 
 // Course Module

@@ -25,6 +25,18 @@ const postVacancy = (req, resp) => {
 
 // Get Vacancy
 const getVacancy = (req, resp) => {
+  const vacancy_id = req.params.id
+  VacancyModel.find({_id : vacancy_id})
+    .then((result) => {
+      resp.status(200).json({ YourData: result });
+    })
+    .catch((err) => {
+      resp.status(500).json({ error: err });
+    });
+};
+
+// Get All Vacancies by a particular institute
+const getVacancyByInstitute = (req, resp) => {
   const institute_id = req.params.id
   VacancyModel.find({institute_id})
     .then((result) => {
@@ -48,4 +60,4 @@ const delVacancy = (req,resp)=>{
 }
 
 
-module.exports = {postVacancy , getVacancy , delVacancy}
+module.exports = {postVacancy , getVacancy , delVacancy , getVacancyByInstitute}

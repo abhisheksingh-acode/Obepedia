@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const TokenAuth = require('../../middlewares/TokenAuth');
 
 // Homepage Module + FAQ Module
 const {getHomepage , getFaq} = require('../Admin/Homepage/index')
@@ -36,7 +37,7 @@ router.get('/suggestion_form/get_suggestion' , getSuggestion)
 // Job Form Module
 const {postJobForm , getJobForm} = require('./Job_Form/index')
 
-router.post('/job_form/post_job_form' , postJobForm)
+router.post('/job_form/post_job_form' , TokenAuth , postJobForm)
 router.get('/job_form/get_job_form' , getJobForm)
 
 // User details 
@@ -49,17 +50,24 @@ router.get('/onlyuserdet/:id' , GetDet);
 // Review Module
 const {postReview}  = require('./Reviews/index')
 
-router.post('/reviews/postreview/:id' , postReview)
+router.post('/reviews/postreview/:id' , TokenAuth ,  postReview)
 
 
 // UserRights Module (Bookmark , Follow etc)
-const {postBookmark , getBookmark , getFollow  , postFollow  , unFollow} = require('./UserRights/index')
+const {postBookmark , getBookmark , getFollow  , unMark , postFollow  , unFollow} = require('./UserRights/index')
 
-router.post('/user_rights/postbookmark/:id' , postBookmark );
-router.get('/user_rights/getbookmark/:id' , getBookmark );
+router.post('/user_rights/postbookmark/:id' , TokenAuth , postBookmark );
+router.get('/user_rights/getbookmark/:id' , TokenAuth , getBookmark );
+router.delete('/user_rights/unmark/:id' , TokenAuth , unMark);
 
-router.post('/user_rights/postfollow/:id' , postFollow );
-router.get('/user_rights/getfollow/:id' , getFollow);
-router.delete('/user_rights/unfollow/:id' , unFollow);
+router.post('/user_rights/postfollow/:id' , TokenAuth , postFollow );
+router.get('/user_rights/getfollow/:id' , TokenAuth , getFollow);
+router.delete('/user_rights/unfollow/:id' , TokenAuth , unFollow);
+
+// Vacancy Module 
+const {getVacancy , getVacancyByInstitute} = require('../Institute/Vacancy/index')
+
+router.get('/vacancy/getvacancy/:id' , getVacancy)
+router.get('/vacancy/getvacancybyinstitute/:id' , getVacancyByInstitute)
 
 module.exports  = router ;
