@@ -35,6 +35,13 @@ const getVacancy = (req, resp) => {
     });
 };
 
+// Get all vacancies
+const getAllVacancies = async (req,resp)=>{
+  VacancyModel.find()
+  .then(result=>{resp.status(200).json(result)})
+  .catch(error=>{resp.status(500).json(error)})
+}
+
 // Get All Vacancies by a particular institute
 const getVacancyByInstitute = (req, resp) => {
   const institute_id = req.params.id
@@ -60,4 +67,4 @@ const delVacancy = (req,resp)=>{
 }
 
 
-module.exports = {postVacancy , getVacancy , delVacancy , getVacancyByInstitute}
+module.exports = {postVacancy , getVacancy , delVacancy , getVacancyByInstitute , getAllVacancies}
