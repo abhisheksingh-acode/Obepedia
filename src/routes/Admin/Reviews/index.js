@@ -85,7 +85,8 @@ const ReviewOnInstitute = (req, resp) => {
 
     .then((result) => {
       User.find({ _id: req.params.id })
-      .then(val2 => {resp.status(200).json({name: val2[0].name , "no_of_comments" : result.length})})
+      .then(val2 => {resp.status(200).json(result)})
+      // {name: val2[0].name , "no_of_comments" : result.length}
       .catch((err) => {
         resp.status(500).json({ error: err })
       })
@@ -94,6 +95,8 @@ const ReviewOnInstitute = (req, resp) => {
       resp.status(500).json({ error: err })
     });
 };
+
+
 
 const ReviewOnCourse = (req, resp) => {
     reviewsmodel.find({ course_id: req.params.id })
