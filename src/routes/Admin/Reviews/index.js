@@ -67,16 +67,11 @@ const deleteReview = (req, resp) => {
     .findById({ _id: req.params.id })
     .deleteMany()
     .then((result) => {
-      resp.status(200).json({
-        Value: "Review Detated!",
-        val2: result,
-      });
+      resp.status(200).json(result);
     })
     .catch((err) => {
-      resp.status(500).json({
-        Error: err,
-      });
-    });
+      resp.status(500).json(err)
+});
 };
 
 const ReviewOnInstitute = (req, resp) => {
@@ -96,14 +91,13 @@ const ReviewOnInstitute = (req, resp) => {
     });
 };
 
-
-
 const ReviewOnCourse = (req, resp) => {
     reviewsmodel.find({ course_id: req.params.id })
 
     .then((result) => {
       CourseModel.find({ _id: req.params.id })
-      .then(val2 => {resp.status(200).json({course_name: val2[0].course , "no_of_comments" : result.length})})
+      .then(val2 => {resp.status(200).json(result)})
+      // {course_name: val2[0].course , "no_of_comments" : result.length}
       .catch((err) => {
         resp.status(500).json({ error: err })
       })
@@ -118,7 +112,8 @@ const ReviewByStudent = (req, resp) => {
 
   .then((result) => {
     User.find({ _id: req.params.id })
-    .then(val2 => {resp.status(200).json({name: val2[0].name , "no_of_comments" : result.length})})
+    .then(val2 => {resp.status(200).json(result)})
+    // {name: val2[0].name , "no_of_comments" : result.length}
     .catch((err) => {
       resp.status(500).json({ error: err })
     })
