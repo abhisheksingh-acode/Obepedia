@@ -56,10 +56,22 @@ router.delete('/gallary/delgallary/:id' , delGallary)
 
 
 // Review Module
-const {getReview ,delReview , getAllReviews} = require('./Reviews/index')
+// const {getReview ,delReview , getAllReviews} = require('./Reviews/index')
 
-router.get('/reviews/getreview/:id' , getReview)
-router.delete('/reviews/delreview/:id' , delReview)
-router.get('/reviews/getallreview/' , getAllReviews)
+// router.get('/reviews/getreview/:id' , getReview)
+// router.delete('/reviews/delreview/:id' , delReview)
+// router.get('/reviews/getallreview/' , getAllReviews)
+
+
+const {postReview , getAllReview , deleteReview , ReviewOnInstitute , ReviewOnCourse , ReviewByStudent  }  = require('../Admin/Reviews/index')
+
+
+router.post('/reviews/postreview/:id' , TokenAuth , postReview)
+router.get('/reviews/getallreview' , TokenAuth , getAllReview)
+router.get('/reviews/reviewsoninstitute/:id' , TokenAuth , ReviewOnInstitute)
+router.get('/reviews/reviewsoncourse/:id' , TokenAuth , ReviewOnCourse)
+router.get('/reviews/reviewsbystudent/:id' , TokenAuth , ReviewByStudent)
+router.delete('/reviews/deletereview/:id' , TokenAuth , deleteReview)
+
 
 module.exports  = router ;
