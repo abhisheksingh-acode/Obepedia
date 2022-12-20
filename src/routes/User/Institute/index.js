@@ -19,7 +19,9 @@ const InstitutePage = async (req, resp) => {
     let response4 = await GallaryModel.find({institute_id})
     let response5 = await VacancyModel.find({institute_id})
     let response6 = await reviewsoninstitute.find({institute_id})
-    resp.status(200).json([response , ...response2 , ...response3 , ...response4 , ...response5 , ...response6])
+    let result = [response , response2 , response3 ,response4 , response5 , response6]
+    resp.status(200).json(result)
+    // console.log(result[4][0])
   } catch (error) {
     resp.status(500).json(error)
   }
