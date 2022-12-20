@@ -48,9 +48,10 @@ router.get('/getuserdet/:id' , GetUserDet);
 router.get('/onlyuserdet/:id' , GetDet);
 
 // Review Module
-const {postReview}  = require('./Reviews/index')
+const {postReviewOnCourse , postReviewOnInstitute }  = require('../Admin//Reviews/index')
 
-router.post('/reviews/postreview/:id' , TokenAuth ,  postReview)
+router.post('/reviews/postreviewoncourse/:id' , TokenAuth , postReviewOnCourse)
+router.post('/reviews/postreviewoninstitute/:id' , TokenAuth , postReviewOnInstitute)
 
 
 // UserRights Module (Bookmark , Follow etc)
@@ -70,5 +71,12 @@ const {getVacancy , getVacancyByInstitute , getAllVacancies} = require('../Insti
 router.get('/vacancy/getvacancy/:id' , getVacancy)
 router.get('/vacancy/getvacancybyinstitute/:id' , getVacancyByInstitute)
 router.get('/vacancy/allvacancies' , getAllVacancies)
+
+
+// Institute Page
+const { InstitutePage } = require('./Institute/index')
+
+router.get('/institute/getinstitute/:id' , InstitutePage )
+
 
 module.exports  = router ;

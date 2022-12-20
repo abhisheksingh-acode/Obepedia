@@ -53,13 +53,17 @@ router.delete('/homepage/deletefaq/:id' , TokenAuth ,  deleteFaq)
 
 
 // Reviews Module
-const {postReview , getAllReview , deleteReview , ReviewOnInstitute , ReviewOnCourse , ReviewByStudent  }  = require('../Admin/Reviews/index')
+const { getAllReviewsOnCourse , getAllReviewsOnInstitute, deleteReview, ReviewOnInstitute , ReviewOnCourse , ReviewByStudent ,postReviewOnCourse , postReviewOnInstitute }  = require('./Reviews/index')
 
 
-router.post('/reviews/postreview/:id' , TokenAuth , postReview)
-router.get('/reviews/getallreview' , TokenAuth , getAllReview)
+router.post('/reviews/postreviewoncourse/:id' , TokenAuth , postReviewOnCourse)
+router.post('/reviews/postreviewoninstitute/:id' , TokenAuth , postReviewOnInstitute)
+
 router.get('/reviews/reviewsoninstitute/:id' , TokenAuth , ReviewOnInstitute)
 router.get('/reviews/reviewsoncourse/:id' , TokenAuth , ReviewOnCourse)
+router.get('/reviews/allreviewsoninstitute' , TokenAuth , getAllReviewsOnInstitute)
+router.get('/reviews/allreviewsoncourse' , TokenAuth , getAllReviewsOnCourse)
+
 router.get('/reviews/reviewsbystudent/:id' , TokenAuth , ReviewByStudent)
 router.delete('/reviews/deletereview/:id' , TokenAuth , deleteReview)
 

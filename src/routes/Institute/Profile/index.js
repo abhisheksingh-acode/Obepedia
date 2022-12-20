@@ -27,7 +27,7 @@ const postProfile = (req, resp) => {
 const getProfile = (req, resp) => {
   const institute_id = req.params.id
   instituteProfileModel
-    .findOne({institute_id})
+    .find({institute_id})
     .then((result) => {
       resp.status(200).json(result);
     })

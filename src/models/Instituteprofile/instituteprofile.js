@@ -28,5 +28,6 @@ const InstituteProfileSchema = mongoose.Schema({
         required:true
     }
 })
+ 
 
 module.exports = mongoose.model('InstituteProfileModel' , InstituteProfileSchema)

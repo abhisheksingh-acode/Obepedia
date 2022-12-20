@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const ReviewsSchema = mongoose.Schema({
+const ReviewsOnCourseSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     name:{
         type:String,
@@ -21,12 +21,8 @@ const ReviewsSchema = mongoose.Schema({
     course_id:{
         type:String,
         required:true
-    },
-    institute_id:{
-        type:String,
-        required:true
-    },
+    }
 })
 
 
-module.exports = mongoose.model('reviewsmodel', ReviewsSchema);
+module.exports = mongoose.model('reviewsoncoursemodel', ReviewsOnCourseSchema);

@@ -2,7 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const User = require("../../../models/signupmodel");
-const reviewsmodel = require("../../../models/Reviews/reviews");
+const reviewsoncoursemodel = require("../../../models/Reviews/reviewsoncourse");
+const reviewsoninstitutemodel = require("../../../models/Reviews/reviewsoninstitute");
 const CourseModel = require('../../../models/Course/course')
 
 // Getting all Reviews ( role:institute is deafult)
@@ -21,18 +22,17 @@ const CourseModel = require('../../../models/Course/course')
 // };
 
 // Posting Reviews
-const postReview = (req, resp) => {
+const postReviewOnCourse = (req, resp) => {
   User.findOne({ _id: req.params.id }).then((val) => {
-    const { name, desc, rating, ref_id, course_id, institute_id } = req.body;
+    const { name, desc, rating, ref_id, course_id } = req.body;
 
-    const review = new reviewsmodel({
+    const postReviewOnCourse = new reviewsoncoursemodel({
       _id: new mongoose.Types.ObjectId(),
       name: val.name,
       desc,
       rating,
       ref_id: req.params.id,
-      course_id,
-      institute_id,
+      course_id
     })
       .save()
 
@@ -48,9 +48,25 @@ const postReview = (req, resp) => {
   });
 };
 
-// Getting all reviews
-const getAllReview = (req, resp) => {
-  reviewsmodel
+// Getting All Reviews of  Course 
+const ReviewOnCourse = (req, resp) => {
+    reviewsoncoursemodel.find({ course_id: req.params.id })
+
+    .then((result) => {
+      CourseModel.find({ _id: req.params.id })
+      .then(val2 => {resp.status(200).json(result)})
+      .catch((err) => {
+        resp.status(500).json({ error: err })
+      })
+    })
+    .catch((err) => {
+      resp.status(500).json({ error: err })
+    });
+};
+
+// Getting all reviews of Course
+const getAllReviewsOnCourse = (req, resp) => {
+  reviewsoncoursemodel
     .find()
     .exec()
     .then((result) => {
@@ -61,21 +77,36 @@ const getAllReview = (req, resp) => {
     });
 };
 
-// If admin wants to delete Institute the  he just pass his id as params
-const deleteReview = (req, resp) => {
-  reviewsmodel
-    .findById({ _id: req.params.id })
-    .deleteMany()
-    .then((result) => {
-      resp.status(200).json(result);
+////////////////////////////////////////////////
+
+const postReviewOnInstitute = (req, resp) => {
+  User.findOne({ _id: req.params.id }).then((val) => {
+    const { name, desc, rating, ref_id, institute_id } = req.body;
+
+    const postReviewOnInstitute = new reviewsoninstitutemodel({
+      _id: new mongoose.Types.ObjectId(),
+      name: val.name,
+      desc,
+      rating,
+      ref_id: req.params.id,
+      institute_id
     })
-    .catch((err) => {
-      resp.status(500).json(err)
-});
+      .save()
+
+      .then((result) => {
+        console.log(result);
+        resp.status(200).json(result);
+      })
+
+      .catch((err) => {
+        console.log(err);
+        resp.status(500).json({ error: err });
+      });
+  });
 };
 
 const ReviewOnInstitute = (req, resp) => {
-  reviewsmodel
+  reviewsoninstitutemodel
     .find({ institute_id: req.params.id })
 
     .then((result) => {
@@ -91,36 +122,46 @@ const ReviewOnInstitute = (req, resp) => {
     });
 };
 
-const ReviewOnCourse = (req, resp) => {
-    reviewsmodel.find({ course_id: req.params.id })
-
+// Getting all reviews of Institute
+const getAllReviewsOnInstitute = (req, resp) => {
+  reviewsoninstitutemodel
+    .find()
+    .exec()
     .then((result) => {
-      CourseModel.find({ _id: req.params.id })
-      .then(val2 => {resp.status(200).json(result)})
-      // {course_name: val2[0].course , "no_of_comments" : result.length}
-      .catch((err) => {
-        resp.status(500).json({ error: err })
-      })
+      resp.status(200).json(result);
     })
-    .catch((err) => {
-      resp.status(500).json({ error: err })
+    .catch((error) => {
+      resp.status(500).json({ err });
     });
 };
 
-const ReviewByStudent = (req, resp) => {
-  reviewsmodel.find({ ref_id: req.params.id })
 
-  .then((result) => {
-    User.find({ _id: req.params.id })
-    .then(val2 => {resp.status(200).json(result)})
-    // {name: val2[0].name , "no_of_comments" : result.length}
-    .catch((err) => {
-      resp.status(500).json({ error: err })
+//////////////////////////////////////////////////////
+
+
+// If admin wants to delete Institute the  he just pass his id as params
+const deleteReview = (req, resp) => {
+  reviewsmodel
+    .findById({ _id: req.params.id })
+    .deleteMany()
+    .then((result) => {
+      resp.status(200).json(result);
     })
-  })
-  .catch((err) => {
-    resp.status(500).json({ error: err })
-  });
+    .catch((err) => {
+      resp.status(500).json(err)
+});
 };
 
-module.exports = { postReview, getAllReview, deleteReview, ReviewOnInstitute , ReviewOnCourse , ReviewByStudent };
+
+const ReviewByStudent = async (req, resp) => {
+  const ref_id =  req.params.id ;
+try {
+  const response = await reviewsoncoursemodel.find({ref_id})
+  const response2 = await reviewsoninstitutemodel.find({ref_id})
+  resp.status(200).json([...response , ...response2])
+} catch (error) {
+  resp.status(500).json(error)
+}
+};
+
+module.exports = { getAllReviewsOnCourse , getAllReviewsOnInstitute, deleteReview, ReviewOnInstitute , ReviewOnCourse , ReviewByStudent ,postReviewOnCourse , postReviewOnInstitute };
