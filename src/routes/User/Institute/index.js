@@ -13,7 +13,7 @@ const reviewsoninstitute = require("../../../models/Reviews/reviewsoninstitute")
 const InstitutePage = async (req, resp) => {
   try {
     const institute_id = req.params.id;
-    let response = await InstituteProfileModel.findOne({ institute_id });
+    let response = await InstituteProfileModel.find({ institute_id });
     let response2 = await CourseModel.find({institute_id})
     let response3 = await facultyModel.find({institute_id})
     let response4 = await GallaryModel.find({institute_id})
