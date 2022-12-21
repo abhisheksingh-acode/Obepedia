@@ -8,6 +8,8 @@ const cors = require('cors')
 
 app.use(cors())
 
+app.use(express.json({extended:true,parameterLimit:100000,limit:"500mb"}))
+
 // Routers
 const signupRouter = require('./src/routes/Signup')
 const adminRouter = require('./src/routes/Admin/auth')
