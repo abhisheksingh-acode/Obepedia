@@ -4,9 +4,9 @@ const router = express.Router();
 const TokenAuth = require('../../middlewares/TokenAuth')
 
 // Account Module 
-const accountRouter = require('./account/index');
+const {Account} = require('./account/index');
 
-router.post('/account/:id' , accountRouter )
+router.get('/account/:id' , TokenAuth , Account )
 
 // User List Module
 const {getUsers, delUsers ,GetUserDet} = require('./UserList/index');
