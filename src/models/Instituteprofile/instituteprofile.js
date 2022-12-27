@@ -21,8 +21,11 @@ const InstituteProfileSchema = mongoose.Schema({
     sliding_banner:{
         type: String,
         required:true
-    }
-    ,
+    },
+    location:{
+        type: String,
+        required:true
+    },
     institute_id:{
         type: String,
         required:true

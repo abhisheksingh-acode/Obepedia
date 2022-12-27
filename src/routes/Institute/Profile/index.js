@@ -4,7 +4,8 @@ const instituteProfileModel = require("../../../models/Instituteprofile/institut
 
 // Adding profile Information
 const postProfile = (req, resp) => {
-  const { name, about, video, image, sliding_banner , institute_id } = req.body;
+  const { name, about, video, image, sliding_banner, location, institute_id } =
+    req.body;
   const Profile = new instituteProfileModel({
     _id: new mongoose.Types.ObjectId(),
     name,
@@ -12,7 +13,8 @@ const postProfile = (req, resp) => {
     video,
     image,
     sliding_banner,
-    institute_id : req.params.id
+    location,
+    institute_id: req.params.id,
   })
     .save()
     .then((result) => {
@@ -25,9 +27,9 @@ const postProfile = (req, resp) => {
 
 // Getting profile Information
 const getProfile = (req, resp) => {
-  const institute_id = req.params.id
+  const institute_id = req.params.id;
   instituteProfileModel
-    .find({institute_id})
+    .find({ institute_id })
     .then((result) => {
       resp.status(200).json(result);
     })
@@ -49,4 +51,36 @@ const delProfile = (req, resp) => {
     });
 };
 
-module.exports = { postProfile, getProfile, delProfile };
+const putProfile = async (req, resp) => {
+  try {
+    const institute = req.params.id;
+    const {
+      name,
+      about,
+      video,
+      image,
+      sliding_banner,
+      location,
+      institute_id,
+    } = req.body;
+    const result = instituteProfileModel.findOneAndUpdate(
+      { institute_id: institute },
+      {
+        $set: {
+          name,
+          about,
+          video,
+          image,
+          sliding_banner,
+          location,
+          institute_id : institute,
+        },
+      }
+    );
+    resp.status(200).json(result)
+  } catch (error) {
+    resp.status(500).json(error);
+  }
+};
+
+module.exports = { postProfile, getProfile, delProfile , putProfile };

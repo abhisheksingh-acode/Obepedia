@@ -14,11 +14,12 @@ router.post('/instidetails/:id' , TokenAuth , InstiDetails);
 router.get('/getinstiusers/:id' , TokenAuth , getInstiUsers);
 
 // Profile Module
-const {postProfile, getProfile , delProfile} = require('./Profile/index')
+const {postProfile, getProfile , delProfile , putProfile} = require('./Profile/index')
 
 router.post('/profile/postprofile/:id' , TokenAuth ,  postProfile)
 router.get('/profile/getprofile/:id' , TokenAuth ,  getProfile)
 router.delete('/profile/delprofile/:id' , TokenAuth ,  delProfile)
+router.put('/profile/putprofile/:id' , TokenAuth ,  putProfile)
 
 
 // faculty Module

@@ -28,5 +28,13 @@ const InstitutePage = async (req, resp) => {
   }
 };
 
+const getAllInstitute = async (req,resp)=>{
+  try {
+    let response = await InstituteProfileModel.find();
+    resp.status(200).json(response)
+  } catch (error) {
+    resp.status(500).json(error)
+  }
+}
 
-module.exports = { InstitutePage };
+module.exports = { InstitutePage , getAllInstitute };

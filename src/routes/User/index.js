@@ -74,9 +74,15 @@ router.get('/vacancy/allvacancies' , getAllVacancies)
 
 
 // Institute Page
-const { InstitutePage } = require('./Institute/index')
+const { InstitutePage , getAllInstitute } = require('./Institute/index')
 
 router.get('/institute/getinstitute/:id' , InstitutePage )
+router.get('/institute/getallinstitute' , getAllInstitute )
+
+// All  Institutes 
+// const {getInsti} = require('../Admin/InstituteList/index');
+
+// router.get('/institute/getallinstitute'  , getInsti)
 
 
 module.exports  = router ;
