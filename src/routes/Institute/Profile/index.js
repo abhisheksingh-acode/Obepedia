@@ -52,7 +52,7 @@ const delProfile = (req, resp) => {
 };
 
 const putProfile = (req, resp) => {
-  const {name, about, video, image, sliding_banner, location } =
+  const {name, about, video, image, sliding_banner, location , institute_id } =
     req.body;
   instituteProfileModel.findOneAndUpdate({institute_id: req.params.id},{
     $set: {
