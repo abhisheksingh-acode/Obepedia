@@ -51,36 +51,26 @@ const delProfile = (req, resp) => {
     });
 };
 
-const putProfile = async (req, resp) => {
-  try {
-    const institute = req.params.id;
-    const {
+const putProfile = (req, resp) => {
+  const {name, about, video, image, sliding_banner, location } =
+    req.body;
+  instituteProfileModel.findOneAndUpdate({institute_id: req.params.id},{
+    $set: {
       name,
       about,
       video,
       image,
       sliding_banner,
       location,
-      institute_id,
-    } = req.body;
-    const result = instituteProfileModel.findOneAndUpdate(
-      { institute_id: institute },
-      {
-        $set: {
-          name,
-          about,
-          video,
-          image,
-          sliding_banner,
-          location,
-          institute_id : institute,
-        },
-      }
-    );
-    resp.status(200).json(result)
-  } catch (error) {
-    resp.status(500).json(error);
-  }
+      institute_id:req.params.id
+    }
+  })
+    .then((result) => {
+      resp.status(200).json(result);
+    })
+    .catch((err) => {
+      resp.status(500).json(err);
+    });
 };
 
-module.exports = { postProfile, getProfile, delProfile , putProfile };
+module.exports = { postProfile, getProfile, delProfile, putProfile };
