@@ -10,8 +10,10 @@ router.get('/home/faq' , getFaq)
 
 // Sidebar Module
 const {getSidebar} = require('../Admin/Sidebar/index')
+const {TopInstitutes} = require('./Sidebar/index')
 
 router.get('/sidebar' , getSidebar)
+router.get('/sidebar/topinstitutes' , TopInstitutes)
 
 // Particular Category Name + Category Details
 const { getCategory , getCategoryName } = require('../Admin/Categories/index')

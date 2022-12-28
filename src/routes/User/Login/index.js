@@ -5,13 +5,12 @@ const bcrypt = require("bcrypt");
 const User = require("../../../models/signupmodel");
 const jwt = require("jsonwebtoken");
 
-
-const Login = (req, resp) => {
+const Login = async  (req, resp) => {
   User.findOne({ email: req.body.email })
     .exec()
     .then((user) => {
       if (!user) {
-        resp.send("user not found");
+        resp.json("user not found");
       } else {
         if (user.role !== "user") {
           resp.send("You aren't registerd User!");
@@ -49,7 +48,6 @@ const Login = (req, resp) => {
       resp.status(500).json({error:err});
     });
 };
-
 
 const getLogin = (req,resp)=>{
     resp.status(200).json({msg:"hello Please Login"})
