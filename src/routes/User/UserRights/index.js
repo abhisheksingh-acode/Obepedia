@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 
 const BookmarkModel = require("../../../models/Bookmark/bookmark");
 const FollowModel = require("../../../models/Follow/follow");
+const instituteprofile = require("../../../models/Instituteprofile/instituteprofile");
 
 // Saving or Bookmarking a Course
 const postBookmark = (req, resp) => {
@@ -29,14 +30,19 @@ const getBookmark = (req, resp) => {
   const user_id = req.params.id;
   BookmarkModel.find({ user_id })
     .then((result) => {
-      resp.status(200).json(result);
+      instituteprofile
+      .find({ institute_id: result.institute_id })
+      .then((value) => resp.status(200).json({ value }))
+      .catch((err) => {
+        resp.status(500).json({ error: err });
+      });
     })
     .catch((err) => {
       resp.status(500).json({ error: err });
     });
 };
 
-// UnMark 
+// UnMark
 const unMark = (req, resp) => {
   const _id = req.params.id;
   BookmarkModel.find({ _id })
@@ -51,12 +57,12 @@ const unMark = (req, resp) => {
 
 // Follow Request
 const postFollow = (req, resp) => {
-  const ref_id = req.params.id;
-  const { institute_id, user_id } = req.body;
+  const user_id = req.params.id;
+  const { institute_id } = req.body;
   const Follow = new FollowModel({
     _id: new mongoose.Types.ObjectId(),
     institute_id,
-    user_id: ref_id,
+    user_id: req.params.id,
   })
     .save()
     .then((result) => {
@@ -74,10 +80,14 @@ const getFollow = (req, resp) => {
   const user_id = req.params.id;
   FollowModel.find({ user_id })
     .then((result) => {
-      resp
-        .status(200)
-        .json(result);
+      instituteprofile
+        .find({ institute_id: result.institute_id })
+        .then((value) => resp.status(200).json({ value }))
+        .catch((err) => {
+          resp.status(500).json({ error: err });
+        });
     })
+
     .catch((err) => {
       resp.status(500).json({ error: err });
     });
@@ -95,4 +105,11 @@ const unFollow = (req, resp) => {
     });
 };
 
-module.exports = { postBookmark, getBookmark, unMark , postFollow, getFollow , unFollow };
+module.exports = {
+  postBookmark,
+  getBookmark,
+  unMark,
+  postFollow,
+  getFollow,
+  unFollow,
+};
