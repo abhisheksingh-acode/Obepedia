@@ -3,11 +3,13 @@ const mongoose = require("mongoose");
 
 const BookmarkModel = require("../../../models/Bookmark/bookmark");
 const FollowModel = require("../../../models/Follow/follow");
-const instituteprofile = require("../../../models/Instituteprofile/instituteprofile");
+const InstituteProfileModel = require("../../../models/Instituteprofile/instituteprofile");
 
 // Saving or Bookmarking a Course
 const postBookmark = (req, resp) => {
   const ref_id = req.params.id;
+
+  // return resp.json({data: req.body});
   const { object_id, user_id } = req.body;
   const Bookmark = new BookmarkModel({
     _id: new mongoose.Types.ObjectId(),
@@ -25,22 +27,15 @@ const postBookmark = (req, resp) => {
     });
 };
 
-// Getting the list of bookmark
-const getBookmark = (req, resp) => {
+const getBookmark = async(req,resp)=>{
   const user_id = req.params.id;
-  BookmarkModel.find({ user_id })
-    .then((result) => {
-      instituteprofile
-      .find({ institute_id: result.institute_id })
-      .then((value) => resp.status(200).json({ value }))
-      .catch((err) => {
-        resp.status(500).json({ error: err });
-      });
-    })
-    .catch((err) => {
-      resp.status(500).json({ error: err });
-    });
-};
+  try {
+    const value = await BookmarkModel.find({user_id})
+    resp.status(200).json(value)
+  } catch (error) {
+    resp.status(200).json(error)
+  }
+}
 
 // UnMark
 const unMark = (req, resp) => {
