@@ -94,11 +94,11 @@ UserModel.find({ref_id:req.params.id})
 const GetUserDet = (req, resp) => {
   User.find({ _id: req.params.id })
     .then((result) => {
-      UserModel.find({ ref_id: req.params.id })
+      UserModel.findOne({ ref_id: req.params.id })
         .then((fulldet) => {
           // const arr = flat(result , fulldet)
-          Array.prototype.push.apply(result, fulldet);
-          resp.status(200).json(result);
+          // Array.prototype.push.apply(result, fulldet);
+          resp.status(200).json(fulldet);
         })
         .catch((err) => {
           resp.status(500).json({
