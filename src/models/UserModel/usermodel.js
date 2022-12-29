@@ -45,7 +45,7 @@ const UserModelSchema = mongoose.Schema({
     required: true,
   },
   dob: {
-    type: String,
+    type: Number,
     required: true,
   },
   stream: {
