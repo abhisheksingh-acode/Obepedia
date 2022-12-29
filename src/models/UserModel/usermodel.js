@@ -4,6 +4,34 @@ const mongoose = require("mongoose");
 
 const UserModelSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
+  username: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  number: {
+    type: Number,
+    required: true,
+  },
+  college: {
+    type: String,
+    required: true,
+  },
+  school: {
+    type: String,
+    required: true,
+  },
+  address: {
+    type: String,
+    required: true,
+  },
+  photo: {
+    type: String,
+    required: true,
+  },
   age: {
     type: Number,
     required: true,
@@ -20,23 +48,11 @@ const UserModelSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  profession: {
-    type: String,
-    required: true,
-  },
-  school_college: {
-    type: String,
-    required: true,
-  },
   stream: {
     type: String,
     required: true,
   },
   major: {
-    type: String,
-    required: true,
-  },
-  school_college: {
     type: String,
     required: true,
   },

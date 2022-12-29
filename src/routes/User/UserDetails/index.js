@@ -8,26 +8,36 @@ const User = require("../../../models/signupmodel");
 const UserDet = (req, resp) => {
   User.findOne({ _id: req.params.id }).then(() => {
     const {
+      username,
+      email,
+      number,
+      address,
+      college,
+      school,
       age,
       city,
       state,
       dob,
-      profession,
-      school_college,
       stream,
       major,
+      photo,
       ref_id,
     } = req.body;
     const userdet = new UserModel({
       _id: new mongoose.Types.ObjectId(),
+      username,
+      email,
+      number,
+      address,
+      college,
+      school,
       age,
       city,
       state,
       dob,
-      profession,
-      school_college,
       stream,
       major,
+      photo,
       ref_id: req.params.id,
     })
       .save()
