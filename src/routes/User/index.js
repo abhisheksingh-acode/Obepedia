@@ -91,7 +91,7 @@ router.get('/institute/getallinstitute' , getAllInstitute )
 // Compare Module
 const {Compare} = require('./Compare/index')
 
-router.get('/compare/:id' , Compare)
+router.get('/compare/:id/:cid' , Compare)
 
 
 const {postSidebarRating,  getSidebarRating} = require('./SidbarRating/index')

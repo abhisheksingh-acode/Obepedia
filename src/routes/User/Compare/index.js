@@ -18,11 +18,12 @@ const getCourse = (req, resp) => {
 
 const Compare = async  (req, resp) => {
   const  institute_id  = req.params.id;
+  const course_id = req.params.cid 
   try {
     const response = await InstituteProfileModel.find({institute_id})
     if (response.length>0) {
-      const response2 = await CourseModel.find({institute_id})
-      resp.status(200).json(response2)
+      const response2 = await CourseModel.find({_id:course_id})
+      resp.status(200).json({institute:response ,course :response2})
     }
   } catch (error) {
     resp.status(200).json(error)
