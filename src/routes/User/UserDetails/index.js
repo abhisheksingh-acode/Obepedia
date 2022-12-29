@@ -69,15 +69,36 @@ UserModel.find({ref_id:req.params.id})
 })
 }
 
+// const GetUserDet = (req, resp) => {
+//   User.find({ _id: req.params.id })
+//     .then((Primary_Data) => {
+//       UserModel.find({ ref_id: req.params.id })
+//         .then((Additional_Data) => {
+//           resp.status(200).json({
+//             Primary_Data,
+//             Additional_Data,
+//           });
+//         })
+//         .catch((err) => {
+//           resp.status(500).json({
+//             Error: err,
+//           });
+//         });
+//     })
+//     .catch((err) => {
+//       resp.status(500).json({
+//         Error: err,
+//       });
+//     });
+// };
 const GetUserDet = (req, resp) => {
   User.find({ _id: req.params.id })
-    .then((Primary_Data) => {
+    .then((result) => {
       UserModel.find({ ref_id: req.params.id })
-        .then((Additional_Data) => {
-          resp.status(200).json({
-            Primary_Data,
-            Additional_Data,
-          });
+        .then((fulldet) => {
+          // const arr = flat(result , fulldet)
+          Array.prototype.push.apply(result, fulldet);
+          resp.status(200).json(result);
         })
         .catch((err) => {
           resp.status(500).json({

@@ -45,6 +45,7 @@ router.get('/job_form/get_job_form' , getJobForm)
 // User details 
 const {UserDet , GetUserDet , GetDet } = require('./UserDetails/index');
 
+
 router.post('/userdet/:id' , UserDet);
 router.get('/getuserdet/:id' , GetUserDet);
 router.get('/onlyuserdet/:id' , GetDet);
