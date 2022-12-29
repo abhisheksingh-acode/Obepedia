@@ -77,7 +77,6 @@ const getFollow = (req, resp) => {
     .then((result) => {
       resp.status(200).json(result)
     })
-
     .catch((err) => {
       resp.status(500).json({ error: err });
     });

@@ -87,4 +87,10 @@ router.get('/institute/getallinstitute' , getAllInstitute )
 // router.get('/institute/getallinstitute'  , getInsti)
 
 
+// Compare Module
+const {Compare} = require('./Compare/index')
+
+router.get('/compare/:id' , Compare)
+
+
 module.exports  = router ;
