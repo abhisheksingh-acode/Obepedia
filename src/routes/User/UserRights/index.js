@@ -85,10 +85,10 @@ const getFollow = async (req, resp) => {
   const user_id = req.params.id;
   try {
     const response = await FollowModel.find()
-      .where({ user_id })
-      .select({ object_id: 1 });
+      .where({user_id})
+      .select({institute_id: 1});
     const finds = response.map((item) => {
-      return item.object_id;
+      return item.institute_id;
     });
     const value2 = await InstituteProfileModel.find({
       institute_id: { $in: finds },
