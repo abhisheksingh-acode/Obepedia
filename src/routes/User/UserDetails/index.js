@@ -8,8 +8,8 @@ const User = require("../../../models/signupmodel");
 const UserDet = (req, resp) => {
   User.findOne({ _id: req.params.id }).then(() => {
     if (UserModel.find({ref_id:req.params.id})) {
-      resp.send('User details already send')
-
+      // resp.send('User details already send')
+      var val = false
     }
     else{
       const {
@@ -56,6 +56,8 @@ const UserDet = (req, resp) => {
           console.log(err);
           resp.status(500).json({ error: err });
         });
+
+        val = false
     }
   });
 };
