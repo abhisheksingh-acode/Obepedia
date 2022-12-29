@@ -22,7 +22,7 @@ const Compare = async  (req, resp) => {
     const response = await InstituteProfileModel.find({institute_id})
     if (response.length>0) {
       const response2 = await CourseModel.find({institute_id})
-      resp.status(200).json({institute: response ,courses :response2})
+      resp.status(200).json(response2)
     }
   } catch (error) {
     resp.status(200).json(error)

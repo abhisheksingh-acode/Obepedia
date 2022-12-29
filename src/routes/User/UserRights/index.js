@@ -20,22 +20,34 @@ const postBookmark = (req, resp) => {
     .then((result) => {
       resp
         .status(200)
-        .json({ result, msg: `Your ${result.name} Course is Saved!` });
+        .json({ result, msg: `Your ${result.object_id} Course is Saved!` });
     })
     .catch((err) => {
       resp.status(500).json({ err });
     });
 };
 
-const getBookmark = async(req,resp)=>{
+const getBookmark = async (req, resp) => {
   const user_id = req.params.id;
+  
   try {
-    const value = await BookmarkModel.find({user_id})
-    resp.status(200).json(value)
+    const value = await BookmarkModel.find()
+      .where({ user_id })
+      .select({ object_id: 1 });
+
+    const finds = value.map((item) => {
+      return item.object_id;
+    });
+
+    // return resp.status(200).json(finds);
+    const value2 = await InstituteProfileModel.find({
+      institute_id: { $in: finds },
+    });
+    resp.status(200).json(value2);
   } catch (error) {
-    resp.status(200).json(error)
+    resp.status(200).json(error);
   }
-}
+};
 
 // UnMark
 const unMark = (req, resp) => {
@@ -71,15 +83,22 @@ const postFollow = (req, resp) => {
 };
 
 // Getting Followed list
-const getFollow = (req, resp) => {
+const getFollow = async (req, resp) => {
   const user_id = req.params.id;
-  FollowModel.find({ user_id })
-    .then((result) => {
-      resp.status(200).json(result)
-    })
-    .catch((err) => {
-      resp.status(500).json({ error: err });
+  try {
+    const response = await FollowModel.find()
+      .where({ user_id })
+      .select({ object_id: 1 });
+    const finds = response.map((item) => {
+      return item.object_id;
     });
+    const value2 = await InstituteProfileModel.find({
+      institute_id: { $in: finds },
+    });
+    resp.status(200).json(value2);
+  } catch (error) {
+    resp.status(200).json(error);
+  }
 };
 
 const unFollow = (req, resp) => {
