@@ -7,11 +7,7 @@ const User = require("../../../models/signupmodel");
 // Adding  other information of User
 const UserDet = (req, resp) => {
   User.findOne({ _id: req.params.id }).then(() => {
-    if (UserModel.find({ref_id:req.params.id})) {
-      // resp.send('User details already send')
-      var val = false
-    }
-    else{
+    
       const {
         username,
         email,
@@ -57,8 +53,6 @@ const UserDet = (req, resp) => {
           resp.status(500).json({ error: err });
         });
 
-        val = false
-    }
   });
 };
 
