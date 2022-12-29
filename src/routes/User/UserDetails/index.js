@@ -7,50 +7,56 @@ const User = require("../../../models/signupmodel");
 // Adding  other information of User
 const UserDet = (req, resp) => {
   User.findOne({ _id: req.params.id }).then(() => {
-    const {
-      username,
-      email,
-      number,
-      address,
-      college,
-      school,
-      age,
-      city,
-      state,
-      dob,
-      stream,
-      major,
-      photo,
-      ref_id,
-    } = req.body;
-    const userdet = new UserModel({
-      _id: new mongoose.Types.ObjectId(),
-      username,
-      email,
-      number,
-      address,
-      college,
-      school,
-      age,
-      city,
-      state,
-      dob,
-      stream,
-      major,
-      photo,
-      ref_id: req.params.id,
-    })
-      .save()
+    if (UserModel.find({ref_id:req.params.id})) {
+      resp.send('User details already send')
 
-      .then((result) => {
-        console.log(result);
-        resp.status(200).json({ newUser: result });
+    }
+    else{
+      const {
+        username,
+        email,
+        number,
+        address,
+        college,
+        school,
+        age,
+        city,
+        state,
+        dob,
+        stream,
+        major,
+        photo,
+        ref_id,
+      } = req.body;
+      const userdet = new UserModel({
+        _id: new mongoose.Types.ObjectId(),
+        username,
+        email,
+        number,
+        address,
+        college,
+        school,
+        age,
+        city,
+        state,
+        dob,
+        stream,
+        major,
+        photo,
+        ref_id: req.params.id,
       })
-
-      .catch((err) => {
-        console.log(err);
-        resp.status(500).json({ error: err });
-      });
+        .save()
+  
+        .then((result) => {
+          console.log(result);
+          resp.status(200).json({ newUser: result });
+        })
+  
+        .catch((err) => {
+          console.log(err);
+          resp.status(500).json({ error: err });
+        });
+    }
   });
 };
 
