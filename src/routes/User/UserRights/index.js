@@ -77,7 +77,7 @@ const getFollow = (req, resp) => {
     .then((result) => {
       InstituteProfileModel
         .find({ institute_id: result.institute_id })
-        .then((value) => resp.status(200).json({ value }))
+        .then((value) => resp.status(200).json(value))
         .catch((err) => {
           resp.status(500).json({ error: err });
         });
