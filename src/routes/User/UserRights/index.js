@@ -8,23 +8,26 @@ const InstituteProfileModel = require("../../../models/Instituteprofile/institut
 // Saving or Bookmarking a Course
 const postBookmark = (req, resp) => {
   const ref_id = req.params.id;
-
-  // return resp.json({data: req.body});
-  const { object_id, user_id } = req.body;
-  const Bookmark = new BookmarkModel({
-    _id: new mongoose.Types.ObjectId(),
-    object_id,
-    user_id: ref_id,
-  })
-    .save()
-    .then((result) => {
-      resp
-        .status(200)
-        .json({ result, msg: `Your ${result.object_id} Course is Saved!` });
-    })
-    .catch((err) => {
-      resp.status(500).json({ err });
-    });
+if (BookmarkModel.find({object_id:req.body.object_id})) {
+  BookmarkModel.find({object_id:req.body.object_id}).deleteOne
+} else {
+   // return resp.json({data: req.body});
+   const { object_id, user_id } = req.body;
+   const Bookmark = new BookmarkModel({
+     _id: new mongoose.Types.ObjectId(),
+     object_id,
+     user_id: ref_id,
+   })
+     .save()
+     .then((result) => {
+       resp
+         .status(200)
+         .json({ result, msg: `Your ${result.object_id} Course is Saved!` });
+     })
+     .catch((err) => {
+       resp.status(500).json({ err });
+     });
+}
 };
 
 const getBookmark = async (req, resp) => {
