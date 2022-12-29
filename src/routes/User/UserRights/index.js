@@ -10,7 +10,7 @@ const postBookmark = (req, resp) => {
   const ref_id = req.params.id;
 if (BookmarkModel.find({object_id:req.body.object_id})) {
   BookmarkModel.find({object_id:req.body.object_id}).deleteOne
-  .then(then=>resp.status(200).json("deleted"))
+  return resp.status(200).json("deleted")
 
 } else {
    // return resp.json({data: req.body});
