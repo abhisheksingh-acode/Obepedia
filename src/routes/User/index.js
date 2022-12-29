@@ -93,4 +93,10 @@ const {Compare} = require('./Compare/index')
 router.get('/compare/:id' , Compare)
 
 
+const {postSidebarRating,  getSidebarRating} = require('./SidbarRating/index')
+
+router.post('/sidebar/sidebarrating' , postSidebarRating)
+router.get('/sidebar/getsidebarrating/:id' , getSidebarRating)
+
+
 module.exports  = router ;
