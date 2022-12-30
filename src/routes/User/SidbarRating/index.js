@@ -56,7 +56,7 @@ const getSidebarRating = async (req,resp)=>{
           overall: { $in: finds },
         });
         avg = finds.reduce((a, b) => a + b, 0)/finds.length
-        resp.status(200).json(response);
+        resp.status(200).json(avg);
         // resp.status(200).json(response);
       } catch (error) {
         
