@@ -6,9 +6,14 @@ const FollowModel = require("../../../models/Follow/follow");
 const InstituteProfileModel = require("../../../models/Instituteprofile/instituteprofile");
 
 // Saving or Bookmarking a Course
-const postBookmark = (req, resp) => {
+const postBookmark = async (req, resp) => {
   const ref_id = req.params.id;
-    const { object_id, user_id } = req.body;
+  const { object_id, user_id } = req.body;
+  const result1 = await BookmarkModel.findOne({ object_id });
+  if (result1) {
+     result1.deleteOne();
+    return resp.status(200).json("saved removed");
+  } else {
     const Bookmark = new BookmarkModel({
       _id: new mongoose.Types.ObjectId(),
       object_id,
@@ -24,6 +29,7 @@ const postBookmark = (req, resp) => {
         resp.status(500).json({ err });
       });
   }
+};
 
 const getBookmark = async (req, resp) => {
   const user_id = req.params.id;
@@ -85,8 +91,8 @@ const getFollow = async (req, resp) => {
   const user_id = req.params.id;
   try {
     const response = await FollowModel.find()
-      .where({user_id})
-      .select({institute_id: 1});
+      .where({ user_id })
+      .select({ institute_id: 1 });
     const finds = response.map((item) => {
       return item.institute_id;
     });
