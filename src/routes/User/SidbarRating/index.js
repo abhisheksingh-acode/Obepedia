@@ -35,9 +35,10 @@ const postSidebarRating = async (req, resp) => {
       val10,
       obj_id,
       user_id,
-      overall:val1+val2+val3+val4+val5+val6+val7+val8+val9+val10 
-    });
-    resp.status(200).json(result);
+      overall:Number(val1)+Number(val2)+Number(val3)+Number(val4)+Number(val5)+Number(val6)+Number(val7)+Number(val8)+Number(val9)+Number(val10) 
+    })
+    const newres = await result.save()
+    resp.status(200).json(newres);
   } catch (error) {
     resp.status(500).json(error);
   }
@@ -47,14 +48,16 @@ const getSidebarRating = async (req,resp)=>{
     const obj_id = req.params.id //id of course or institute
 
     try {
-        // const response = await SidebarRatingModel.find()
-        //   .where({ obj_id })
-        //   .select({ overall: 1 });
-        // const finds = response.map((item) => {
-        //   return item.overall;
-        // });
-        const response = await SidebarRatingModel.find({obj_id})
-        resp.status(200).json(response);
+        const response = await SidebarRatingModel.find().where({obj_id}).select({overall: 1});
+        const finds = response.map((item) => {
+          return item.overall;
+        });
+        const value2 = await SidebarRatingModel.find({
+          overall: { $in: finds },
+        });
+        avg = finds.reduce((a, b) => a + b, 0)/finds.length
+        resp.status(200).json(avg);
+        // resp.status(200).json(response);
       } catch (error) {
         
         resp.status(500).json(error);
