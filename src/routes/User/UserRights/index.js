@@ -11,7 +11,7 @@ const postBookmark = async (req, resp) => {
   const { object_id, user_id } = req.body;
   const result1 = await BookmarkModel.findOne({ object_id });
   if (result1) {
-     result1.deleteOne();
+    await result1.deleteOne();
     return resp.status(200).json("saved removed");
   } else {
     const Bookmark = new BookmarkModel({
