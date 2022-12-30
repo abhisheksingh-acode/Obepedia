@@ -48,16 +48,16 @@ const getSidebarRating = async (req,resp)=>{
     const obj_id = req.params.id //id of course or institute
 
     try {
-        const response = await SidebarRatingModel.find().where({obj_id}).select({overall: 1});
-        const finds = response.map((item) => {
-          return item.overall;
-        });
-        const value2 = await SidebarRatingModel.find({
-          overall: { $in: finds },
-        });
-        avg = finds.reduce((a, b) => a + b, 0)/finds.length
-        resp.status(200).json(avg);
-        // resp.status(200).json(response);
+        const response = await SidebarRatingModel.find({obj_id})
+        // const finds =  response.map((item) => {
+        //  return   item.overall;
+        // });
+        // const value2 = await SidebarRatingModel.find({
+        //   overall: { $in: finds },
+        // });
+        // avg = await finds.reduce((a, b) => a + b, 0)
+        // resp.status(200).json(value2);
+        resp.status(200).json(response);
       } catch (error) {
         
         resp.status(500).json(error);
