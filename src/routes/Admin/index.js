@@ -41,8 +41,9 @@ router.post('/sidebar/postsidebar', TokenAuth ,  postSidebar)
 
 // Homepage Module  + Faq Module
 
-const {postHomepage ,  getHomepage , deleteHomepage ,  postFaq , getFaq , deleteFaq} = require('./Homepage/index')
+const {postHomepage ,putHomepage ,  getHomepage , deleteHomepage ,  postFaq , getFaq , deleteFaq} = require('./Homepage/index')
 
+router.put('/homepage/puthomepage/:id' , TokenAuth , putHomepage)
 router.post('/homepage/posthomepage' , TokenAuth , postHomepage)
 router.get('/homepage/gethomepage' , TokenAuth , getHomepage)
 router.delete('/homepage/deletehomepage/:id' , TokenAuth , deleteHomepage)

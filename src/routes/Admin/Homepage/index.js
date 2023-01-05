@@ -1,5 +1,5 @@
 const express = require("express");
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const HomepageModel = require("../../../models/Homepage/homepage");
 const FaqModel = require("../../../models/Homepage/faq");
 
@@ -12,7 +12,7 @@ const postHomepage = (req, resp) => {
     heading,
     aim,
     purpose,
-    about
+    about,
   })
     .save()
     .then((result) => {
@@ -25,8 +25,7 @@ const postHomepage = (req, resp) => {
 
 // Getting data of homepage module
 const getHomepage = (req, resp) => {
-  HomepageModel
-    .find()
+  HomepageModel.findOne()
     .then((result) => {
       resp.status(200).json(result);
     })
@@ -36,7 +35,7 @@ const getHomepage = (req, resp) => {
 };
 
 // Deleting Homepage Module
-const deleteHomepage =  (req, resp) => {
+const deleteHomepage = (req, resp) => {
   HomepageModel.findById({ _id: req.params.id })
     .deleteOne()
     .then((result) => {
@@ -52,7 +51,19 @@ const deleteHomepage =  (req, resp) => {
     });
 };
 
-// FAQ CRUD OPERATION 
+const putHomepage = async (req, resp) => {
+  try {
+    const data = await HomepageModel.updateOne(
+      { _id: req.params.id },
+      { $set: req.body }
+    );
+    resp.status(200).json(data);
+  } catch (error) {
+    resp.status(500).json(error);
+  }
+};
+
+// FAQ CRUD OPERATION
 
 // Posting data of homepage module
 const postFaq = (req, resp) => {
@@ -61,7 +72,7 @@ const postFaq = (req, resp) => {
   const FaqPage = new FaqModel({
     _id: new mongoose.Types.ObjectId(),
     question,
-    answer
+    answer,
   })
     .save()
     .then((result) => {
@@ -74,8 +85,7 @@ const postFaq = (req, resp) => {
 
 // Getting data of homepage module
 const getFaq = (req, resp) => {
-  FaqModel
-    .find()
+  FaqModel.find()
     .then((result) => {
       resp.status(200).json(result);
     })
@@ -85,7 +95,7 @@ const getFaq = (req, resp) => {
 };
 
 // Deleting Homepage Module
-const deleteFaq =  (req, resp) => {
+const deleteFaq = (req, resp) => {
   FaqModel.findById({ _id: req.params.id })
     .deleteOne()
     .then((result) => {
@@ -101,4 +111,12 @@ const deleteFaq =  (req, resp) => {
     });
 };
 
-module.exports = { postHomepage ,  getHomepage , deleteHomepage ,  postFaq , getFaq , deleteFaq};
+module.exports = {
+  postHomepage,
+  getHomepage,
+  deleteHomepage,
+  postFaq,
+  getFaq,
+  deleteFaq,
+  putHomepage
+};
