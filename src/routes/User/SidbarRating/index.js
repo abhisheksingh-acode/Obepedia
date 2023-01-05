@@ -5,7 +5,18 @@ const SidebarRatingModel = require("../../../models/SidebarRating/index");
 
 
 const postSidebarRating = async (req, resp) => {
-  try {
+
+  // const ref_id = req.params.id;
+  const data = await SidebarRatingModel.findOne({user_id:req.params.id})
+   if (data) {
+    await SidebarRatingModel.updateOne(
+      {user_id:req.params.id},{
+        $set:req.body
+      }
+    )
+    return resp.status(200).json("Updated!")
+   }
+   else{
     const {
       val1,
       val2,
@@ -39,9 +50,7 @@ const postSidebarRating = async (req, resp) => {
     })
     const newres = await result.save()
     resp.status(200).json(newres);
-  } catch (error) {
-    resp.status(500).json(error);
-  }
+   }
 };
 
 const getSidebarRating = async (req,resp)=>{
@@ -49,14 +58,6 @@ const getSidebarRating = async (req,resp)=>{
 
     try {
         const response = await SidebarRatingModel.find({obj_id})
-        // const finds =  response.map((item) => {
-        //  return   item.overall;
-        // });
-        // const value2 = await SidebarRatingModel.find({
-        //   overall: { $in: finds },
-        // });
-        // avg = await finds.reduce((a, b) => a + b, 0)
-        // resp.status(200).json(value2);
         resp.status(200).json(response);
       } catch (error) {
         
