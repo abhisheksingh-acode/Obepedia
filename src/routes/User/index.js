@@ -94,10 +94,11 @@ const {Compare} = require('./Compare/index')
 router.get('/compare/:id/:cid' , Compare)
 
 
-const {postSidebarRating,  getSidebarRating} = require('./SidbarRating/index')
+const {postSidebarRating,  getSidebarRating, detSiderating} = require('./SidbarRating/index')
 
 router.post('/sidebar/sidebarrating/:id' , postSidebarRating)
 router.get('/sidebar/getsidebarrating/:id' , getSidebarRating)
+router.delete('/sidebar/delsidebarrating/:id' , detSiderating)
 
 
 // Search
