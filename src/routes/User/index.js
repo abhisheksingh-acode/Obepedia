@@ -100,4 +100,9 @@ router.post('/sidebar/sidebarrating' , postSidebarRating)
 router.get('/sidebar/getsidebarrating/:id' , getSidebarRating)
 
 
+// Search
+const {Search} = require('./Search/index')
+
+router.get('/search/:key' , Search)
+
 module.exports  = router ;
