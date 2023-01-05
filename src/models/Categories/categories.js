@@ -21,6 +21,10 @@ const CategoriesSchema = mongoose.Schema({
     latest_update:{
         type: String,
         required:true
+    },
+    about:{
+        type: String,
+        required:true
     }
 })
 

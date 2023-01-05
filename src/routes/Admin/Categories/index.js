@@ -3,15 +3,16 @@ const mongoose = require("mongoose");
 const CatergoriesModel = require("../../../models/Categories/categories");
 
 const postCategory = (req, resp) => {
-  const { category_name, icon, description, exam_prep, latest_update } =
+  const { category_name, icon, description, exam_prep, latest_update  , about } =
     req.body;
   const NewCategory = new CatergoriesModel({
     _id: new mongoose.Types.ObjectId(),
     category_name,
     icon,
     description,
-    exam_prep,
-    latest_update
+    exam_prep,  
+    latest_update,
+    detail
   })
     .save()
     .then((result) => {
