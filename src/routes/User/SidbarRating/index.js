@@ -5,12 +5,12 @@ const SidebarRatingModel = require("../../../models/SidebarRating/index");
 
 const postSidebarRating = async (req, resp) => {
   // const ref_id = req.params.id;
-  const data = await SidebarRatingModel.findOne({ user_id: req.params.id });
+  const data = await SidebarRatingModel.findOne({ user_id: req.body.user_id });
   if (data) {
     await SidebarRatingModel.updateOne(
-      { user_id: req.params.id },
+      { user_id: req.body.user_id },
       {
-        $set: req.body,
+        $set: req.body
       }
     );
     return resp.status(200).json("Updated!");
@@ -28,7 +28,7 @@ const postSidebarRating = async (req, resp) => {
       val10,
       obj_id,
       user_id,
-      overall,
+      overall
     } = req.body;
     const result = await new SidebarRatingModel({
       _id: new mongoose.Types.ObjectId(),
