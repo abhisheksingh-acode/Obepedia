@@ -96,7 +96,7 @@ router.get('/compare/:id/:cid' , Compare)
 
 const {postSidebarRating,  getSidebarRating} = require('./SidbarRating/index')
 
-router.post('/sidebar/sidebarrating' , postSidebarRating)
+router.post('/sidebar/sidebarrating/:id' , postSidebarRating)
 router.get('/sidebar/getsidebarrating/:id' , getSidebarRating)
 
 

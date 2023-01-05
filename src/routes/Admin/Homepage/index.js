@@ -25,7 +25,7 @@ const postHomepage = (req, resp) => {
 
 // Getting data of homepage module
 const getHomepage = (req, resp) => {
-  HomepageModel.findOne()
+  HomepageModel.find()
     .then((result) => {
       resp.status(200).json(result);
     })
