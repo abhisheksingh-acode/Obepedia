@@ -67,4 +67,17 @@ router.get('/reviews/allreviewsoncourse' , TokenAuth , getAllReviewsOnCourse)
 router.get('/reviews/reviewsbystudent/:id' , TokenAuth , ReviewByStudent)
 router.delete('/reviews/deletereview/:id' , TokenAuth , deleteReview)
 
+
+// Creating User
+const {CreateInstitute , CreateUser}  = require('./CreateUser/index')
+const {UserDet} = require('../User/UserDetails/index')
+const {postProfile} = require('../Institute/Profile/index')
+
+
+router.post('/createuser' , CreateUser)
+router.post('/createinstitute' , CreateInstitute)
+
+router.post('newuserdetails' , UserDet);
+router.post('newinstitutedetails' , postProfile);
+
 module.exports = router ;

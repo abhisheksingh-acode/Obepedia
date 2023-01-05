@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-const UserModel = require("../../../models/UserModel/usermodel");
 const User = require("../../../models/signupmodel");
+const UserModel = require("../../../models/UserModel/usermodel");
 
 // Adding  other information of User
 const UserDet = (req, resp) => {
@@ -85,6 +85,9 @@ UserModel.find({ref_id:req.params.id})
 //       });
 //     });
 // };
+
+
+
 const GetUserDet = (req, resp) => {
   User.find({ _id: req.params.id })
     .then((result) => {

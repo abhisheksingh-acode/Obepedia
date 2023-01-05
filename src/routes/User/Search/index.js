@@ -21,5 +21,4 @@ const Search = async (req, resp) => {
 };
 
 
-
 module.exports = { Search };
