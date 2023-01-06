@@ -62,7 +62,7 @@ const {postBookmark , getBookmark , getFollow  , unMark , postFollow  , unFollow
 
 router.post('/user_rights/postbookmark/:id' , TokenAuth , postBookmark );
 router.get('/user_rights/getbookmark/:id' , TokenAuth , getBookmark );
-router.get('/user_rights/getsavedcourse/:id' , TokenAuth , getBookmark );
+router.get('/user_rights/getsavedcourse/:id' , TokenAuth , getSavedCourses );
 router.delete('/user_rights/unmark/:id' , TokenAuth , unMark);
 
 router.post('/user_rights/postfollow/:id' , TokenAuth , postFollow );
