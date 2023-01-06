@@ -107,4 +107,9 @@ const {Search, SearchInstitute} = require('./Search/index')
 router.get('/search/:key' , Search)
 router.get('/searchinstitute/:key' , SearchInstitute)
 
+// user Course 
+const {getCoursebyid} = require('../Institute/Course/index')
+
+router.get('/coursebyid/:id' , getCoursebyid)
+
 module.exports  = router ;

@@ -34,6 +34,16 @@ const getCourse = (req, resp) => {
       resp.status(500).json({ error: err });
     });
 };
+const getCoursebyid  = (req, resp) => {
+  const _id = req.params.id ; 
+  CourseModel.find({_id})
+    .then((result) => {
+      resp.status(200).json(result);
+    })
+    .catch((err) => {
+      resp.status(500).json({ error: err });
+    });
+};
 
 // Delete Course
 const delCourse = (req, resp) => {
@@ -47,4 +57,4 @@ const delCourse = (req, resp) => {
     });
 };
 
-module.exports = { postCourse, getCourse, delCourse };
+module.exports = { postCourse, getCourse, delCourse ,getCoursebyid};
