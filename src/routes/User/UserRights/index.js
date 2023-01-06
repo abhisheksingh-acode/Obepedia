@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const BookmarkModel = require("../../../models/Bookmark/bookmark");
+const course = require("../../../models/Course/course");
 const FollowModel = require("../../../models/Follow/follow");
 const InstituteProfileModel = require("../../../models/Instituteprofile/instituteprofile");
 
@@ -117,6 +118,28 @@ const unFollow = (req, resp) => {
     });
 };
 
+const getSavedCourses = async (req,resp)=>{
+  const user_id = req.params.id;
+
+  try {
+    const value = await BookmarkModel.find()
+      .where({ user_id })
+      .select({ object_id: 1 });
+
+    const finds = value.map((item) => {
+      return item.object_id;
+    });
+
+    // return resp.status(200).json(finds);
+    const value2 = await course.find({
+      institute_id: { $in: finds },
+    });
+    resp.status(200).json(value2);
+  } catch (error) {
+    resp.status(200).json(error);
+  }
+}
+
 module.exports = {
   postBookmark,
   getBookmark,
@@ -124,4 +147,5 @@ module.exports = {
   postFollow,
   getFollow,
   unFollow,
+  getSavedCourses
 };
