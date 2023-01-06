@@ -51,6 +51,7 @@ const SearchInstitute = async (req,resp)=>{
       ]}
   );
   let result = {response}
+  resp.status(200).json(result)
   } catch (error) {
     resp.status(500).json(error)
   }
