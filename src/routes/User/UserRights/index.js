@@ -132,7 +132,7 @@ const getSavedCourses = async (req,resp)=>{
 
     // return resp.status(200).json(finds);
     const value2 = await course.find({
-      institute_id: { $in: finds },
+      _id: { $in: finds },
     });
     resp.status(200).json(value2);
   } catch (error) {
