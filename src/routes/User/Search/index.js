@@ -42,18 +42,18 @@ const Search = async (req, resp) => {
 };
  
 
-// const OverallSearch = async (req,resp)=>{
-//   try {
-//     let response = await InstituteProfileModel.find(
-//       {"$or": [
-//           {'name' : {$regex : req.params.key}},
-//           {'location' : {$regex : req.params.key}}
-//       ]}
-//   );
-//   let result = {response}
-//   } catch (error) {
-//     resp.status(500).json(error)
-//   }
-// }
+const SearchInstitute = async (req,resp)=>{
+  try {
+    let response = await InstituteProfileModel.find(
+      {"$or": [
+          {'name' : {$regex : req.params.key}},
+          {'location' : {$regex : req.params.key}}
+      ]}
+  );
+  let result = {response}
+  } catch (error) {
+    resp.status(500).json(error)
+  }
+}
 
-module.exports = { Search };
+module.exports = { Search ,SearchInstitute };

@@ -102,8 +102,9 @@ router.delete('/sidebar/delsidebarrating/:id' , detSiderating)
 
 
 // Search
-const {Search} = require('./Search/index')
+const {Search, SearchInstitute} = require('./Search/index')
 
 router.get('/search/:key' , Search)
+router.get('/searchinstitute/:key' , SearchInstitute)
 
 module.exports  = router ;
