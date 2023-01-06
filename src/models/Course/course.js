@@ -25,7 +25,9 @@ const CourseSchema = mongoose.Schema({
     institute_id:{
         type: String,
         required:true
-    }
+    },
+    // Course Details Data
+    
 })
 
 module.exports = mongoose.model('CourseModel' , CourseSchema)
