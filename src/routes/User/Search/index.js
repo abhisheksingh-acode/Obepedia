@@ -29,20 +29,18 @@ const Search = async (req, resp) => {
     let response3 = await  course.find(
       {"$or": [
         {'course' : {$regex : req.params.key}},
-        {'offline' : {$regex : req.params.key}},
-        {'online' : {$regex : req.params.key}},
         {'medium' : {$regex : req.params.key}},
         {'duration' : {$regex : req.params.key}}
     ]}
     )
 
-    let result = {institute: response , vacancy : response2 , course : response3 }
+    let result = { institute:response , vacancy : response2 ,  course_list : response3 }
     resp.status(200).json(result)
   } catch (error) {
     resp.status(500).json(error)
   }
 };
-
+ 
 
 // const OverallSearch = async (req,resp)=>{
 //   try {
