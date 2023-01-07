@@ -46,9 +46,12 @@ const Search = async (req, resp) => {
 
 const SearchInstitute = async (req, resp) => {
   try {
-    const { name, location } = req.query;
+    const { key, location } = req.query;
     let response = await InstituteProfileModel.find({
-      $or: [{ name: { $regex: name } }, { location: { $regex: location } }],
+      $or: [
+        { name: new RegExp(key + "i") },
+        { location: new RegExp(location + "i") },
+      ],
     });
     let result = { response };
     resp.status(200).json(result);
