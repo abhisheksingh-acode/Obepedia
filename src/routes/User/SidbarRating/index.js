@@ -5,12 +5,13 @@ const SidebarRatingModel = require("../../../models/SidebarRating/index");
 
 const postSidebarRating = async (req, resp) => {
   // const ref_id = req.params.id;
+
   const data = await SidebarRatingModel.findOne({ user_id: req.body.user_id });
   if (data) {
     await SidebarRatingModel.updateOne(
       { user_id: req.body.user_id },
       {
-        $set: req.body
+        $set: req.body,
       }
     );
     return resp.status(200).json("Updated!");
@@ -28,9 +29,9 @@ const postSidebarRating = async (req, resp) => {
       val10,
       obj_id,
       user_id,
-      overall
+      overall,
     } = req.body;
-    const result = await new SidebarRatingModel({
+    const result = await SidebarRatingModel.create({
       _id: new mongoose.Types.ObjectId(),
       val1,
       val2,
@@ -56,25 +57,26 @@ const postSidebarRating = async (req, resp) => {
         Number(val9) +
         Number(val10),
     });
-    const newres = await result.save();
+    const newres = await result;
     resp.status(200).json(newres);
   }
 };
 
 const getSidebarRating = async (req, resp) => {
-  const obj_id = req.params.id; //id of course or institute
-
   try {
+    const obj_id = req.params.id; //id of course or institute
     const response = await SidebarRatingModel.find({ obj_id });
     resp.status(200).json(response);
   } catch (error) {
-    resp.status(500).json(error);
+    resp.status(500).json("something went wrong");
   }
 };
 
 const detSiderating = async (req, resp) => {
-  const data = await SidebarRatingModel.findOne({object_id:req.params.id}).deleteMany()
-  resp.status(200).json(data)
+  const data = await SidebarRatingModel.findOne({
+    object_id: req.params.id,
+  }).deleteMany();
+  resp.status(200).json(data);
 };
 
-module.exports = { postSidebarRating, getSidebarRating , detSiderating };
+module.exports = { postSidebarRating, getSidebarRating, detSiderating };
