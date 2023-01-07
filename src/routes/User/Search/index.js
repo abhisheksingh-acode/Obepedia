@@ -44,10 +44,11 @@ const Search = async (req, resp) => {
 
 const SearchInstitute = async (req,resp)=>{
   try {
+      const {name, location} = req.body;
     let response = await InstituteProfileModel.find(
       {"$or": [
-          {'name' : {$regex : req.params.key}},
-          {'location' : {$regex : req.params.key}}
+          {'name' : {$regex : name}},
+          {'location' : {$regex : location}}
       ]}
   );
   let result = {response}
