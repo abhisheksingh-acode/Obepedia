@@ -59,7 +59,7 @@ const SearchInstitute = async (req, resp) => {
   } catch (error) {
     let response = await InstituteProfileModel.find();
     let result2 = { response };
-    resp.status(200).send(error);
+    resp.status(200).json(result2);
   }
 };
 
