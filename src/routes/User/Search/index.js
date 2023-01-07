@@ -53,8 +53,8 @@ const SearchInstitute = async (req, resp) => {
     let result = { response };
     resp.status(200).json(result);
   } catch (error) {
-    let response2 = await InstituteProfileModel.find();
-    let result2 = { response2 };
+    let response = await InstituteProfileModel.find();
+    let result2 = { response };
     resp.status(200).json({ result: result2 });
   }
 };
