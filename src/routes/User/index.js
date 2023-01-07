@@ -106,7 +106,7 @@ router.delete('/sidebar/delsidebarrating/:id' , detSiderating)
 const {Search, SearchInstitute} = require('./Search/index')
 
 router.get('/search/:key' , Search)
-router.get('/searchinstitute/:key' , SearchInstitute)
+router.get('/searchinstitute/:key?' , SearchInstitute)
 
 // user Course 
 const {getCoursebyid} = require('../Institute/Course/index')
