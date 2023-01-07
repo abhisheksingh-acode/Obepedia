@@ -70,8 +70,9 @@ router.get('/user_rights/getfollow/:id' , TokenAuth , getFollow);
 router.delete('/user_rights/unfollow/:id' , TokenAuth , unFollow);
 
 // Vacancy Module 
-const {getVacancy , getVacancyByInstitute , getAllVacancies} = require('../Institute/Vacancy/index')
+const {getVacancy , getVacancyByInstitute , getAllVacancies, postVacancy} = require('../Institute/Vacancy/index')
 
+router.get('/vacancy/postvacancydetails/:id' , postVacancy)
 router.get('/vacancy/getvacancy/:id' , getVacancy)
 router.get('/vacancy/getvacancybyinstitute/:id' , getVacancyByInstitute)
 router.get('/vacancy/allvacancies' , getAllVacancies)
