@@ -25,9 +25,13 @@ router.get('/category/getcategory_details' , getCategory);
 
 // Login Module
 const {Login , getLogin} = require('./Login/index');
+const {RegisterUser} = require('./Register');
 
 router.post('/login' , Login)
 router.get('/login' , getLogin)
+
+router.post('/register' , RegisterUser);
+
 
 // Suggestion Form
 const {postSuggestion , getSuggestion} = require('./Suggestion_Form/index')
@@ -44,7 +48,6 @@ router.get('/job_form/get_job_form' , getJobForm)
 
 // User details 
 const {UserDet , GetUserDet , GetDet } = require('./UserDetails/index');
-
 
 router.post('/userdet/:id' , UserDet);
 router.get('/getuserdet/:id' , GetUserDet);

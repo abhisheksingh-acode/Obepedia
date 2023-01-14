@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const User = require("../models/signupmodel");
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 // Getting all Users details
 router.get("/", (req, resp) => {
@@ -20,37 +20,52 @@ router.get("/", (req, resp) => {
 });
 
 // Creating a User
-router.post("/", (req, resp) => {
-  bcrypt.hash(req.body.password,10,(err,hash)=>{
-    if (err) {
-      resp.status(500).json({msg:err})
-    }
-    else {
+// router.post("/", (req, resp) => {
+//   bcrypt.hash(req.body.password, 10, (err, hash) => {
+//     if (err) {
+//       resp.status(500).json({ msg: err });
+//     } else {
+//       const { name, email, mobile, role, password } = req.body;
+//       const user = new User({
+//         _id: new mongoose.Types.ObjectId(),
+//         name,
+//         email,
+//         mobile,
+//         password: hash,
+//         role,
+//       });
 
-      const {name,email,mobile,role,password} = req.body;
-      const user = new User({
-        _id: new mongoose.Types.ObjectId(),
-        name,
-        email,
-        mobile,
-        password: hash,
-        role,
-      });
-    
-      user
-        .save()
-    
-        .then((result) => {
-          console.log(result);
-          resp.status(200).json({ newUser: result });
-        })
-    
-        .catch((err) => {
-          console.log(err);
-          resp.status(500).json({ error: err });
-        });
-    }
-  })
+//       user
+//         .save()
+
+//         .then((result) => {
+//           console.log(result);
+//           resp.status(200).json({ newUser: result });
+//         })
+
+//         .catch((err) => {
+//           console.log(err);
+//           resp.status(500).json({ error: err });
+//         });
+//     }
+//   });
+// });
+
+router.post("/", async (req, resp) => {
+  try {
+    const { name, email, mobile, role, password } = req.body;
+    const create = await User.create({
+      name,
+      email,
+      mobile,
+      password: await bcrypt.hash(password, 10),
+      role,
+    });
+
+    resp.status(200).json({ newUser: create });
+  } catch (error) {
+    throw Error(error);
+  }
 });
 
 // Getting user by id
@@ -108,8 +123,6 @@ router.put("/:id", (req, resp) => {
       });
     });
 });
-
-
 
 //**************** If You wanr to delete all users ************//
 

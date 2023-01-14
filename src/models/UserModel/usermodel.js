@@ -11,10 +11,12 @@ const UserModelSchema = mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   number: {
     type: Number,
     required: true,
+    unique: true,
   },
   college: {
     type: String,

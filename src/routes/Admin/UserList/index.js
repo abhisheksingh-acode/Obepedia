@@ -1,11 +1,11 @@
+const { response } = require("express");
 const express = require("express");
 const User = require("../../../models/signupmodel");
 const UserModel = require("../../../models/UserModel/usermodel");
 
-
 // Getting all users ( role:user is deafult)
 const getUsers = async (req, resp) => {
-  const val =  req.body.role ? req.body.role : "user"  ;
+  const val = req.body.role ? req.body.role : "user";
   User.find({ role: val })
     .then((result) => {
       resp.status(200).json(result);
@@ -17,21 +17,11 @@ const getUsers = async (req, resp) => {
     });
 };
 
-// If admin wants to delete user the  he just pass his id as params 
+// If admin wants to delete user the  he just pass his id as params
 const delUsers = async (req, resp) => {
-  User.findById({ _id: req.params.id })
-    .remove()
-    .then((result) => {
-      resp.status(200).json({
-        Value: "User Detated!",
-        val2: result,
-      });
-    })
-    .catch((err) => {
-      resp.status(500).json({
-        Error: err,
-      });
-    });
+  await User.find({ _id: req.params.id }).deleteMany();
+
+  return resp.status(200).json({ msg: "users deleted" });
 };
 
 // When admin want to see whole information of user
