@@ -83,7 +83,7 @@ const postFollow = async (req, resp) => {
 
   if (isFollowed) {
     await isFollowed.deleteOne();
-    return resp.status(200).json({ msg: `Institute is saved` });
+    return resp.status(200).json({ msg: `Institute is unsaved` });
   }
 
   const Follow = new FollowModel({
