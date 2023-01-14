@@ -15,7 +15,7 @@ const postBookmark = async (req, resp) => {
   // return resp.json(req.body);
   if (result1) {
     await result1.deleteOne();
-    return resp.status(200).json("saved removed");
+    return resp.status(200).json({ msg: `Your Course is Removed!` });
   } else {
     const Bookmark = new BookmarkModel({
       _id: new mongoose.Types.ObjectId(),
@@ -70,9 +70,19 @@ const unMark = (req, resp) => {
 };
 
 // Follow Request
-const postFollow = (req, resp) => {
+const postFollow = async (req, resp) => {
   const user_id = req.params.id;
   const { institute_id } = req.body;
+
+  const isFollowed = await FollowModel.find({
+    institute_id,
+    user_id,
+  }).deleteMany();
+
+  if (isFollowed) {
+    resp.status(200).json({ msg: `Institute is unfollowed by you` });
+  }
+
   const Follow = new FollowModel({
     _id: new mongoose.Types.ObjectId(),
     institute_id,
@@ -120,7 +130,7 @@ const unFollow = (req, resp) => {
     });
 };
 
-const getSavedCourses = async (req,resp)=>{
+const getSavedCourses = async (req, resp) => {
   const user_id = req.params.id;
 
   try {
@@ -140,7 +150,7 @@ const getSavedCourses = async (req,resp)=>{
   } catch (error) {
     resp.status(200).json(error);
   }
-}
+};
 
 module.exports = {
   postBookmark,
@@ -149,5 +159,5 @@ module.exports = {
   postFollow,
   getFollow,
   unFollow,
-  getSavedCourses
+  getSavedCourses,
 };
