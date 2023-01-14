@@ -52,20 +52,26 @@ router.get("/", (req, resp) => {
 // });
 
 router.post("/", async (req, resp) => {
-  try {
-    const { name, email, mobile, role, password } = req.body;
-    const create = await User.create({
-      name,
-      email,
-      mobile,
-      password: await bcrypt.hash(password, 10),
-      role,
-    });
+  const { name, email, mobile, role, password } = req.body;
 
-    resp.status(200).json({ newUser: create });
-  } catch (error) {
-    throw Error(error);
-  }
+  const create = await User.create({
+    name,
+    email,
+    mobile,
+    password,
+    role,
+  });
+
+  const user = await User.findOne({ _id: create._id });
+
+  return resp.status(200).json({
+    greeting: `Hello ${user.name}!`,
+    user: user,
+    token: user.createJWT(),
+    code: 200
+  });
+
+  // return resp.status(200).json({ newUser: create });
 });
 
 // Getting user by id

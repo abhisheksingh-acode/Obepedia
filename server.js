@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
 const app = express();
 const cors = require("cors");
+require('express-async-errors');
 
 app.use(cors());
 
@@ -55,9 +56,9 @@ app.use("/user/", userallRouter);
 // Institute Routes
 app.use("/institute/", instiallRouter);
 
+app.use(errorHandler);
 // notFound
 app.use(notFound);
-app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`your server is on http://localhost:${PORT}`);
