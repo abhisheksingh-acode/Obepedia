@@ -74,29 +74,26 @@ const postFollow = async (req, resp) => {
   const user_id = req.params.id;
   const { institute_id } = req.body;
 
-  const isFollowed = await FollowModel.find({
+  const isFollowed = await FollowModel.findOne({
     institute_id,
     user_id,
-  }).deleteMany();
+  });
 
   if (isFollowed) {
-    resp.status(200).json({ msg: `Institute is unfollowed by you` });
+    await isFollowed.deleteOne();
+    return resp.status(200).json({ msg: `Institute is unfollowed by you` });
   }
 
   const Follow = new FollowModel({
     _id: new mongoose.Types.ObjectId(),
     institute_id,
     user_id: req.params.id,
-  })
-    .save()
-    .then((result) => {
-      resp
-        .status(200)
-        .json({ result, msg: `You just followed ${result.name}!` });
-    })
-    .catch((err) => {
-      resp.status(500).json({ err });
-    });
+  }).save();
+
+  const result = await Follow;
+  return resp
+    .status(200)
+    .json({ result, msg: `Institute is followed by you!!` });
 };
 
 // Getting Followed list

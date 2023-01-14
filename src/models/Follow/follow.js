@@ -4,11 +4,11 @@ const FollowSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     institute_id:{
         type: String,
-        required:true
+        required:[true,'institute id is missing' ]
     },
     user_id:{
         type:String,
-        required:true
+        required:[true,'user id is missing' ]
     }
 })
 
