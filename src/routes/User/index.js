@@ -61,7 +61,7 @@ router.post('/reviews/postreviewoninstitute/:id' , TokenAuth , postReviewOnInsti
 
 
 // UserRights Module (Bookmark , Follow etc)
-const {postBookmark , getBookmark , getFollow  , unMark , postFollow  , unFollow , getSavedCourses} = require('./UserRights/index')
+const {postBookmark , getBookmark , getFollow  , unMark , postFollow  , unFollow , getSavedCourses, postSaveVacancy, getSaveVacancy} = require('./UserRights/index')
 
 router.post('/user_rights/postbookmark/:id' , TokenAuth , postBookmark );
 router.get('/user_rights/getbookmark/:id' , TokenAuth , getBookmark );
@@ -72,6 +72,9 @@ router.post('/user_rights/postfollow/:id' , TokenAuth , postFollow );
 router.get('/user_rights/getfollow/:id' , TokenAuth , getFollow);
 router.delete('/user_rights/unfollow/:id' , TokenAuth , unFollow);
 
+
+router.post('/user_rights/postvacancy/:id' , TokenAuth , postSaveVacancy );
+router.get('/user_rights/postvacancy/:id' , TokenAuth , getSaveVacancy);
 // Vacancy Module 
 const {getVacancy , getVacancyByInstitute , getAllVacancies, postVacancy} = require('../Institute/Vacancy/index')
 

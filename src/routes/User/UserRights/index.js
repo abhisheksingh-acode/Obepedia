@@ -5,6 +5,8 @@ const BookmarkModel = require("../../../models/Bookmark/bookmark");
 const course = require("../../../models/Course/course");
 const FollowModel = require("../../../models/Follow/follow");
 const InstituteProfileModel = require("../../../models/Instituteprofile/instituteprofile");
+const SaveVacancy = require("../../../models/Vacancy/SaveVacancy");
+const VacancyModel = require("../../../models/Vacancy/vacancy");
 
 // Saving or Bookmarking a Course
 const postBookmark = async (req, resp) => {
@@ -81,7 +83,7 @@ const postFollow = async (req, resp) => {
 
   if (isFollowed) {
     await isFollowed.deleteOne();
-    return resp.status(200).json({ msg: `Institute is unfollowed by you` });
+    return resp.status(200).json({ msg: `Institute is saved` });
   }
 
   const Follow = new FollowModel({
@@ -91,9 +93,7 @@ const postFollow = async (req, resp) => {
   }).save();
 
   const result = await Follow;
-  return resp
-    .status(200)
-    .json({ result, msg: `Institute is followed by you!!` });
+  return resp.status(200).json({ result, msg: `Institute is saved!!` });
 };
 
 // Getting Followed list
@@ -113,6 +113,45 @@ const getFollow = async (req, resp) => {
   } catch (error) {
     resp.status(200).json(error);
   }
+};
+
+const postSaveVacancy = async (req, resp) => {
+  const user_id = req.params.id;
+  const { vacancy_id } = req.body;
+
+  const isFollowed = await SaveVacancy.findOne({
+    vacancy_id,
+    user_id,
+  });
+
+  if (isFollowed) {
+    await isFollowed.deleteOne();
+    return resp.status(200).json({ msg: `vacancy_id is unsaved` });
+  }
+
+  const Follow = new SaveVacancy({
+    _id: new mongoose.Types.ObjectId(),
+    vacancy_id,
+    user_id: req.params.id,
+  }).save();
+
+  const result = await Follow;
+  return resp.status(200).json({ result, msg: `Vacancy is saved!!` });
+};
+
+// Getting Followed list
+const getSaveVacancy = async (req, resp) => {
+  const user_id = req.params.id;
+  const response = await SaveVacancy.find()
+    .where({ user_id })
+    .select({ vacancy_id: 1 });
+  const finds = response.map((item) => {
+    return item.vacancy_id;
+  });
+  const value2 = await VacancyModel.find({
+    _id: { $in: finds },
+  });
+  resp.status(200).json(value2);
 };
 
 const unFollow = (req, resp) => {
@@ -157,4 +196,6 @@ module.exports = {
   getFollow,
   unFollow,
   getSavedCourses,
+  postSaveVacancy,
+  getSaveVacancy
 };
