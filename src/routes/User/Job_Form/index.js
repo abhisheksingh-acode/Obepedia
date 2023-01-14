@@ -23,14 +23,14 @@ const postJobForm = (req, resp) => {
 };
 
 // Getting faculty Information
-const getJobForm = (req, resp) => {
-    Job_Form_Model.find()
-    .then((result) => {
-      resp.status(200).json(result);
-    })
-    .catch((err) => {
-      resp.status(500).json({ error: err });
-    });
+const getJobForm = async (req, resp) => {
+  try {
+    const result = await Job_Form_Model.find().limit(8).sort({ _id: -1 });
+
+    return resp.status(200).json(result);
+  } catch (error) {
+    return resp.status(500).json(error);
+  }
 };
 
 // Deleting Faculty
@@ -45,4 +45,4 @@ const getJobForm = (req, resp) => {
 //   })
 // }
 
-module.exports = {  postJobForm, getJobForm };
+module.exports = { postJobForm, getJobForm };

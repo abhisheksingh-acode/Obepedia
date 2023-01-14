@@ -2,7 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const VacancyModel = require("../../../models/Vacancy/vacancy");
 
-
 // Posting  Vacancy
 const postVacancy = (req, resp) => {
   const {
@@ -16,7 +15,7 @@ const postVacancy = (req, resp) => {
     about_company,
     about_job,
     skills,
-    responsibilities
+    responsibilities,
   } = req.body;
   const vacancy = new VacancyModel({
     _id: new mongoose.Types.ObjectId(),
@@ -55,13 +54,19 @@ const getVacancy = (req, resp) => {
 
 // Get all vacancies
 const getAllVacancies = async (req, resp) => {
-  VacancyModel.find()
-    .then((result) => {
-      resp.status(200).json(result);
-    })
-    .catch((error) => {
-      resp.status(500).json(error);
-    });
+  try {
+    const limit = req.query.limit;
+
+    let result = await Job_Form_Model.find().sort({ _id: -1 });
+
+    if (limit) {
+      result = await Job_Form_Model.find().limit(8).sort({ _id: -1 });
+    }
+
+    return resp.status(200).json(result);
+  } catch (error) {
+    return resp.status(500).json(error);
+  }
 };
 
 // Get All Vacancies by a particular institute
@@ -88,12 +93,10 @@ const delVacancy = (req, resp) => {
     });
 };
 
-
-
 module.exports = {
   postVacancy,
   getVacancy,
   delVacancy,
   getVacancyByInstitute,
-  getAllVacancies
+  getAllVacancies,
 };
