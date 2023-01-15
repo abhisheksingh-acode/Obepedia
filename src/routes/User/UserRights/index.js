@@ -116,8 +116,7 @@ const getFollow = async (req, resp) => {
 };
 
 const postSaveVacancy = async (req, resp) => {
-  const user_id = req.params.id;
-  const { vacancy_id } = req.body;
+  const { vacancy_id, user_id } = req.body;
 
   const isFollowed = await SaveVacancy.findOne({
     vacancy_id,
@@ -126,13 +125,13 @@ const postSaveVacancy = async (req, resp) => {
 
   if (isFollowed) {
     await isFollowed.deleteOne();
-    return resp.status(200).json({ msg: `vacancy_id is unsaved` });
+    return resp.status(200).json({ msg: `vacancy is unsaved` });
   }
 
   const Follow = new SaveVacancy({
     _id: new mongoose.Types.ObjectId(),
     vacancy_id,
-    user_id: req.params.id,
+    user_id
   }).save();
 
   const result = await Follow;

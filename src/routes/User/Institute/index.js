@@ -18,7 +18,7 @@ const InstitutePage = async (req, resp) => {
     let response3 = await facultyModel.find({institute_id})
     let response4 = await GallaryModel.find({institute_id})
     let response5 = await VacancyModel.find({institute_id})
-    let response6 = await reviewsoninstitute.find({institute_id})
+    let response6 = await reviewsoninstitute.find({institute_id}).limit(8).sort({_id: -1})
     let result = {institute_profile:response , course:response2 , faculty:response3 , gallary:response4 , vacancy:response5 , reviews:response6}
     resp.status(200).json(result)
     

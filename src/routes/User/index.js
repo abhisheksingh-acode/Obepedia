@@ -43,7 +43,7 @@ router.get('/suggestion_form/get_suggestion' , getSuggestion)
 // Job Form Module
 const {postJobForm , getJobForm} = require('./Job_Form/index')
 
-router.post('/job_form/post_job_form' , TokenAuth , postJobForm)
+router.post('/job_form/post_job_form' , postJobForm)
 router.get('/job_form/get_job_form' , getJobForm)
 
 // User details 

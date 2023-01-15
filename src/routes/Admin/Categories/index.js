@@ -12,7 +12,7 @@ const postCategory = (req, resp) => {
     description,
     exam_prep,  
     latest_update,
-    detail
+    about
   })
     .save()
     .then((result) => {

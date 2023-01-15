@@ -21,6 +21,11 @@ const Job_Form_Schema = mongoose.Schema({
   description: {
     type: String,
     required: true,
+  },
+  vacancy_id:{
+    type: mongoose.Types.ObjectId,
+    ref: "VacancyModel",
+    required: [true, 'vacancy id is missing']
   }
 });
 
