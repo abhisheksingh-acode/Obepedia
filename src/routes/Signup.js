@@ -68,7 +68,7 @@ router.post("/", async (req, resp) => {
     greeting: `Hello ${user.name}!`,
     user: user,
     token: user.createJWT(),
-    code: 200
+    code: 200,
   });
 
   // return resp.status(200).json({ newUser: create });

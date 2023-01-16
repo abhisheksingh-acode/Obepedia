@@ -11,8 +11,8 @@ const Search = async (req, resp) => {
   try {
     let response = await InstituteProfileModel.find({
       $or: [
-        { name: { $regex: `^${req.params.key}`, $options: "i"  } },
-        { location: { $regex: `${req.params.key}`, $options: "i"  } },
+        { name: { $regex: `^${req.params.key}`, $options: "i" } },
+        { location: { $regex: `${req.params.key}`, $options: "i" } },
       ],
     });
     let response2 = await VacancyModel.find({
@@ -43,13 +43,31 @@ const Search = async (req, resp) => {
 };
 
 const SearchInstitute = async (req, resp) => {
-  try {
-    const { key, location } = req.query;
+  const { name, location, sort } = req.query;
+  let sortQuery = ``;
+  switch (sort) {
+    case "namea":
+      sortQuery = { name: 1 };
+      break;
+    case "named":
+      sortQuery = { name: -1 };
+      break;
+    case "latest":
+      sortQuery = { _id: -1 };
+      break;
+    case "oldest":
+      sortQuery = { _id: 1 };
+      break;
 
+    default:
+      sortQuery = { _id: -1 };
+      break;
+  }
+  try {
     let response = await InstituteProfileModel.find({
       $or: [
         {
-          name: { $regex: `^${key}`, $options: "i" },
+          name: { $regex: `^${name}`, $options: "i" },
         },
         { location: { $regex: `${location}`, $options: "i" } },
       ],
@@ -57,7 +75,7 @@ const SearchInstitute = async (req, resp) => {
     let result = { response };
     resp.status(200).json(result);
   } catch (error) {
-    let response = await InstituteProfileModel.find();
+    let response = await InstituteProfileModel.find().sort(sortQuery);
     let result2 = { response };
     resp.status(200).json(result2);
   }

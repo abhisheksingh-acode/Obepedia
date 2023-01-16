@@ -47,7 +47,7 @@ const UserModelSchema = mongoose.Schema({
     required: [true, 'state is required'],
   },
   dob: {
-    type: Number,
+    type: String,
     required: [true, 'dob is required'],
   },
   stream: {
