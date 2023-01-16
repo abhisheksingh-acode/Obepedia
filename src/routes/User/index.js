@@ -18,6 +18,7 @@ router.get('/sidebar/topinstitutes' , TopInstitutes)
 // Particular Category Name + Category Details
 const { getCategory , getCategoryName } = require('../Admin/Categories/index')
 
+
 router.get('/category/getcategory_names' , getCategoryName);
 router.get('/category/getcategory_details' , getCategory);
 
@@ -35,6 +36,12 @@ router.post('/register' , RegisterUser);
 
 // Suggestion Form
 const {postSuggestion , getSuggestion} = require('./Suggestion_Form/index')
+
+
+const { postFeedback } = require('./Feedback/index');
+
+
+router.post('/feedback/postfeedback' , postFeedback)
 
 router.post('/suggestion_form/post_suggestion' , postSuggestion)
 router.get('/suggestion_form/get_suggestion' , getSuggestion)
@@ -116,8 +123,7 @@ router.get('/search/:key?' , Search)
 router.get('/searchinstitute' , SearchInstitute)
 
 // user Course 
-const {getCoursebyid} = require('../Institute/Course/index')
-
+const {getCoursebyid} = require('../Institute/Course/index');
 router.get('/coursebyid/:id' , getCoursebyid)
 
 module.exports  = router ;
