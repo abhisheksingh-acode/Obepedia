@@ -6,57 +6,57 @@ const UserModelSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
   username: {
     type: String,
-    required: true,
+    required: [true, 'username is required'],
   },
   email: {
     type: String,
-    required: true,
-    unique: true,
+    required: [true, 'email is required'],
+    unique: [true, 'email should be unique'],
   },
   number: {
     type: Number,
-    required: true,
-    unique: true,
+    required: [true, 'number is required'],
+    unique: [true, 'phone should be unique'],
   },
   college: {
     type: String,
-    required: true,
+    required: [true, 'college is required'],
   },
   school: {
     type: String,
-    required: true,
+    required: [true, 'school is required'],
   },
   address: {
     type: String,
-    required: true,
+    required: [true, 'address is required'],
   },
   photo: {
     type: String,
-    required: true,
+    required: [true, 'photo is required'],
   },
   age: {
     type: Number,
-    required: true,
+    required: [true, 'age is required'],
   },
   city: {
     type: String,
-    required: true,
+    required: [true, 'city is required'],
   },
   state: {
     type: String,
-    required: true,
+    required: [true, 'state is required'],
   },
   dob: {
     type: Number,
-    required: true,
+    required: [true, 'dob is required'],
   },
   stream: {
     type: String,
-    required: true,
+    required: [true, 'stream is required'],
   },
   major: {
     type: String,
-    required: true,
+    required: [true, 'major is required'],
   },
   ref_id: {
     type: String,

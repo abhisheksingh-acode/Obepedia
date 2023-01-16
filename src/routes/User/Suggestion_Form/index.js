@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const SuggestionModel = require("../../../models/Suggestion_Form/suggestion_form");
 
 // Adding faculty Information
-const postSuggestion = (req, resp) => {
+const postSuggestion = async (req, resp) => {
   const { name, email, number, description } = req.body;
   const Suggestion = new SuggestionModel({
     _id: new mongoose.Types.ObjectId(),
@@ -11,14 +11,10 @@ const postSuggestion = (req, resp) => {
     email,
     number,
     description,
-  })
-    .save()
-    .then((result) => {
-      resp.status(200).json(result);
-    })
-    .catch((err) => {
-      resp.status(500).json({ err });
-    });
+  }).save();
+
+  const result = await Suggestion;
+  resp.status(200).json({result, msg:'thank you for suggestion.'});
 };
 
 // Getting faculty Information

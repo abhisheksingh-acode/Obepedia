@@ -2,7 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const VacancyModel = require("../../../models/Vacancy/vacancy");
 const Job_Form_Model = require("../../../models/Job_Form/job_form");
-const moment = require("moment")
+const moment = require("moment");
 
 // Posting  Vacancy
 const postVacancy = (req, resp) => {
@@ -48,7 +48,10 @@ const getVacancy = async (req, resp) => {
 
   const data = await VacancyModel.findOne({ _id: vacancy_id });
 
-  const result = { ...data._doc, posted: moment().diff(data._doc.date, "days", false) };
+  const result = {
+    ...data._doc,
+    posted: moment().diff(data._doc.date, "days", false),
+  };
 
   return resp.status(200).json(result);
 };
@@ -92,7 +95,17 @@ const getAllVacancies = async (req, resp) => {
     });
 
   if (limit) {
-    result = result.limit(limit);
+    result = await VacancyModel.find()
+      .sort(sortQuery)
+      .where({
+        $or: [
+          {
+            name: { $regex: `^${key}`, $options: "i" },
+          },
+          { location: { $regex: `${key}`, $options: "i" } },
+        ],
+      })
+      .limit(2);
   }
 
   return resp.status(200).json(result);
