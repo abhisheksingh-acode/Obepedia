@@ -11,7 +11,7 @@ const UserDet = async (req, resp) => {
   const userdet = new UserModel({
     _id: new mongoose.Types.ObjectId(),
     ...req.body,
-    ref_id: req.params.id,
+    ref_id: user._id,
   }).save();
 
   const result = await userdet;
