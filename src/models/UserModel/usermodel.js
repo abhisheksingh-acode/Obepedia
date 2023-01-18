@@ -24,7 +24,6 @@ const UserModelSchema = mongoose.Schema({
   },
   school: {
     type: String,
-    required: [true, 'school is required'],
   },
   address: {
     type: String,
