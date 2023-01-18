@@ -16,14 +16,6 @@ const InstiModelSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  address: {
-    type: String,
-    required: true,
-  },
-  rating: {
-    type: Number,
-    required: true,
-  },
   tags: {
     type: String,
     required: true,

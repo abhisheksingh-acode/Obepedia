@@ -1,48 +1,34 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
-const InstiModel = require("../../../models/InstituteModel/institutemodel");
+const InstituteProfileModel = require("../../../models/Instituteprofile/instituteprofile");
 const User = require("../../../models/signupmodel");
 
 // Adding  other information of User
-const InstiDetails = (req, resp) => {
-  User.findOne({ _id: req.params.id }).then(() => {
-    const {
-      institute_name,
-      located,
-      state,
-      address,
-      rating,
-      tags,
-      about_institute,
-      gallary,
-      ref_id
-    } = req.body;
+const InstiDetails = async (req, resp) => {
+  const findUser =  await User.findOne({ _id: req.params.id });
+    // const {
+    //   institute_name,
+    //   located,
+    //   state,
+    //   address,
+    //   rating,
+    //   tags,
+    //   about_institute,
+    //   gallary,
+    //   ref_id
+    // } = req.body;
 
-    const instidetails = new InstiModel({
+    const instidetails = new InstituteProfileModel({
       _id: new mongoose.Types.ObjectId(),
-      institute_name,
-      located,
-      state,
-      address,
-      rating,
-      tags,
-      about_institute,
-      gallary,
-      ref_id: req.params.id
+      ...req.body,
+      institute_id : req.params.id
     })
       .save()
 
-      .then((result) => {
-        console.log(result);
-        resp.status(200).json({ newInsti: result });
-      })
+    const result = await instidetails;
 
-      .catch((err) => {
-        console.log(err);
-        resp.status(500).json({ error: err });
-      });
-  });
+    resp.status(200).json({ newInsti: result });
 };
 
 
