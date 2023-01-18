@@ -101,7 +101,7 @@ const { postProfile } = require("../Institute/Profile/index");
 router.post("/createuser", CreateUser);
 router.post("/createinstitute", CreateInstitute);
 
-router.post("newuserdetails", UserDet);
+router.post("newuserdetails/:id", UserDet);
 router.post("newinstitutedetails", postProfile);
 
 module.exports = router;
