@@ -6,48 +6,42 @@ const User = require("../../../models/signupmodel");
 const jwt = require("jsonwebtoken");
 
 
-const Login = (req, resp) => {
-  User.findOne({ email: req.body.email })
-    .exec()
-    .then((user) => {
-      if (!user) {
-        resp.send("user not found");
-      } else {
-        if (user.role !== "institute") {
-          resp.send("You aren't registerd institute!");
-        } else {
-          bcrypt.compare(req.body.password, user.password, (err, result) => {
-            if (err) {
-              console.log(err);
-            } else if (result) {
-              const token = jwt.sign(
-                {
-                name: user.name,
-                role: user.role,
-                email: user.email,
-                },
-                'This is Token Key',
-                {
-                  expiresIn:"24h"
-                }
-              );
+const Login = async (req, resp) => {
 
-              resp.status(200).json({
-                greeting: "Hello Institute",
-                user,
-                token:token
-              })
-            }
-            else{
-              resp.status(500).json({Mgs:"Password is wrong!"})
-            }
-          });
-        }
-      }
-    })
-    .catch((err) => {
-      resp.status(500).json({error:err});
-    });
+
+  const {email, password} = req.body;
+
+  const ifExist = await User.findOne({email, password, role : "institute"});
+
+  if(!ifExist){
+    return resp.status(500).json({Mgs:"invalid email & password!"});
+  }
+
+
+  const checkPassword = await bcrypt.compare(password, ifExist.password);
+
+  if(!checkPassword){
+    return resp.status(500).json({Mgs:"invalid password!"})
+  }
+
+  const token = jwt.sign(
+    {
+    name: ifExist.name,
+    role: ifExist.role,
+    email: ifExist.email,
+    },
+    'This is Token Key',
+    {
+      expiresIn:"24h"
+    }
+  );
+
+  return resp.status(200).json({
+    greeting: "Hello Institute",
+    user: ifExist,
+    token:token
+  });
+
 };
 
 
