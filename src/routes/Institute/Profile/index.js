@@ -52,19 +52,17 @@ const delProfile = (req, resp) => {
 };
 
 const putProfile = (req, resp) => {
-  const {name, about, video, image, sliding_banner, location , institute_id } =
-    req.body;
-  instituteProfileModel.findOneAndUpdate({institute_id: req.params.id},{
-    $set: {
-      name,
-      about,
-      video,
-      image,
-      sliding_banner,
-      location,
-      institute_id:req.params.id
-    }
-  })
+  // const {name, about, video, image, sliding_banner, location , institute_id } =
+  //   req.body;
+  instituteProfileModel
+    .findOneAndUpdate(
+      { institute_id: req.params.id },
+      {
+        $set: {
+          ...req.body,
+        },
+      }
+    )
     .then((result) => {
       resp.status(200).json(result);
     })
