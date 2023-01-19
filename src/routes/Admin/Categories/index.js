@@ -3,16 +3,16 @@ const mongoose = require("mongoose");
 const CatergoriesModel = require("../../../models/Categories/categories");
 
 const postCategory = (req, resp) => {
-  const { category_name, icon, description, exam_prep, latest_update  , about } =
+  const { category_name, icon, description, exam_prep, latest_update, about } =
     req.body;
   const NewCategory = new CatergoriesModel({
     _id: new mongoose.Types.ObjectId(),
     category_name,
     icon,
     description,
-    exam_prep,  
+    exam_prep,
     latest_update,
-    about
+    about,
   })
     .save()
     .then((result) => {
@@ -28,7 +28,7 @@ const getCategoryName = (req, resp) => {
     .then((result) => {
       // resp.status(200).json({ result });
       for (let i = 0; i < result.length; i++) {
-        resp.json({name : result[i].name , id : result[i]._id})
+        resp.json({ name: result[i].name, id: result[i]._id });
       }
     })
     .catch((err) => {
@@ -36,25 +36,21 @@ const getCategoryName = (req, resp) => {
     });
 };
 
-const getCategory = (req, resp) => {
-  CatergoriesModel.find()
+const getCategory = async (req, resp) => {
+  const result = CatergoriesModel.find().sort({ _id: -1 });
+
+  return resp.status(200).json(result);
+};
+
+const delCategory = (req, resp) => {
+  CatergoriesModel.findOne({ _id: req.params.id })
+    .remove()
     .then((result) => {
       resp.status(200).json(result);
     })
     .catch((err) => {
-      resp.status(500).json({ err });
+      resp.status(500).json({ Error: err });
     });
 };
 
-const delCategory = (req,resp)=>{
-    CatergoriesModel.findOne({_id:req.params.id})
-    .remove()
-    .then(result=>{
-        resp.status(200).json(result)
-    })
-    .catch(err=>{
-        resp.status(500).json({Error:err})
-    })
-}
-
-module.exports = { postCategory, getCategory , delCategory , getCategoryName };
+module.exports = { postCategory, getCategory, delCategory, getCategoryName };

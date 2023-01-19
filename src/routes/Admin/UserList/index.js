@@ -6,15 +6,9 @@ const UserModel = require("../../../models/UserModel/usermodel");
 // Getting all users ( role:user is deafult)
 const getUsers = async (req, resp) => {
   const val = req.body.role ? req.body.role : "user";
-  User.find({ role: val })
-    .then((result) => {
-      resp.status(200).json(result);
-    })
-    .catch((err) => {
-      resp.status(500).json({
-        Error: err,
-      });
-    });
+  const result = await User.find({ role: val }).sort({ _id: -1 });
+
+  return resp.status(200).json(result);
 };
 
 // If admin wants to delete user the  he just pass his id as params

@@ -2,13 +2,27 @@ const express = require("express");
 const User = require("../../../models/signupmodel");
 const InstiModel = require("../../../models/InstituteModel/institutemodel");
 
-
 // Getting all Institute ( role:institute is deafult)
 const getInsti = async (req, resp) => {
-  const val =  req.body.role ? req.body.role : "institute"  ;
-  User.find({ role: val })
+  const val = req.body.role ? req.body.role : "institute";
+  const result = await User.find({ role: val }).sort({ _id: -1 });
+  return resp.status(200).json(result);
+};
+
+// When admin want to see whole information of Institute
+const getInstiDet = (req, resp) => {
+  User.find({ _id: req.params.id })
     .then((result) => {
-      resp.status(200).json(result);
+      InstiModel.find({ ref_id: req.params.id })
+        .then((fulldet) => {
+          Array.prototype.push.apply(result, fulldet);
+          resp.status(200).json(result);
+        })
+        .catch((err) => {
+          resp.status(500).json({
+            Error: err,
+          });
+        });
     })
     .catch((err) => {
       resp.status(500).json({
@@ -17,43 +31,21 @@ const getInsti = async (req, resp) => {
     });
 };
 
-// When admin want to see whole information of Institute
-const getInstiDet = (req, resp) => {
-    User.find({ _id: req.params.id })
-      .then((result) => {
-        InstiModel.find({ ref_id: req.params.id })
-          .then((fulldet) => {
-            Array.prototype.push.apply(result, fulldet);
-            resp.status(200).json(result);
-          })
-          .catch((err) => {
-            resp.status(500).json({
-              Error: err,
-            });
-          });
-      })
-      .catch((err) => {
-        resp.status(500).json({
-          Error: err,
-        });
-      });
-};
-
-// If admin wants to delete Institute the  he just pass his id as params 
+// If admin wants to delete Institute the  he just pass his id as params
 const delInsti = async (req, resp) => {
-    User.findById({ _id: req.params.id })
-      .remove()
-      .then((result) => {
-        resp.status(200).json({
-          Value: "User Detated!",
-          val2: result,
-        });
-      })
-      .catch((err) => {
-        resp.status(500).json({
-          Error: err,
-        });
+  User.findById({ _id: req.params.id })
+    .remove()
+    .then((result) => {
+      resp.status(200).json({
+        Value: "User Detated!",
+        val2: result,
       });
+    })
+    .catch((err) => {
+      resp.status(500).json({
+        Error: err,
+      });
+    });
 };
 
-module.exports = {getInsti , getInstiDet  , delInsti}
+module.exports = { getInsti, getInstiDet, delInsti };
