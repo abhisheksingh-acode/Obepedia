@@ -23,7 +23,7 @@ const postGallary = (req, resp) => {
 const getGallary = (req, resp) => 
 {
   const institute_id = req.params.id
-  GallaryModel.findOne({institute_id})
+  GallaryModel.find({institute_id})
     .then((result) => {
       resp.status(200).json(result);
     })

@@ -11,7 +11,7 @@ const Login = async (req, resp) => {
 
   const {email, password} = req.body;
 
-  const ifExist = await User.findOne({email, password, role : "institute"});
+  const ifExist = await User.findOne({email, role : "institute"});
 
   if(!ifExist){
     return resp.status(500).json({Mgs:"invalid email & password!"});
@@ -19,7 +19,6 @@ const Login = async (req, resp) => {
 
 
   const checkPassword = await bcrypt.compare(password, ifExist.password);
-
   if(!checkPassword){
     return resp.status(500).json({Mgs:"invalid password!"})
   }
