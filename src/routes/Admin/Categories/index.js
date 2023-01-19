@@ -37,7 +37,7 @@ const getCategoryName = (req, resp) => {
 };
 
 const getCategory = async (req, resp) => {
-  const result = CatergoriesModel.find().sort({ _id: -1 });
+  const result = await CatergoriesModel.find().sort({ _id: -1 });
 
   return resp.status(200).json(result);
 };
