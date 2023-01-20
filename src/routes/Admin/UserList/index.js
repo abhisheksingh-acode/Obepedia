@@ -18,11 +18,13 @@ const delUsers = async (req, resp) => {
   return resp.status(200).json({ msg: "users deleted" });
 };
 
-const destroy = async (req, res) => {
-  await User.deleteMany({ id: { $in: req.body.ids } });
-  await UserModel.deleteMany({ ref_id: { $in: req.body.ids } });
+const destroy = (req, res) => {
+  req.body.ids.forEach(async (el, index) => {
+    await User.findByIdAndDelete(el);
+    await UserModel.find({ ref_id: el }).deleteOne();
+  });
 
-  return res.status(200).json({msg: "delete operation is succeed"});
+  return res.status(200).json({ msg: "delete operation is succeed" });
 };
 
 // When admin want to see whole information of user
