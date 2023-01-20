@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const GallarySchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     files:{
-        type: String,
+        type: Array,
         required:true
     },
     institute_id:{
