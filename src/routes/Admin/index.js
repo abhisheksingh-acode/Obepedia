@@ -9,11 +9,12 @@ const { Account } = require("./account/index");
 router.get("/account/:id", TokenAuth, Account);
 
 // User List Module
-const { getUsers, delUsers, GetUserDet } = require("./UserList/index");
+const { getUsers, delUsers, GetUserDet, destroy } = require("./UserList/index");
 
 router.get("/userlist/getusers", TokenAuth, getUsers);
 router.get("/userlist/getusersdet/:id", TokenAuth, GetUserDet);
 router.delete("/userlist/delusers/:id", TokenAuth, delUsers);
+router.delete("/userlist/clear/", TokenAuth, destroy);
 
 // Institute List Module
 const { getInsti, getInstiDet, delInsti } = require("./InstituteList/index");
