@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const CourseModel = require("../../../models/Course/course");
+const reviewsoncoursemodel = require("../../../models/Reviews/reviewsoncourse")
 
 // Adding course Information
 const postCourse = async (req, resp) => {
@@ -26,15 +27,13 @@ const getCourse = (req, resp) => {
       resp.status(500).json({ error: err });
     });
 };
-const getCoursebyid = (req, resp) => {
+const getCoursebyid = async (req, resp) => {
   const _id = req.params.id;
-  CourseModel.find({ _id })
-    .then((result) => {
-      resp.status(200).json(result);
-    })
-    .catch((err) => {
-      resp.status(500).json({ error: err });
-    });
+  const ratings = await reviewsoncoursemodel.find({course_id: _id}).sort({_id: -1}).limit(8)
+  const result = await CourseModel.findOne({ _id }).populate("category");
+
+
+  return resp.status(200).json({result, ratings});
 };
 
 // Delete Course

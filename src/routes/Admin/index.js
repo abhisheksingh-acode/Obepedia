@@ -28,10 +28,12 @@ const {
   postCategory,
   getCategory,
   delCategory,
+  modifyCategory,
 } = require("./Categories/index");
 
 router.get("/category/getcategories", TokenAuth, getCategory);
 router.post("/category/addcategories", TokenAuth, postCategory);
+router.put("/category/modify/:id", TokenAuth, modifyCategory);
 router.delete("/category/delcategories/:id", TokenAuth, delCategory);
 
 // Sidebar Module
@@ -53,7 +55,7 @@ const {
   deleteFaq,
 } = require("./Homepage/index");
 
-router.put("/homepage/puthomepage/:id", TokenAuth, putHomepage);
+router.put("/homepage/puthomepage", TokenAuth, putHomepage);
 router.post("/homepage/posthomepage", TokenAuth, postHomepage);
 router.get("/homepage/gethomepage", TokenAuth, getHomepage);
 router.delete("/homepage/deletehomepage/:id", TokenAuth, deleteHomepage);

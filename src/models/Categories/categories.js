@@ -6,6 +6,12 @@ const CategoriesSchema = mongoose.Schema({
         type: String,
         required:true
     },
+    title:{
+        type: String,
+    },
+    syllabus:{
+        type: String,
+    },
     icon:{
         type: String,
         required:true
@@ -25,6 +31,13 @@ const CategoriesSchema = mongoose.Schema({
     about:{
         type: String,
         required:true
+    },
+    eligibility:{
+        type: String,
+    },
+    subjects:{
+        type:Array,
+        required: [true, 'please provide subjects for this exam']
     }
 })
 

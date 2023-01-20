@@ -10,8 +10,8 @@ const postSidebar = async (req, resp) => {
   resp.status(200).json({result : Sidebar});
 };
 
-const getSidebar = (req, resp) => {
-  SidebarModel.find()
+const getSidebar = async (req, resp) => {
+  const result = await SidebarModel.find().limit(3)
     .then((result) => {
       resp.status(200).json(result);
     })

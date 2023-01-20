@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-const CourseModel = require("../Categories/categories")
+const CourseModel = require("../Categories/categories");
+const CategoriesModel = require("../Categories/categories");
 
 const CourseSchema = mongoose.Schema({
   _id: mongoose.Schema.Types.ObjectId,
@@ -27,9 +28,17 @@ const CourseSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  category_id: {
+  available: {
+    type: String,
+    required: [true, 'available field is missing']
+  },
+  subject: {
+    type: String,
+    required: [true, 'subject field is missing']
+  },
+  category: {
     type: mongoose.Types.ObjectId,
-    ref: "CourseModel",
+    ref: "CategoriesModel",
     required: [true, 'category id is missing']
   },
   // Course Details Data

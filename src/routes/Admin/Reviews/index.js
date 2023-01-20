@@ -22,30 +22,19 @@ const CourseModel = require('../../../models/Course/course')
 // };
 
 // Posting Reviews
-const postReviewOnCourse = (req, resp) => {
-  User.findOne({ _id: req.params.id }).then((val) => {
-    const { name, desc, rating, ref_id, course_id } = req.body;
+const postReviewOnCourse = async (req, resp) => {
 
-    const postReviewOnCourse = new reviewsoncoursemodel({
-      _id: new mongoose.Types.ObjectId(),
-      name: val.name,
-      desc,
-      rating,
-      ref_id: req.params.id,
-      course_id
-    })
-      .save()
+  // const user = await User.findOne({ _id: req.params.id }); 
 
-      .then((result) => {
-        console.log(result);
-        resp.status(200).json(result);
-      })
+  const postReviewOnCourse = new reviewsoncoursemodel({
+    _id: new mongoose.Types.ObjectId(),
+    ...req.body
+  })
+    .save()
 
-      .catch((err) => {
-        console.log(err);
-        resp.status(500).json({ error: err });
-      });
-  });
+  const result = await postReviewOnCourse;
+
+  return resp.status(200).json(result)
 };
 
 // Getting All Reviews of  Course 

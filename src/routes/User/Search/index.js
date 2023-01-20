@@ -6,6 +6,8 @@ const course = require("../../../models/Course/course");
 // now import all required models
 const InstituteProfileModel = require("../../../models/Instituteprofile/instituteprofile");
 const VacancyModel = require("../../../models/Vacancy/vacancy");
+const CourseModel = require("../../../models/Course/course");
+const reviewsoncoursemodel = require("../../../models/Reviews/reviewsoncourse");
 
 const Search = async (req, resp) => {
   try {
@@ -81,4 +83,62 @@ const SearchInstitute = async (req, resp) => {
   }
 };
 
-module.exports = { Search, SearchInstitute };
+const listingInstituteFilter = async (req, res) => {
+  const {
+    category,
+    location,
+    subject,
+    rating,
+    available,
+    key,
+    budget_min,
+    budget_max,
+    sort,
+  } = req.body;
+
+  let sortQuery = ``;
+  switch (sort) {
+    case "namea":
+      sortQuery = { name: 1 };
+      break;
+    case "named":
+      sortQuery = { name: -1 };
+      break;
+    case "latest":
+      sortQuery = { _id: -1 };
+      break;
+    case "oldest":
+      sortQuery = { _id: 1 };
+      break;
+
+    default:
+      sortQuery = { _id: -1 };
+      break;
+  }
+
+  // let regexSubject = subject.map(function (e) {
+  //   return new RegExp(e, "i");
+  // });
+
+  const courses = await CourseModel.find({
+    subject: { $in: subject },
+  }).select({ _id: 0, institute_id: 1 });
+
+  let regex = location.map(function (e) {
+    return new RegExp(e, "i");
+  });
+
+  const output = courses.map((el) => el.institute_id);
+
+  const institutes = await InstituteProfileModel.find({
+    institute_id: { $in: output },
+    $or: [
+      { location: { $in: regex } },
+      { name: { $regex: `^${key}`, $options: "i" } },
+    ],
+  }).sort(sortQuery);
+
+  return res.status(200).json(institutes);
+};
+
+module.exports = { Search, SearchInstitute, listingInstituteFilter };

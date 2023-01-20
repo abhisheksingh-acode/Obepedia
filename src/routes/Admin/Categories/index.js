@@ -42,6 +42,23 @@ const getCategory = async (req, resp) => {
   return resp.status(200).json(result);
 };
 
+const getCategoryDetail = async (req, resp) => {
+  const result = await CatergoriesModel.findOne({ _id: req.params.id });
+  return resp.status(200).json(result);
+};
+
+const modifyCategory = async (req, resp) => {
+  const id = req.params.id;
+
+  const find = await CatergoriesModel.findOne({
+    _id: id,
+  }).updateOne({
+    ...req.body,
+  });
+
+  return resp.status(200).json({ result: find, msg: "category modified" });
+};
+
 const delCategory = (req, resp) => {
   CatergoriesModel.findOne({ _id: req.params.id })
     .remove()
@@ -53,4 +70,11 @@ const delCategory = (req, resp) => {
     });
 };
 
-module.exports = { postCategory, getCategory, delCategory, getCategoryName };
+module.exports = {
+  postCategory,
+  getCategory,
+  delCategory,
+  getCategoryName,
+  modifyCategory,
+  getCategoryDetail
+};

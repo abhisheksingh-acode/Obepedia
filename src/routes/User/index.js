@@ -16,11 +16,12 @@ router.get('/sidebar' , getSidebar)
 router.get('/sidebar/topinstitutes' , TopInstitutes)
 
 // Particular Category Name + Category Details
-const { getCategory , getCategoryName } = require('../Admin/Categories/index')
+const { getCategory , getCategoryName, getCategoryDetail } = require('../Admin/Categories/index')
 
 
 router.get('/category/getcategory_names' , getCategoryName);
 router.get('/category/getcategory_details' , getCategory);
+router.get('/category/getcategory_details/:id' , getCategoryDetail);
 
 // 
 
@@ -117,10 +118,11 @@ router.delete('/sidebar/delsidebarrating/:id' , detSiderating)
 
 
 // Search
-const {Search, SearchInstitute} = require('./Search/index')
+const {Search, SearchInstitute,listingInstituteFilter} = require('./Search/index')
 
 router.get('/search/:key?' , Search)
 router.get('/searchinstitute' , SearchInstitute)
+router.post('/listing/filter' , listingInstituteFilter)
 
 // user Course 
 const {getCoursebyid} = require('../Institute/Course/index');

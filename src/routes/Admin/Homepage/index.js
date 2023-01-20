@@ -24,14 +24,10 @@ const postHomepage = (req, resp) => {
 };
 
 // Getting data of homepage module
-const getHomepage = (req, resp) => {
-  HomepageModel.find()
-    .then((result) => {
-      resp.status(200).json(result);
-    })
-    .catch((err) => {
-      resp.status(500).json({ err });
-    });
+const getHomepage = async (req, resp) => {
+  const result = await HomepageModel.findOne();
+
+  return resp.status(200).json(result);
 };
 
 // Deleting Homepage Module
@@ -53,10 +49,7 @@ const deleteHomepage = (req, resp) => {
 
 const putHomepage = async (req, resp) => {
   try {
-    const data = await HomepageModel.updateOne(
-      { _id: req.params.id },
-      { $set: req.body }
-    );
+    const data = await HomepageModel.findOne().updateOne({ ...req.body });
     resp.status(200).json(data);
   } catch (error) {
     resp.status(500).json(error);
@@ -118,5 +111,5 @@ module.exports = {
   postFaq,
   getFaq,
   deleteFaq,
-  putHomepage
+  putHomepage,
 };
