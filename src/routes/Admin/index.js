@@ -99,11 +99,16 @@ router.delete("/reviews/deletereview/:id", TokenAuth, deleteReview);
 const { CreateInstitute, CreateUser } = require("./CreateUser/index");
 const { UserDet } = require("../User/UserDetails/index");
 const { postProfile } = require("../Institute/Profile/index");
+const { route } = require("../User");
+const dashboard = require("./dashboard");
 
 router.post("/createuser", CreateUser);
 router.post("/createinstitute", CreateInstitute);
 
 router.post("newuserdetails/:id", UserDet);
 router.post("newinstitutedetails", postProfile);
+
+router.get("/dashboard", TokenAuth, dashboard)
+
 
 module.exports = router;
