@@ -1,6 +1,7 @@
 const express = require("express");
 const User = require("../../../models/signupmodel");
 const InstiModel = require("../../../models/InstituteModel/institutemodel");
+const InstituteProfileModel = require("../../../models/Instituteprofile/instituteprofile");
 
 // Getting all Institute ( role:institute is deafult)
 const getInsti = async (req, resp) => {
@@ -48,4 +49,13 @@ const delInsti = async (req, resp) => {
     });
 };
 
-module.exports = { getInsti, getInstiDet, delInsti };
+const destroyInst = (req, res) => {
+  req.body.ids.forEach(async (el, index) => {
+    await User.findByIdAndDelete(el);
+    await InstituteProfileModel.find({ institute_id: el }).deleteOne();
+  });
+
+  return res.status(200).json({ msg: "delete operation is succeed" });
+};
+
+module.exports = { getInsti, getInstiDet, delInsti, destroyInst };

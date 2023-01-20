@@ -17,11 +17,13 @@ router.delete("/userlist/delusers/:id", TokenAuth, delUsers);
 router.delete("/userlist/clear", TokenAuth, destroy);
 
 // Institute List Module
-const { getInsti, getInstiDet, delInsti } = require("./InstituteList/index");
+const { getInsti, getInstiDet, delInsti, destroyInst} = require("./InstituteList/index");
 
 router.get("/instilist/getinsti", TokenAuth, getInsti);
 router.get("/instilist/getinstidet/:id", TokenAuth, getInstiDet);
 router.delete("/instilist/delinsti/:id", TokenAuth, delInsti);
+router.delete("/instilist/clear", TokenAuth, destroyInst);
+
 
 // Categories Module
 
