@@ -33,12 +33,13 @@ const destroy = (req, res) => {
 
 // When admin want to see whole information of user
 const GetUserDet = async (req, resp) => {
-  const user = await User.find({ _id: req.params.id });
-  const personal = await UserModel.find({ ref_id: req.params.id });
+  const ID = req.params.id
+  const user = await User.find({ _id: ID });
+  const personal = await UserModel.find({ ref_id: ID });
 
-  const reviews = await ReviewOnCourse.find({ref_id: user._id})
-  const savedInst = await FollowModel.find({user_id : user._id})
-  const savedCourse = await BookmarkModel.find({user_id : user._id})
+  const reviews = await ReviewOnCourse.find({ref_id: ID})
+  const savedInst = await FollowModel.find({user_id : ID})
+  const savedCourse = await BookmarkModel.find({user_id : ID})
 
   return resp.status(200).json({user, personal, reviews, savedCourse, savedInst})
 
