@@ -22,7 +22,7 @@ const destroy = async (req, res) => {
   await User.deleteMany({ id: { $in: req.body.ids } });
   await UserModel.deleteMany({ ref_id: { $in: req.body.ids } });
 
-  return req.status(200).json({msg: "delete operation is succeed"});
+  return res.status(200).json({msg: "delete operation is succeed"});
 };
 
 // When admin want to see whole information of user
