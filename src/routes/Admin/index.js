@@ -40,6 +40,14 @@ router.post("/category/addcategories", TokenAuth, postCategory);
 router.put("/category/modify/:id", TokenAuth, modifyCategory);
 router.delete("/category/delcategories/:id", TokenAuth, delCategory);
 
+
+const {getVacancyCategory, postVacancyCategory, deleteVacancyCategory} = require("../Admin/vacancyCategory/index");
+
+router.get("/vacancy/get", TokenAuth, getVacancyCategory);
+router.post("/vacancy/create", TokenAuth, postVacancyCategory);
+router.delete("/vacancy/delete/:id", TokenAuth, deleteVacancyCategory);
+
+
 // Sidebar Module
 
 const { getSidebar, postSidebar } = require("./Sidebar/index");
