@@ -48,6 +48,9 @@ const VacancySchema = mongoose.Schema({
   date: {
     type: Date,
     default: Date.now(),
+  },
+  category:{
+    type: String
   }
 });
 
