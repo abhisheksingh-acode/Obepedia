@@ -52,6 +52,7 @@ const getAllVacancies = async (req, resp) => {
   const limit = req.query.limit;
   const key = req.query.key;
   const sort = req.query.sort;
+  const category = req.query.category;
 
   let sortQuery = {};
 
@@ -94,6 +95,7 @@ const getAllVacancies = async (req, resp) => {
             name: { $regex: `^${key}`, $options: "i" },
           },
           { location: { $regex: `${key}`, $options: "i" } },
+          { category: { $regex: `${category}`, $options: "i" } },
         ],
       })
       .limit(2);
