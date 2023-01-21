@@ -58,4 +58,22 @@ const destroyInst = (req, res) => {
   return res.status(200).json({ msg: "delete operation is succeed" });
 };
 
-module.exports = { getInsti, getInstiDet, delInsti, destroyInst };
+const markFeatured = async (req, res) => {
+  const id = req.params.id;
+  const user = await User.find({ _id: id });
+  const institute = await InstituteProfileModel.find({ institute_id: id });
+
+  if (institute.featured) {
+    await InstituteProfileModel.find({ institute_id: id }).updateOne({
+      featured: false,
+    });
+    return res.status(200).json({ msg: "Unmarked as featured" });
+  }
+
+  await InstituteProfileModel.find({ institute_id: id }).updateOne({
+    featured: true,
+  });
+  return res.status(200).json({ msg: "Marked as featured" });
+};
+
+module.exports = { getInsti, getInstiDet, delInsti, destroyInst, markFeatured };
