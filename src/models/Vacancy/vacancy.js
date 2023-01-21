@@ -20,7 +20,6 @@ const VacancySchema = mongoose.Schema({
   },
   company: {
     type: String,
-    required: true,
   },
   company_banner: {
     type: String,
