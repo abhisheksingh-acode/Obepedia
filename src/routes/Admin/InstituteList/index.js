@@ -61,19 +61,19 @@ const destroyInst = (req, res) => {
 const markFeatured = async (req, res) => {
   const id = req.params.id;
   const user = await User.find({ _id: id });
-  const institute = await InstituteProfileModel.find({ institute_id: id });
+  const institute = await InstituteProfileModel.findOne({ institute_id: id });
 
   if (institute.featured) {
-    await InstituteProfileModel.find({ institute_id: id }).updateOne({
+   const result = await InstituteProfileModel.findOne({ institute_id: id }).updateOne({
       featured: false,
     });
-    return res.status(200).json({ msg: "Unmarked as featured" });
+    return res.status(200).json({ msg: "Unmarked as featured",result });
   }
 
-  await InstituteProfileModel.find({ institute_id: id }).updateOne({
+  const result = await InstituteProfileModel.findOne({ institute_id: id }).updateOne({
     featured: true,
   });
-  return res.status(200).json({ msg: "Marked as featured" });
+  return res.status(200).json({ msg: "Marked as featured",result });
 };
 
 module.exports = { getInsti, getInstiDet, delInsti, destroyInst, markFeatured };

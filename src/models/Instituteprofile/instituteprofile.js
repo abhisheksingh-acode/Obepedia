@@ -32,7 +32,6 @@ const InstituteProfileSchema = mongoose.Schema({
   },
   featured: {
     type: Boolean,
-    default: false,
   },
 });
 
