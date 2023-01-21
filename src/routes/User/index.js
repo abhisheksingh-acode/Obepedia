@@ -93,10 +93,11 @@ router.get('/vacancy/allvacancies' , getAllVacancies)
 
 
 // Institute Page
-const { InstitutePage , getAllInstitute } = require('./Institute/index')
+const { InstitutePage , getAllInstitute, getFeaturedInstitute } = require('./Institute/index')
 
 router.get('/institute/getinstitute/:id' , InstitutePage )
 router.get('/institute/getallinstitute' , getAllInstitute )
+router.get('/institute/getfeaturedinstitute' , getFeaturedInstitute )
 
 // All  Institutes 
 // const {getInsti} = require('../Admin/InstituteList/index');

@@ -42,5 +42,9 @@ const getAllInstitute = async (req, resp) => {
   let response = await InstituteProfileModel.find();
   return resp.status(200).json(response);
 };
+const getFeaturedInstitute = async (req, resp) => {
+  let response = await InstituteProfileModel.find({featured: true});
+  return resp.status(200).json(response);
+};
 
-module.exports = { InstitutePage, getAllInstitute };
+module.exports = { InstitutePage, getAllInstitute, getFeaturedInstitute };

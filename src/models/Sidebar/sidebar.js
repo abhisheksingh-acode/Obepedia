@@ -1,12 +1,20 @@
 const mongoose = require("mongoose");
 
 const SidebarSchema = mongoose.Schema({
-  link: {
-    type: String,
+  top_sidebar: {
+    type: Object,
     required: true,
   },
-  banner: {
-    type: String,
+  mid_sidebar: {
+    type: Object,
+    required: true,
+  },
+  bottom_sidebar: {
+    type: Object,
+    required: true,
+  },
+  page_banner: {
+    type: Object,
     required: true,
   },
 });
