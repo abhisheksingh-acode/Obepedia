@@ -21,16 +21,7 @@ const postVacancy = (req, resp) => {
   } = req.body;
   const vacancy = new VacancyModel({
     _id: new mongoose.Types.ObjectId(),
-    name,
-    timming,
-    location,
-    about,
-    company,
-    company_banner,
-    about_company,
-    about_job,
-    skills,
-    responsibilities,
+    ...req.body,
     institute_id: req.params.id,
   })
     .save()
