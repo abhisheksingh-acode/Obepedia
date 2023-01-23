@@ -33,6 +33,7 @@ const InstitutePage = async (req, resp) => {
         $group: {
           _id: "$institute_id",
           rating: { $avg: "$rating" },
+          totalRatingCount: {$count:{}}
         },
       },
     ]);
