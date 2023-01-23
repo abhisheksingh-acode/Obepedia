@@ -50,7 +50,8 @@ const VacancySchema = mongoose.Schema({
     default: Date.now(),
   },
   category:{
-    type: String
+    type: String,
+    required: true
   }
 });
 

@@ -34,7 +34,7 @@ const postReview = (req, resp) => {
 };
 
 const getReviewByUserId = async (req, resp) => {
-  const result = await reviewsoninstitutemodel.find({ ref_id: req.params.id });
+  const result = await reviewsoninstitutemodel.find({ ref_id: req.params.id }).populate({path:"institute_id", select: "name"});
 
   return resp.status(200).json(result);
 };

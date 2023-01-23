@@ -5,32 +5,16 @@ const Job_Form_Model = require("../../../models/Job_Form/job_form");
 const moment = require("moment");
 
 // Posting  Vacancy
-const postVacancy = (req, resp) => {
-  const {
-    name,
-    timming,
-    location,
-    about,
-    company,
-    institute_id,
-    company_banner,
-    about_company,
-    about_job,
-    skills,
-    responsibilities,
-  } = req.body;
+const postVacancy = async (req, resp) => {
   const vacancy = new VacancyModel({
     _id: new mongoose.Types.ObjectId(),
     ...req.body,
     institute_id: req.params.id,
-  })
-    .save()
-    .then((result) => {
-      resp.status(200).json(result);
-    })
-    .catch((err) => {
-      resp.status(500).json({ error: err });
-    });
+  }).save();
+
+  const result = await vacancy;
+
+  return resp.status(200).json(result);
 };
 
 // Get Vacancy
@@ -75,30 +59,18 @@ const getAllVacancies = async (req, resp) => {
       break;
   }
 
-  let result = await VacancyModel.find()
-    .sort(sortQuery)
-    .where({
-      $or: [
-        {
-          name: { $regex: `^${key}`, $options: "i" },
-        },
-        { location: { $regex: `${key}`, $options: "i" } },
-      ],
-    });
+  let result = await VacancyModel.find({
+    name: { $regex: `^${key}`, $options: "i" },
+    category: { $eq: category },
+  }).sort(sortQuery);
 
   if (limit) {
-    result = await VacancyModel.find()
+    result = await VacancyModel.find({
+      name: { $regex: `^${key}`, $options: "i" },
+      category: { $eq: category },
+    })
       .sort(sortQuery)
-      .where({
-        $or: [
-          {
-            name: { $regex: `^${key}`, $options: "i" },
-          },
-          { location: { $regex: `${key}`, $options: "i" } },
-          { category: { $regex: `${category}`, $options: "i" } },
-        ],
-      })
-      .limit(2);
+      .limit(limit);
   }
 
   return resp.status(200).json(result);

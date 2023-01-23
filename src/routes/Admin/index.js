@@ -51,7 +51,7 @@ const {
   deleteVacancyCategory,
 } = require("../Admin/vacancyCategory/index");
 
-router.get("/vacancy/get", TokenAuth, getVacancyCategory);
+router.get("/vacancy/get", getVacancyCategory);
 router.post("/vacancy/create", TokenAuth, postVacancyCategory);
 router.delete("/vacancy/delete/:id", TokenAuth, deleteVacancyCategory);
 

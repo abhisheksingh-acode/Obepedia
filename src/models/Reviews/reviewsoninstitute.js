@@ -19,7 +19,8 @@ const ReviewsOnInstituteSchema = mongoose.Schema({
         required:true
     },
     institute_id:{
-        type:String,
+        type: mongoose.Types.ObjectId,
+        ref : 'User',
         required:true
     }
 })
