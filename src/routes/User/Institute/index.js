@@ -22,6 +22,21 @@ const InstitutePage = async (req, resp) => {
       .find({ institute_id })
       .limit(8)
       .sort({ _id: -1 });
+
+    let response7 = await reviewsoninstitute.aggregate([
+      {
+        $match: {
+          institute_id: institute_id,
+        },
+      },
+      {
+        $group: {
+          _id: "$institute_id",
+          rating: { $avg: "$rating" },
+        },
+      },
+    ]);
+
     let result = {
       institute_profile: response,
       course: response2,
@@ -29,6 +44,7 @@ const InstitutePage = async (req, resp) => {
       gallary: response4,
       vacancy: response5,
       reviews: response6,
+      institute_rating: response7,
     };
     resp.status(200).json(result);
 
@@ -43,7 +59,7 @@ const getAllInstitute = async (req, resp) => {
   return resp.status(200).json(response);
 };
 const getFeaturedInstitute = async (req, resp) => {
-  let response = await InstituteProfileModel.find({featured: true});
+  let response = await InstituteProfileModel.find({ featured: true });
   return resp.status(200).json(response);
 };
 
