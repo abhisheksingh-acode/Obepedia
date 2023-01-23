@@ -24,6 +24,34 @@ const CourseSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  admit_card: {
+    type: String,
+    required: true,
+  },
+  results: {
+    type: String,
+    required: true,
+  },
+  application_form: {
+    type: String,
+    required: true,
+  },
+  dates: {
+    type: String,
+    required: true,
+  },
+  notification: {
+    type: String,
+    required: true,
+  },
+  preparation: {
+    type: String,
+    required: true,
+  },
+  pattern: {
+    type: String,
+    required: true,
+  },
   institute_id: {
     type: String,
     required: true,
