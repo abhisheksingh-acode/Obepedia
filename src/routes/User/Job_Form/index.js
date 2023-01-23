@@ -4,14 +4,13 @@ const Job_Form_Model = require("../../../models/Job_Form/job_form");
 
 // Adding faculty Information
 const postJobForm = async (req, resp) => {
-  const { name, email, number, resume, description } = req.body;
   const Job_Form = new Job_Form_Model({
     _id: new mongoose.Types.ObjectId(),
     ...req.body,
   }).save();
 
   const result = await Job_Form;
-  resp.status(200).json({result, msg: "Job application submitted."});
+  resp.status(200).json({ result, msg: "Job application submitted." });
 };
 
 // Getting faculty Information
@@ -23,6 +22,13 @@ const getJobForm = (req, resp) => {
     .catch((err) => {
       return resp.status(500).json({ error: err });
     });
+};
+
+const getJobFormByInstituteId = async (req, resp) => {
+  const result = await Job_Form_Model.find({ institute_id: req.params.id }).sort({
+    _id: -1,
+  });
+  return resp.status(200).json(result);
 };
 
 // Deleting Faculty
@@ -37,4 +43,4 @@ const getJobForm = (req, resp) => {
 //   })
 // }
 
-module.exports = { postJobForm, getJobForm };
+module.exports = { postJobForm, getJobForm, getJobFormByInstituteId };

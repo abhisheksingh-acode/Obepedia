@@ -22,11 +22,15 @@ const Job_Form_Schema = mongoose.Schema({
     type: String,
     required: true,
   },
-  vacancy_id:{
+  vacancy_id: {
     type: mongoose.Types.ObjectId,
     ref: "VacancyModel",
-    required: [true, 'vacancy id is missing']
-  }
+    required: [true, "vacancy id is missing"],
+  },
+  institute_id: {
+    type: String,
+    required: [true, "institute id is missing"],
+  },
 });
 
 module.exports = mongoose.model("Job_Form_Model", Job_Form_Schema);

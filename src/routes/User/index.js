@@ -48,10 +48,11 @@ router.post("/suggestion_form/post_suggestion", postSuggestion);
 router.get("/suggestion_form/get_suggestion", getSuggestion);
 
 // Job Form Module
-const { postJobForm, getJobForm } = require("./Job_Form/index");
+const { postJobForm, getJobForm,getJobFormByInstituteId } = require("./Job_Form/index");
 
 router.post("/job_form/post_job_form", postJobForm);
 router.get("/job_form/get_job_form", getJobForm);
+router.get("/job_form/institute/:id", getJobFormByInstituteId);
 
 // User details
 const { UserDet, GetUserDet, GetDet } = require("./UserDetails/index");

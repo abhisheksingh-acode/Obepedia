@@ -14,18 +14,13 @@ const postSuggestion = async (req, resp) => {
   }).save();
 
   const result = await Suggestion;
-  resp.status(200).json({result, msg:'thank you for suggestion.'});
+  resp.status(200).json({ result, msg: "thank you for suggestion." });
 };
 
 // Getting faculty Information
-const getSuggestion = (req, resp) => {
-  SuggestionModel.find()
-    .then((result) => {
-      resp.status(200).json(result);
-    })
-    .catch((err) => {
-      resp.status(500).json({ error: err });
-    });
+const getSuggestion = async (req, resp) => {
+  const result = await SuggestionModel.find().sort({ _id: -1 });
+  return resp.status(200).json(result);
 };
 
 // Deleting Faculty
