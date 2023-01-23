@@ -26,6 +26,9 @@ const InstituteProfileSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  city: {
+    type: String,
+  },
   institute_id: {
     type: String,
     required: true,
