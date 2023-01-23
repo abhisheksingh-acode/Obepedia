@@ -4,7 +4,8 @@ const mongoose = require("mongoose");
 const User = require("../../../models/signupmodel");
 const reviewsoncoursemodel = require("../../../models/Reviews/reviewsoncourse");
 const reviewsoninstitutemodel = require("../../../models/Reviews/reviewsoninstitute");
-const CourseModel = require('../../../models/Course/course')
+const CourseModel = require("../../../models/Course/course");
+const { parseZone } = require("moment");
 
 // Getting all Reviews ( role:institute is deafult)
 // const getReviews = async (req, resp) => {
@@ -23,33 +24,34 @@ const CourseModel = require('../../../models/Course/course')
 
 // Posting Reviews
 const postReviewOnCourse = async (req, resp) => {
-
-  // const user = await User.findOne({ _id: req.params.id }); 
+  // const user = await User.findOne({ _id: req.params.id });
 
   const postReviewOnCourse = new reviewsoncoursemodel({
     _id: new mongoose.Types.ObjectId(),
-    ...req.body
-  })
-    .save()
+    ...req.body,
+  }).save();
 
   const result = await postReviewOnCourse;
 
-  return resp.status(200).json(result)
+  return resp.status(200).json(result);
 };
 
-// Getting All Reviews of  Course 
+// Getting All Reviews of  Course
 const ReviewOnCourse = (req, resp) => {
-    reviewsoncoursemodel.find({ course_id: req.params.id })
+  reviewsoncoursemodel
+    .find({ course_id: req.params.id })
 
     .then((result) => {
       CourseModel.find({ _id: req.params.id })
-      .then(val2 => {resp.status(200).json(result)})
-      .catch((err) => {
-        resp.status(500).json({ error: err })
-      })
+        .then((val2) => {
+          resp.status(200).json(result);
+        })
+        .catch((err) => {
+          resp.status(500).json({ error: err });
+        });
     })
     .catch((err) => {
-      resp.status(500).json({ error: err })
+      resp.status(500).json({ error: err });
     });
 };
 
@@ -78,7 +80,7 @@ const postReviewOnInstitute = (req, resp) => {
       desc,
       rating,
       ref_id: req.params.id,
-      institute_id
+      institute_id,
     })
       .save()
 
@@ -100,33 +102,35 @@ const ReviewOnInstitute = (req, resp) => {
 
     .then((result) => {
       User.find({ _id: req.params.id })
-      .then(val2 => {resp.status(200).json(result)})
-      // {name: val2[0].name , "no_of_comments" : result.length}
-      .catch((err) => {
-        resp.status(500).json({ error: err })
-      })
+        .then((val2) => {
+          resp.status(200).json(result);
+        })
+        // {name: val2[0].name , "no_of_comments" : result.length}
+        .catch((err) => {
+          resp.status(500).json({ error: err });
+        });
     })
     .catch((err) => {
-      resp.status(500).json({ error: err })
+      resp.status(500).json({ error: err });
     });
 };
 
 // Getting all reviews of Institute
-const getAllReviewsOnInstitute = (req, resp) => {
-  reviewsoninstitutemodel
-    .find()
-    .exec()
-    .then((result) => {
-      resp.status(200).json(result);
-    })
-    .catch((error) => {
-      resp.status(500).json({ err });
-    });
+const getAllReviewsOnInstitute = async (req, resp) => {
+  const result = await reviewsoninstitutemodel
+    .aggregate([
+      {
+        $group: {
+          _id: "$institute_id",
+          count: { $count: {} },
+        },
+      },
+    ])
+
+  return resp.status(200).json(result);
 };
 
-
 //////////////////////////////////////////////////////
-
 
 // If admin wants to delete Institute the  he just pass his id as params
 const deleteReview = (req, resp) => {
@@ -137,20 +141,28 @@ const deleteReview = (req, resp) => {
       resp.status(200).json(result);
     })
     .catch((err) => {
-      resp.status(500).json(err)
-});
+      resp.status(500).json(err);
+    });
 };
-
 
 const ReviewByStudent = async (req, resp) => {
-  const ref_id =  req.params.id ;
-try {
-  const response = await reviewsoncoursemodel.find({ref_id})
-  const response2 = await reviewsoninstitutemodel.find({ref_id})
-  resp.status(200).json([...response , ...response2])
-} catch (error) {
-  resp.status(500).json(error)
-}
+  const ref_id = req.params.id;
+  try {
+    const response = await reviewsoncoursemodel.find({ ref_id });
+    const response2 = await reviewsoninstitutemodel.find({ ref_id });
+    resp.status(200).json([...response, ...response2]);
+  } catch (error) {
+    resp.status(500).json(error);
+  }
 };
 
-module.exports = { getAllReviewsOnCourse , getAllReviewsOnInstitute, deleteReview, ReviewOnInstitute , ReviewOnCourse , ReviewByStudent ,postReviewOnCourse , postReviewOnInstitute };
+module.exports = {
+  getAllReviewsOnCourse,
+  getAllReviewsOnInstitute,
+  deleteReview,
+  ReviewOnInstitute,
+  ReviewOnCourse,
+  ReviewByStudent,
+  postReviewOnCourse,
+  postReviewOnInstitute,
+};

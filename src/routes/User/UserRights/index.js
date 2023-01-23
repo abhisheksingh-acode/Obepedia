@@ -14,7 +14,6 @@ const postBookmark = async (req, resp) => {
   const { object_id, user_id } = req.body;
   const result1 = await BookmarkModel.findOne({ object_id });
 
-  // return resp.json(req.body);
   if (result1) {
     await result1.deleteOne();
     return resp.status(200).json({ msg: `Your Course is Removed!` });
@@ -23,16 +22,10 @@ const postBookmark = async (req, resp) => {
       _id: new mongoose.Types.ObjectId(),
       object_id,
       user_id: ref_id,
-    })
-      .save()
-      .then((result) => {
-        resp
-          .status(200)
-          .json({ result, msg: `Your ${result.object_id} Course is Saved!` });
-      })
-      .catch((err) => {
-        resp.status(500).json({ err });
-      });
+    }).save();
+    const result = await Bookmark;
+
+    return resp.status(200).json({ result, msg: `Course is Saved!` });
   }
 };
 
@@ -49,8 +42,8 @@ const getBookmark = async (req, resp) => {
     });
 
     // return resp.status(200).json(finds);
-    const value2 = await InstituteProfileModel.find({
-      institute_id: { $in: finds },
+    const value2 = await course.find({
+      _id: { $in: finds },
     });
     resp.status(200).json(value2);
   } catch (error) {
@@ -131,7 +124,7 @@ const postSaveVacancy = async (req, resp) => {
   const Follow = new SaveVacancy({
     _id: new mongoose.Types.ObjectId(),
     vacancy_id,
-    user_id
+    user_id,
   }).save();
 
   const result = await Follow;
@@ -196,5 +189,5 @@ module.exports = {
   unFollow,
   getSavedCourses,
   postSaveVacancy,
-  getSaveVacancy
+  getSaveVacancy,
 };
