@@ -27,7 +27,7 @@ const getJobForm = (req, resp) => {
 const getJobFormByInstituteId = async (req, resp) => {
   const result = await Job_Form_Model.find({ institute_id: req.params.id }).sort({
     _id: -1,
-  });
+  }).populate({path:"vacancy_id", select: "name"});
   return resp.status(200).json(result);
 };
 
