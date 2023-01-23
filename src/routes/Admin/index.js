@@ -38,7 +38,7 @@ const {
 router.get("/category/getcategories", TokenAuth, getCategory);
 router.post("/category/addcategories", TokenAuth, postCategory);
 router.put("/category/modify/:id", TokenAuth, modifyCategory);
-router.delete("/category/delcategories/:id", TokenAuth, delCategory);
+router.delete("/category/delcategories", TokenAuth, delCategory);
 
 
 const {getVacancyCategory, postVacancyCategory, deleteVacancyCategory} = require("../Admin/vacancyCategory/index");
