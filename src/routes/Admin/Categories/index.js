@@ -59,15 +59,12 @@ const modifyCategory = async (req, resp) => {
   return resp.status(200).json({ result: find, msg: "category modified" });
 };
 
-const delCategory = (req, resp) => {
-  CatergoriesModel.findOne({ _id: req.params.id })
-    .remove()
-    .then((result) => {
-      resp.status(200).json(result);
-    })
-    .catch((err) => {
-      resp.status(500).json({ Error: err });
-    });
+const delCategory = async (req, resp) => {
+  req.body.ids.forEach(async (el, index) => {
+    await CatergoriesModel.findByIdAndDelete(el);
+  });
+
+  return resp.status(200).json({msg: "delete operation succeed"})
 };
 
 module.exports = {
@@ -76,5 +73,5 @@ module.exports = {
   delCategory,
   getCategoryName,
   modifyCategory,
-  getCategoryDetail
+  getCategoryDetail,
 };
