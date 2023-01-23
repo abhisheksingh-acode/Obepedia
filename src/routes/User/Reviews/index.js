@@ -3,15 +3,12 @@ const mongoose = require("mongoose");
 
 const User = require("../../../models/signupmodel");
 // const reviewsmodel = require("../../../models/Reviews/reviews");
-const reviewsoninstitutemodel = require("../../../models/Reviews/reviewsoninstitute")
-
+const reviewsoninstitutemodel = require("../../../models/Reviews/reviewsoninstitute");
 
 // Posting Reviews
 const postReview = (req, resp) => {
   User.findOne({ _id: req.params.id }).then((val) => {
-
-    const { name, desc, rating, ref_id ,course_id,
-      institute_id } = req.body;
+    const { name, desc, rating, ref_id, course_id, institute_id } = req.body;
 
     const review = new reviewsmodel({
       _id: new mongoose.Types.ObjectId(),
@@ -20,13 +17,13 @@ const postReview = (req, resp) => {
       rating,
       ref_id: req.params.id, // Referencing student
       course_id,
-      institute_id
+      institute_id,
     })
       .save()
 
       .then((result) => {
         console.log(result);
-        resp.status(200).json(result);
+       return resp.status(200).json(result);
       })
 
       .catch((err) => {
@@ -36,11 +33,10 @@ const postReview = (req, resp) => {
   });
 };
 
-
 const getReviewByUserId = async (req, resp) => {
-      const result = await reviewsoninstitutemodel.find({ref_id : req.params.id});
+  const result = await reviewsoninstitutemodel.find({ ref_id: req.params.id });
 
-      return resp.status(200).json(result);
-}
+  return resp.status(200).json(result);
+};
 
-module.exports = {postReview, getReviewByUserId}
+module.exports = { postReview, getReviewByUserId };
