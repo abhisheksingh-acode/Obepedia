@@ -26,7 +26,7 @@ const CreateUser = async (req, resp) => {
 
   //       .then((result) => {
   //         console.log(result);
- return resp.status(200).json({ newUser: result });
+  return resp.status(200).json({ newUser: result });
   //       })
 
   //       .catch((err) => {
@@ -69,4 +69,13 @@ const CreateInstitute = (req, resp) => {
   });
 };
 
-module.exports = { CreateUser, CreateInstitute };
+const resetPassword = async (req, resp) => {
+  const updatePassword = await bcrypt.hash(req.body.password, 10);
+  const result = await User.findOne({ _id: req.params.id }).updateOne({
+    password: updatePassword,
+  });
+
+  return resp.status(200).json({ msg: "password is updated", result });
+};
+
+module.exports = { CreateUser, CreateInstitute, resetPassword };

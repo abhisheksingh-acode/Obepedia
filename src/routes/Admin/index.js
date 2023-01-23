@@ -17,14 +17,19 @@ router.delete("/userlist/delusers/:id", TokenAuth, delUsers);
 router.delete("/userlist/clear", TokenAuth, destroy);
 
 // Institute List Module
-const { getInsti, getInstiDet, delInsti, destroyInst, markFeatured} = require("./InstituteList/index");
+const {
+  getInsti,
+  getInstiDet,
+  delInsti,
+  destroyInst,
+  markFeatured,
+} = require("./InstituteList/index");
 
 router.get("/instilist/getinsti", TokenAuth, getInsti);
 router.get("/instilist/markfeatured/:id", TokenAuth, markFeatured);
 router.get("/instilist/getinstidet/:id", TokenAuth, getInstiDet);
 router.delete("/instilist/delinsti/:id", TokenAuth, delInsti);
 router.delete("/instilist/clear", TokenAuth, destroyInst);
-
 
 // Categories Module
 
@@ -40,13 +45,15 @@ router.post("/category/addcategories", TokenAuth, postCategory);
 router.put("/category/modify/:id", TokenAuth, modifyCategory);
 router.delete("/category/delcategories", TokenAuth, delCategory);
 
-
-const {getVacancyCategory, postVacancyCategory, deleteVacancyCategory} = require("../Admin/vacancyCategory/index");
+const {
+  getVacancyCategory,
+  postVacancyCategory,
+  deleteVacancyCategory,
+} = require("../Admin/vacancyCategory/index");
 
 router.get("/vacancy/get", TokenAuth, getVacancyCategory);
 router.post("/vacancy/create", TokenAuth, postVacancyCategory);
 router.delete("/vacancy/delete/:id", TokenAuth, deleteVacancyCategory);
-
 
 // Sidebar Module
 
@@ -108,7 +115,11 @@ router.get("/reviews/reviewsbystudent/:id", TokenAuth, ReviewByStudent);
 router.delete("/reviews/deletereview/:id", TokenAuth, deleteReview);
 
 // Creating User
-const { CreateInstitute, CreateUser } = require("./CreateUser/index");
+const {
+  CreateInstitute,
+  CreateUser,
+  resetPassword,
+} = require("./CreateUser/index");
 const { UserDet } = require("../User/UserDetails/index");
 const { postProfile } = require("../Institute/Profile/index");
 const { route } = require("../User");
@@ -117,10 +128,11 @@ const dashboard = require("./dashboard");
 router.post("/createuser", CreateUser);
 router.post("/createinstitute", CreateInstitute);
 
+router.put("/password-reset/:id", TokenAuth, resetPassword);
+
 router.post("newuserdetails/:id", UserDet);
 router.post("newinstitutedetails", postProfile);
 
-router.get("/dashboard", TokenAuth, dashboard)
-
+router.get("/dashboard", TokenAuth, dashboard);
 
 module.exports = router;
