@@ -3,16 +3,9 @@ const mongoose = require("mongoose");
 const CatergoriesModel = require("../../../models/Categories/categories");
 
 const postCategory = (req, resp) => {
-  const { category_name, icon, description, exam_prep, latest_update, about } =
-    req.body;
   const NewCategory = new CatergoriesModel({
     _id: new mongoose.Types.ObjectId(),
-    category_name,
-    icon,
-    description,
-    exam_prep,
-    latest_update,
-    about,
+    ...req.body,
   })
     .save()
     .then((result) => {
@@ -64,7 +57,7 @@ const delCategory = async (req, resp) => {
     await CatergoriesModel.findByIdAndDelete(el);
   });
 
-  return resp.status(200).json({msg: "delete operation succeed"})
+  return resp.status(200).json({ msg: "delete operation succeed" });
 };
 
 module.exports = {
