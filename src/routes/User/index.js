@@ -68,6 +68,10 @@ router.post('/reviews/postreviewoncourse/:id' , TokenAuth , postReviewOnCourse)
 router.post('/reviews/postreviewoninstitute/:id' , TokenAuth , postReviewOnInstitute)
 
 
+const {getReviewByUserId} = require("./Reviews/index");
+
+router.get("/reviews/:id", TokenAuth, getReviewByUserId)
+
 // UserRights Module (Bookmark , Follow etc)
 const {postBookmark , getBookmark , getFollow  , unMark , postFollow  , unFollow , getSavedCourses, postSaveVacancy, getSaveVacancy} = require('./UserRights/index')
 

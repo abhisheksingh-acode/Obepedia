@@ -2,7 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const User = require("../../../models/signupmodel");
-const reviewsmodel = require("../../../models/Reviews/reviews");
+// const reviewsmodel = require("../../../models/Reviews/reviews");
+const reviewsoninstitutemodel = require("../../../models/Reviews/reviewsoninstitute")
 
 
 // Posting Reviews
@@ -35,4 +36,11 @@ const postReview = (req, resp) => {
   });
 };
 
-module.exports = {postReview}
+
+const getReviewByUserId = async (req, resp) => {
+      const result = await reviewsoninstitutemodel.find({ref_id : req.params.id});
+
+      return resp.status(200).json(result);
+}
+
+module.exports = {postReview, getReviewByUserId}
