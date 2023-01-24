@@ -122,6 +122,7 @@ const listingInstituteFilter = async (req, res) => {
 
   const courses = await CourseModel.find({
     subject: { $in: subject },
+    category: {$eq: mongoose.Types.ObjectId(category)}
   }).select({ _id: 0, institute_id: 1 });
 
   let regex = location.map(function (e) {
@@ -131,9 +132,10 @@ const listingInstituteFilter = async (req, res) => {
   const output = courses.map((el) => el.institute_id);
 
   const institutes = await InstituteProfileModel.find({
-    institute_id: { $in: output },
+    institute_id: { $in: output?output:[] },
     $or: [
       { location: { $in: regex } },
+      { city: { $in: regex } },
       { name: { $regex: `^${key}`, $options: "i" } },
     ],
   }).sort(sortQuery);
