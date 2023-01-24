@@ -132,7 +132,7 @@ const listingInstituteFilter = async (req, res) => {
   const output = courses.map((el) => el.institute_id);
 
   const institutes = await InstituteProfileModel.find({
-    institute_id: { $in: output?output:[] },
+    institute_id: { $in: output },
     $or: [
       { location: { $in: regex } },
       { city: { $in: regex } },
