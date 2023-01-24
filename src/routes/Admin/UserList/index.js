@@ -41,8 +41,8 @@ const GetUserDet = async (req, resp) => {
   const personal = await UserModel.find({ ref_id: ID });
 
   const reviews = await ReviewOnCourse.find({ref_id: ID})
-  let savedInst = await FollowModel.find({user_id : ID})
-  const savedCourse = await BookmarkModel.find({user_id : ID}).populate("institute_id")
+  let savedInst = await FollowModel.find({user_id : ID}).populate("institute_id")
+  const savedCourse = await BookmarkModel.find({user_id : ID})
    
   // savedInst = savedInst.map(async (el) => {
   //      return await In

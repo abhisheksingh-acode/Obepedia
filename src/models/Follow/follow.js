@@ -3,7 +3,8 @@ const mongoose = require('mongoose')
 const FollowSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     institute_id:{
-        type: String,
+        type: mongoose.Types.ObjectId,
+        ref : 'User',
         required:[true,'institute id is missing' ]
     },
     user_id:{
