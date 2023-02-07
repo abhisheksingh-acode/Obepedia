@@ -23,6 +23,9 @@ const {
   delInsti,
   destroyInst,
   markFeatured,
+  getFeatured,
+  changeFeaturedOrder,
+  unfeatureInst,
 } = require("./InstituteList/index");
 
 router.get("/instilist/getinsti", TokenAuth, getInsti);
@@ -30,6 +33,10 @@ router.get("/instilist/markfeatured/:id", TokenAuth, markFeatured);
 router.get("/instilist/getinstidet/:id", TokenAuth, getInstiDet);
 router.delete("/instilist/delinsti/:id", TokenAuth, delInsti);
 router.delete("/instilist/clear", TokenAuth, destroyInst);
+
+router.get("/instilist/getfeatured", TokenAuth, getFeatured);
+router.put("/instilist/changeorder/:id", TokenAuth, changeFeaturedOrder);
+router.put("/instilist/unfeature", TokenAuth, unfeatureInst);
 
 // Categories Module
 

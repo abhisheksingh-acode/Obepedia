@@ -36,6 +36,10 @@ const InstituteProfileSchema = mongoose.Schema({
   featured: {
     type: Boolean,
   },
+  featured_order: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model(
