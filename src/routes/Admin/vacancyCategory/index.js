@@ -13,9 +13,15 @@ const postVacancyCategory = async (req, res) => {
 };
 
 const deleteVacancyCategory = async (req, res) => {
-  const result = await VacancyCategory.findOne(req.params.id).deleteOne();
+  req.body.ids.forEach(async (el, index) => {
+    await VacancyCategory.findByIdAndDelete(el);
+  });
 
-  return res.status(200).json(result);
+  return res.status(200).json({msg: "Delete operation performed successfuly."});
 };
 
-module.exports = { getVacancyCategory, postVacancyCategory, deleteVacancyCategory };
+module.exports = {
+  getVacancyCategory,
+  postVacancyCategory,
+  deleteVacancyCategory,
+};

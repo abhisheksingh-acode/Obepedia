@@ -53,7 +53,7 @@ const {
 
 router.get("/vacancy/get", getVacancyCategory);
 router.post("/vacancy/create", TokenAuth, postVacancyCategory);
-router.delete("/vacancy/delete/:id", TokenAuth, deleteVacancyCategory);
+router.delete("/vacancy/delete", TokenAuth, deleteVacancyCategory);
 
 // Sidebar Module
 
