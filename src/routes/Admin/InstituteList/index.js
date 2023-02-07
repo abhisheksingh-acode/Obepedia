@@ -65,9 +65,7 @@ const unfeatureInst = (req, res) => {
     });
   });
 
-  return res
-    .status(200)
-    .json({msg: "Selected institutes are unfeatured." });
+  return res.status(200).json({ msg: "Selected institutes are unfeatured." });
 };
 
 const getFeatured = async (req, res) => {
@@ -97,6 +95,7 @@ const markFeatured = async (req, res) => {
       institute_id: id,
     }).updateOne({
       featured: false,
+      featured_order: 0,
     });
     return res.status(200).json({ msg: "Unmarked as featured", result });
   }
@@ -105,6 +104,7 @@ const markFeatured = async (req, res) => {
     institute_id: id,
   }).updateOne({
     featured: true,
+    featured_order: req.body.featured_order,
   });
   return res.status(200).json({ msg: "Marked as featured", result });
 };
