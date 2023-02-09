@@ -26,9 +26,11 @@ const {
   getFeatured,
   changeFeaturedOrder,
   unfeatureInst,
+  approveInsti
 } = require("./InstituteList/index");
 
 router.get("/instilist/getinsti", TokenAuth, getInsti);
+router.put("/institute/approve/:id", TokenAuth, approveInsti);
 router.post("/instilist/markfeatured/:id", TokenAuth, markFeatured);
 router.get("/instilist/getinstidet/:id", TokenAuth, getInstiDet);
 router.delete("/instilist/delinsti/:id", TokenAuth, delInsti);

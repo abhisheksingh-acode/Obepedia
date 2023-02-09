@@ -67,6 +67,12 @@ const unfeatureInst = (req, res) => {
 
   return res.status(200).json({ msg: "Selected institutes are unfeatured." });
 };
+const approveInsti = async (req, res) => {
+  
+  const result  = await User.findOne({_id: req.params.id}).updateOne({approved: true})
+
+  return res.status(200).json({ msg: "Institutes is approved" });
+};
 
 const getFeatured = async (req, res) => {
   const result = await InstituteProfileModel.find({ featured: true })
@@ -118,4 +124,5 @@ module.exports = {
   getFeatured,
   changeFeaturedOrder,
   unfeatureInst,
+  approveInsti
 };
