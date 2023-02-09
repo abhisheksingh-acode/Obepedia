@@ -8,7 +8,7 @@ const getInsti = async (req, resp) => {
   const val = req.body.role ? req.body.role : "institute";
   const result = await User.find({ role: val }).sort({ _id: -1 });
   return resp.status(200).json(result);
-};
+}; 
 
 // When admin want to see whole information of Institute
 const getInstiDet = (req, resp) => {
