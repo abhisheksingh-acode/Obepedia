@@ -56,12 +56,12 @@ const InstitutePage = async (req, resp) => {
 };
 
 const getAllInstitute = async (req, resp) => {
-  let response = await InstituteProfileModel.find({ approved: true });
+  let response = await InstituteProfileModel.find();
   return resp.status(200).json(response);
 };
 
 const getFeaturedInstitute = async (req, resp) => {
-  let response = await InstituteProfileModel.find({ featured: true });
+  let response = await InstituteProfileModel.find();
   return resp.status(200).json(response);
 };
 
