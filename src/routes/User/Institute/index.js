@@ -33,7 +33,7 @@ const InstitutePage = async (req, resp) => {
         $group: {
           _id: "$institute_id",
           rating: { $avg: "$rating" },
-          totalRatingCount: {$count:{}}
+          totalRatingCount: { $count: {} },
         },
       },
     ]);
@@ -56,9 +56,10 @@ const InstitutePage = async (req, resp) => {
 };
 
 const getAllInstitute = async (req, resp) => {
-  let response = await InstituteProfileModel.find();
+  let response = await InstituteProfileModel.find({ approved: true });
   return resp.status(200).json(response);
 };
+
 const getFeaturedInstitute = async (req, resp) => {
   let response = await InstituteProfileModel.find({ featured: true });
   return resp.status(200).json(response);
