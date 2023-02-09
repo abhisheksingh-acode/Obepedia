@@ -24,6 +24,10 @@ const userSchema = mongoose.Schema({
     minlength: [8, "password length should be 8 or higher"],
     required: [true, "password is required"],
   },
+  approved: {
+    type: Boolean,
+    default: false,
+  },
   role: {
     type: String,
     required: [true, "role is required"],

@@ -33,10 +33,6 @@ const InstituteProfileSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  approved: {
-    type: Boolean,
-    default: false,
-  },
   featured: {
     type: Boolean,
   },

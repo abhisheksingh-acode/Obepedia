@@ -6,19 +6,7 @@ const InstituteProfileModel = require("../../../models/Instituteprofile/institut
 // Getting all Institute ( role:institute is deafult)
 const getInsti = async (req, resp) => {
   const val = req.body.role ? req.body.role : "institute";
-  const result = await InstituteProfileModel.aggregate([
-    {
-      $lookup: {
-        from: "users",
-        localField: "institute_id",
-        foreignField: "_id",
-        as: "user",
-      },
-    },
-    {
-      $sort: { _id: -1 },
-    },
-  ]);
+  const result = await User.find({ role: val }).sort({ _id: -1 });
   return resp.status(200).json(result);
 };
 
