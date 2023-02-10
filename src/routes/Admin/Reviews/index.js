@@ -97,9 +97,7 @@ const postReviewOnInstitute = (req, resp) => {
 };
 
 const ReviewOnInstitute = async (req, resp) => {
-
-
-  const institute = await User
+  const institute = await User.findOne({ institute_id: req.params.id });
 
   reviewsoninstitutemodel
     .find({ institute_id: req.params.id })
@@ -107,7 +105,7 @@ const ReviewOnInstitute = async (req, resp) => {
     .then((result) => {
       User.find({ _id: req.params.id })
         .then((val2) => {
-          resp.status(200).json(result);
+          resp.status(200).json({ result, institute });
         })
         // {name: val2[0].name , "no_of_comments" : result.length}
         .catch((err) => {
@@ -153,8 +151,8 @@ const getAllReviewsOnInstitute = async (req, resp) => {
       },
     },
     {
-      $match : { role : "institute"}
-    }
+      $match: { role: "institute" },
+    },
   ]);
 
   return resp.status(200).json(result);
