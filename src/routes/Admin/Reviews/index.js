@@ -117,15 +117,38 @@ const ReviewOnInstitute = (req, resp) => {
 
 // Getting all reviews of Institute
 const getAllReviewsOnInstitute = async (req, resp) => {
-  const result = await reviewsoninstitutemodel
-    .aggregate([
-      {
-        $group: {
-          _id: "$institute_id",
-          count: { $count: {} },
-        },
+  // const result = await reviewsoninstitutemodel.aggregate([
+  //   {
+  //     $lookup: {
+  //       from: "users",
+  //       foreignField: "_id",
+  //       localField: "institute_id",
+  //       as: "user",
+  //     },
+  //   },
+  //   {
+
+  //   },
+  // ]);
+
+  const result = await User.aggregate([
+    {
+      $lookup: {
+        from: "reviewsoninstitutemodels",
+        foreignField: "institute_id",
+        localField: "_id",
+        as: "reviews",
+        pipeline: [
+          {
+            $group: {
+              _id: "$institute_id",
+              count: { $count: {} },
+            },
+          },
+        ],
       },
-    ])
+    },
+  ]);
 
   return resp.status(200).json(result);
 };
