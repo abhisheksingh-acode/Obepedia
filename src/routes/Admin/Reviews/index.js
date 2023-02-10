@@ -163,8 +163,8 @@ const getAllReviewsOnInstitute = async (req, resp) => {
 // If admin wants to delete Institute the  he just pass his id as params
 const deleteReview = (req, resp) => {
   reviewsoninstitutemodel
-    .findById({ _id: req.params.id })
-    .deleteMany()
+    .findOne({ _id: req.params.id })
+    .deleteOne()
     .then((result) => {
       resp.status(200).json(result);
     })
