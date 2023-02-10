@@ -96,7 +96,11 @@ const postReviewOnInstitute = (req, resp) => {
   });
 };
 
-const ReviewOnInstitute = (req, resp) => {
+const ReviewOnInstitute = async (req, resp) => {
+
+
+  const institute = await User
+
   reviewsoninstitutemodel
     .find({ institute_id: req.params.id })
 
@@ -148,6 +152,9 @@ const getAllReviewsOnInstitute = async (req, resp) => {
         ],
       },
     },
+    {
+      $match : { role : "institute"}
+    }
   ]);
 
   return resp.status(200).json(result);
