@@ -97,7 +97,7 @@ const postReviewOnInstitute = (req, resp) => {
 };
 
 const ReviewOnInstitute = async (req, resp) => {
-  const institute = await User.findOne({ institute_id: req.params.id });
+  const institute = await User.findOne({ _id: req.params.id });
 
   reviewsoninstitutemodel
     .find({ institute_id: req.params.id })
