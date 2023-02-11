@@ -117,7 +117,7 @@ const listingInstituteFilter = async (req, res) => {
   }
 
   let regexSubject = subject.map(function (e) {
-    return new RegExp(e, "i");
+    return new RegExp("^[" + e + "].*", "i");
   });
 
   // const courses = await CourseModel.find({
@@ -126,7 +126,7 @@ const listingInstituteFilter = async (req, res) => {
   // }).select({ _id: 0, institute_id: 1 });
 
   let regexcity = location.map(function (e) {
-    return new RegExp(e, "i");
+    return new RegExp("^[" + e + "].*", "i");
   });
 
   // const output = courses.map((el) => el.institute_id);
@@ -144,7 +144,7 @@ const listingInstituteFilter = async (req, res) => {
     {
       $match: {
         category: { $eq: mongoose.Types.ObjectId(category) },
-        subject: { $in: subject },
+        subject: { $in: regexSubject },
       },
     },
     {
@@ -156,7 +156,6 @@ const listingInstituteFilter = async (req, res) => {
         pipeline: [
           {
             $match: {
-              city: { $in: location },
               name: { $regex: `^${key}`, $options: "i" },
             },
           },
@@ -194,9 +193,14 @@ const listingInstituteFilter = async (req, res) => {
     {
       $project: { result: "$institute", _id: 0 },
     },
-  ]); 
+  ]);
 
-  return res.status(200).json({ institutes: institutes[0]?.result, featured: featured[0]?.result });
+  return res
+    .status(200)
+    .json({
+      featured: featured[0]?.result,
+      institutes: institutes[0] ? institutes[0].result : [],
+    });
   // return res.status(200).json(institutes);
 };
 
