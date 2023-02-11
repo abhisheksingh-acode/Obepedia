@@ -196,7 +196,7 @@ const listingInstituteFilter = async (req, res) => {
     },
   ]);
 
-  return res.status(200).json({ institutes: institutes[0].result, featured: featured[0].result });
+  return res.status(200).json({ institutes: institutes[0]?.result, featured: featured[0]?.result });
   // return res.status(200).json(institutes);
 };
 
