@@ -116,35 +116,88 @@ const listingInstituteFilter = async (req, res) => {
       break;
   }
 
-  // let regexSubject = subject.map(function (e) {
-  //   return new RegExp(e, "i");
-  // });
-
-  const courses = await CourseModel.find({
-    subject: { $in: subject },
-    category: { $eq: mongoose.Types.ObjectId(category) },
-  }).select({ _id: 0, institute_id: 1 });
-
-  let regex = location.map(function (e) {
+  let regexSubject = subject.map(function (e) {
     return new RegExp(e, "i");
   });
 
-  const output = courses.map((el) => el.institute_id);
+  // const courses = await CourseModel.find({
+  //   subject: { $in: subject },
+  //   category: { $eq: mongoose.Types.ObjectId(category) },
+  // }).select({ _id: 0, institute_id: 1 });
 
-  const institutes = await InstituteProfileModel.find({
-    institute_id: { $in: output },
-    $or: [
-      { location: { $in: regex } },
-      { city: { $in: regex } },
-      { name: { $regex: `^${key}`, $options: "i" } },
-    ],
-  }).sort(sortQuery);
-
-  const featured = await InstituteProfileModel.find({ featured: true }).sort({
-    _id: -1,
+  let regexcity = location.map(function (e) {
+    return new RegExp(e, "i");
   });
 
-  return res.status(200).json({ institutes, featured });
+  // const output = courses.map((el) => el.institute_id);
+
+  // const institutes = await InstituteProfileModel.find({
+  //   institute_id: { $in: output },
+  //   $or: [
+  //     { location: { $in: regex } },
+  //     { city: { $in: regex } },
+  //     { name: { $regex: `^${key}`, $options: "i" } },
+  //   ],
+  // }).sort(sortQuery);
+
+  const institutes = await CourseModel.aggregate([
+    {
+      $match: {
+        category: { $eq: mongoose.Types.ObjectId(category) },
+        subject: { $in: subject },
+      },
+    },
+    {
+      $lookup: {
+        from: "instituteprofilemodels",
+        localField: "institute_id",
+        foreignField: "institute_id",
+        as: "institute",
+        pipeline: [
+          {
+            $match: {
+              city: { $in: location },
+              name: { $regex: `^${key}`, $options: "i" },
+            },
+          },
+          {
+            $sort: sortQuery,
+          },
+        ],
+      },
+    },
+    {
+      $project: { result: "$institute", _id: 0 },
+    },
+  ]);
+
+  const featured = await CourseModel.aggregate([
+    {
+      $match: { category: { $eq: mongoose.Types.ObjectId(category) } },
+    },
+    {
+      $lookup: {
+        from: "instituteprofilemodels",
+        localField: "institute_id",
+        foreignField: "institute_id",
+        as: "institute",
+        pipeline: [
+          {
+            $match: { featured: true },
+          },
+          {
+            $sort: { _id: 1 },
+          },
+        ],
+      },
+    },
+    {
+      $project: { result: "$institute", _id: 0 },
+    },
+  ]);
+
+  return res.status(200).json({ institutes: institutes[0].result, featured: featured[0].result });
+  // return res.status(200).json(institutes);
 };
 
 module.exports = { Search, SearchInstitute, listingInstituteFilter };
