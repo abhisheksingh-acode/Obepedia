@@ -28,13 +28,30 @@ const getCourse = (req, resp) => {
 };
 const getCoursebyid = async (req, resp) => {
   const _id = req.params.id;
+
   const ratings = await reviewsoncoursemodel
     .find({ course_id: _id })
     .sort({ _id: -1 })
     .limit(8);
+
+  let ratingAvg = await reviewsoncoursemodel.aggregate([
+    {
+      $match: {
+        course_id: _id,
+      },
+    },
+    {
+      $group: {
+        _id: "$course_id",
+        rating: { $avg: "$rating" },
+        totalRatingCount: { $count: {} },
+      },
+    },
+  ]);
+
   const result = await CourseModel.findOne({ _id }).populate("category");
 
-  return resp.status(200).json({ result, ratings });
+  return resp.status(200).json({ result, ratings, ratingAvg });
 };
 
 // Delete Course
