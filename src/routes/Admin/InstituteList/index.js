@@ -8,7 +8,7 @@ const getInsti = async (req, resp) => {
   const val = req.body.role ? req.body.role : "institute";
   const result = await User.find({ role: val }).sort({ _id: -1 });
   return resp.status(200).json(result);
-}; 
+};
 
 // When admin want to see whole information of Institute
 const getInstiDet = (req, resp) => {
@@ -68,10 +68,19 @@ const unfeatureInst = (req, res) => {
   return res.status(200).json({ msg: "Selected institutes are unfeatured." });
 };
 const approveInsti = async (req, res) => {
-  
-  const result  = await User.findOne({_id: req.params.id}).updateOne({approved: true})
+  const result = await User.findOne({ _id: req.params.id });
 
-  return res.status(200).json({ msg: "Institutes is approved" });
+  const update = await User.findOne({ _id: req.params.id }).updateOne({
+    approved: !result.approved,
+  });
+
+  return res
+    .status(200)
+    .json({
+      msg: result.approved
+        ? "Institutes is approved"
+        : "Institutes is disapproved",
+    });
 };
 
 const getFeatured = async (req, res) => {
@@ -124,5 +133,5 @@ module.exports = {
   getFeatured,
   changeFeaturedOrder,
   unfeatureInst,
-  approveInsti
+  approveInsti,
 };

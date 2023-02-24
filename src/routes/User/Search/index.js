@@ -11,12 +11,6 @@ const reviewsoncoursemodel = require("../../../models/Reviews/reviewsoncourse");
 
 const Search = async (req, resp) => {
   try {
-    let response = await InstituteProfileModel.find({
-      $or: [
-        { name: { $regex: `^${req.params.key}`, $options: "i" } },
-        { location: { $regex: `${req.params.key}`, $options: "i" } },
-      ],
-    });
     let response2 = await VacancyModel.find({
       $or: [
         { name: { $regex: `^${req.params.key}`, $options: "i" } },
@@ -25,22 +19,44 @@ const Search = async (req, resp) => {
         { company: { $regex: `^${req.params.key}`, $options: "i" } },
         { location: { $regex: `${req.params.key}`, $options: "i" } },
       ],
-    });
-    let response3 = await course.find({
+    }).select({ _id: 0, institute_id: 1 });
+
+    let response3 = await course
+      .find({
+        $or: [
+          { course: { $regex: `^${req.params.key}`, $options: "i" } },
+          { medium: { $regex: req.params.key } },
+        ],
+      })
+      .select({ _id: 0, institute_id: 1 });
+
+    let ids = response2.map((el) =>
+      el.institute_id !== "undefined"
+        ? mongoose.Types.ObjectId(el.institute_id)
+        : mongoose.Types.ObjectId("")
+    );
+    let ids2 = response3.map((el) =>
+      el.institute_id !== "undefined"
+        ? mongoose.Types.ObjectId(el.institute_id)
+        : mongoose.Types.ObjectId("")
+    );
+
+    let response = await InstituteProfileModel.find({
       $or: [
-        { course: { $regex: `^${req.params.key}`, $options: "i" } },
-        { medium: { $regex: req.params.key } },
+        { name: { $regex: `^${req.params.key}`, $options: "i" } },
+        { location: { $regex: `${req.params.key}`, $options: "i" } },
+        {
+          institute_id: { $in: [...ids, ...ids2] },
+        },
       ],
     });
 
     let result = {
       institute: response,
-      vacancy: response2,
-      course_list: response3,
     };
     resp.status(200).json(result);
   } catch (error) {
-    resp.status(500).json(error);
+    resp.status(500).json(false);
   }
 };
 
@@ -195,12 +211,10 @@ const listingInstituteFilter = async (req, res) => {
     },
   ]);
 
-  return res
-    .status(200)
-    .json({
-      featured: featured[0]?.result,
-      institutes: institutes[0] ? institutes[0].result : [],
-    });
+  return res.status(200).json({
+    featured: featured[0]?.result,
+    institutes: institutes[0] ? institutes[0].result : [],
+  });
   // return res.status(200).json(institutes);
 };
 

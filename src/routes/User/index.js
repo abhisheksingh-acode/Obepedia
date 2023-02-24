@@ -120,10 +120,12 @@ const {
   InstitutePage,
   getAllInstitute,
   getFeaturedInstitute,
+  getSidebarInstitute
 } = require("./Institute/index");
 
 router.get("/institute/getinstitute/:id", InstitutePage);
 router.get("/institute/getallinstitute", getAllInstitute);
+router.get("/institute/getsidebarinstitute", getSidebarInstitute);
 router.get("/institute/getfeaturedinstitute", getFeaturedInstitute);
 
 const reviewsoninstitute = require("../../models/Reviews/reviewsoninstitute");

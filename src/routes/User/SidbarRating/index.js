@@ -65,8 +65,38 @@ const postSidebarRating = async (req, resp) => {
 const getSidebarRating = async (req, resp) => {
   try {
     const obj_id = req.params.id; //id of course or institute
-    const response = await SidebarRatingModel.find({ obj_id });
-    resp.status(200).json(response);
+    // const response = await SidebarRatingModel.find({ obj_id });
+
+    let response = await SidebarRatingModel.aggregate([
+      {
+        $match: {
+          obj_id: obj_id,
+        },
+      },
+      {
+        $group: {
+          _id: "$obj_id",
+          rating: { $avg: "$overall" },
+          totalRatingCount: { $count: {} },
+        },
+      },
+    ]);
+
+    let progressRating = [];
+
+    for (let i = 10; i >= 1; i--) {
+      var rating = await SidebarRatingModel.find({
+        obj_id,
+        overall: i,
+      }).countDocuments();
+      progressRating.push({
+        label: i,
+        count: rating,
+        percent: (rating * 100) / 10,
+      });
+    }
+
+    return resp.status(200).json({ ratingAvg: response[0], progressRating });
   } catch (error) {
     resp.status(500).json("something went wrong");
   }

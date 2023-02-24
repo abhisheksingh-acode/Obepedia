@@ -9,6 +9,7 @@ const facultyModel = require("../../../models/Faculty/faculty");
 const GallaryModel = require("../../../models/Gallary/gallary");
 const VacancyModel = require("../../../models/Vacancy/vacancy");
 const reviewsoninstitute = require("../../../models/Reviews/reviewsoninstitute");
+const User = require("../../../models/signupmodel");
 
 const InstitutePage = async (req, resp) => {
   try {
@@ -38,6 +39,25 @@ const InstitutePage = async (req, resp) => {
       },
     ]);
 
+    let response8 = await reviewsoninstitute
+      .find({ institute_id, overall: 1 })
+      .countDocuments();
+
+    //   {
+    //     $match: {
+    //       institute_id: mongoose.Types.ObjectId(institute_id),
+    //     },
+    //   },
+    //   {
+    //     $group: {
+    //       _id: "$overall",
+    //       totalRatingCount: { $count: {} },
+    //     },
+    //   },
+    // ]);
+
+    return resp.json(response8);
+
     let result = {
       institute_profile: response,
       course: response2,
@@ -60,9 +80,67 @@ const getAllInstitute = async (req, resp) => {
   return resp.status(200).json(response);
 };
 
-const getFeaturedInstitute = async (req, resp) => {
-  let response = await InstituteProfileModel.find();
+const getSidebarInstitute = async (req, resp) => {
+  let response = await User.aggregate([
+    {
+      $lookup: {
+        from: "instituteprofilemodels",
+        foreignField: "institute_id",
+        localField: "_id",
+        as: "institute",
+      },
+    },
+    {
+      $match: { role: "institute", approved: true },
+    },
+    {
+      $limit: 8,
+    },
+    {
+      $sort: { _id: -1 },
+    },
+  ]);
   return resp.status(200).json(response);
 };
 
-module.exports = { InstitutePage, getAllInstitute, getFeaturedInstitute };
+const getFeaturedInstitute = async (req, resp) => {
+  // let response = await InstituteProfileModel.find();
+
+  let response = await User.aggregate([
+    {
+      $lookup: {
+        from: "instituteprofilemodels",
+        foreignField: "institute_id",
+        localField: "_id",
+        as: "institute",
+        pipeline: [
+          {
+            $match: { featured: true },
+          },
+        ],
+      },
+    },
+    {
+      $match: {
+        role: "institute",
+        approved: true,
+      },
+    },
+    {
+      $limit: 8,
+    },
+    {
+      $sort: { _id: -1 },
+    },
+   
+  ]);
+
+  return resp.status(200).json(response);
+};
+
+module.exports = {
+  InstitutePage,
+  getAllInstitute,
+  getFeaturedInstitute,
+  getSidebarInstitute,
+};
