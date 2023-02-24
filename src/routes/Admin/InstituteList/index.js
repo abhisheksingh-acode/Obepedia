@@ -77,7 +77,7 @@ const approveInsti = async (req, res) => {
   return res
     .status(200)
     .json({
-      msg: result.approved
+      msg: !result.approved
         ? "Institutes is approved"
         : "Institutes is disapproved",
     });
