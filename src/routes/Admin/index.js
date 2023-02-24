@@ -58,10 +58,12 @@ const {
   getVacancyCategory,
   postVacancyCategory,
   deleteVacancyCategory,
+  modifyVacancyCategory
 } = require("../Admin/vacancyCategory/index");
 
 router.get("/vacancy/get", getVacancyCategory);
 router.post("/vacancy/create", TokenAuth, postVacancyCategory);
+router.put("/vacancy/modify/:id", TokenAuth, modifyVacancyCategory);
 router.delete("/vacancy/delete", TokenAuth, deleteVacancyCategory);
 
 // Sidebar Module
