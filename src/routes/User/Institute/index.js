@@ -23,20 +23,22 @@ const InstitutePage = async (req, resp) => {
       .limit(8)
       .sort({ _id: -1 });
 
-    let response7 = await reviewsoninstitute.aggregate([
-      {
-        $match: {
-          institute_id: institute_id,
-        },
-      },
-      {
-        $group: {
-          _id: "$institute_id",
-          rating: { $avg: "$rating" },
-          totalRatingCount: { $count: {} },
-        },
-      },
-    ]);
+    // let response7 = await reviewsoninstitute.aggregate([
+    //   {
+    //     $match: {
+    //       institute_id: institute_id,
+    //     },
+    //   },
+    //   {
+    //     $group: {
+    //       _id: "$institute_id",
+    //       rating: { $avg: "$rating" },
+    //       totalRatingCount: { $count: {} },
+    //     },
+    //   },
+    // ]);
+
+    let response7 = await reviewsoninstitute.find({ institute_id }).countDocuments();
 
     let result = {
       institute_profile: response,
