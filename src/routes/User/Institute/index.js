@@ -39,25 +39,6 @@ const InstitutePage = async (req, resp) => {
       },
     ]);
 
-    let response8 = await reviewsoninstitute
-      .find({ institute_id, overall: 1 })
-      .countDocuments();
-
-    //   {
-    //     $match: {
-    //       institute_id: mongoose.Types.ObjectId(institute_id),
-    //     },
-    //   },
-    //   {
-    //     $group: {
-    //       _id: "$overall",
-    //       totalRatingCount: { $count: {} },
-    //     },
-    //   },
-    // ]);
-
-    return resp.json(response8);
-
     let result = {
       institute_profile: response,
       course: response2,
