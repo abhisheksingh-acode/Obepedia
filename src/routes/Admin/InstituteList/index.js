@@ -2,6 +2,12 @@ const express = require("express");
 const User = require("../../../models/signupmodel");
 const InstiModel = require("../../../models/InstituteModel/institutemodel");
 const InstituteProfileModel = require("../../../models/Instituteprofile/instituteprofile");
+const reviewsoncoursemodel = require("../../../models/Reviews/reviewsoncourse");
+const reviewsoninstitutemodel = require("../../../models/Reviews/reviewsoninstitute");
+const facultyModel = require("../../../models/Faculty/faculty");
+const CourseModel = require("../../../models/Course/course");
+const VacancyModel = require("../../../models/Vacancy/vacancy");
+const GallaryModel = require("../../../models/Gallary/gallary");
 
 // Getting all Institute ( role:institute is deafult)
 const getInsti = async (req, resp) => {
@@ -53,6 +59,12 @@ const destroyInst = (req, res) => {
   req.body.ids.forEach(async (el, index) => {
     await User.findByIdAndDelete(el);
     await InstituteProfileModel.find({ institute_id: el }).deleteOne();
+    await GallaryModel.find({ institute_id: el }).deleteMany();
+    await VacancyModel.find({ institute_id: el }).deleteMany();
+    await CourseModel.find({ institute_id: el }).deleteMany();
+    await facultyModel.find({ institute_id: el }).deleteMany();
+    await reviewsoninstitutemodel.find({ institute_id: el }).deleteMany();
+    await reviewsoncoursemodel.find({ institute_id: el }).deleteMany();
   });
 
   return res.status(200).json({ msg: "delete operation is succeed" });
@@ -74,13 +86,11 @@ const approveInsti = async (req, res) => {
     approved: !result.approved,
   });
 
-  return res
-    .status(200)
-    .json({
-      msg: !result.approved
-        ? "Institutes is approved"
-        : "Institutes is disapproved",
-    });
+  return res.status(200).json({
+    msg: !result.approved
+      ? "Institutes is approved"
+      : "Institutes is disapproved",
+  });
 };
 
 const getFeatured = async (req, res) => {
