@@ -8,7 +8,7 @@ const InstituteProfileModel = require("../../../models/Instituteprofile/institut
 // Top 5 Institutes 
 const TopInstitutes = async (req,resp)=>{
   try {
-    const result = await InstituteProfileModel.find()
+    const result = await InstituteProfileModel.find().limit(8).sort({_id : -1})
     resp.status(500).json(result)
   } catch (error) {
     resp.status(500).json({error : error})
