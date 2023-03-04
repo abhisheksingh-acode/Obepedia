@@ -57,7 +57,19 @@ const InstitutePage = async (req, resp) => {
 };
 
 const getAllInstitute = async (req, resp) => {
-  let response = await InstituteProfileModel.find();
+  let response = await await User.aggregate([
+    {
+      $lookup: {
+        from: "instituteprofilemodels",
+        foreignField: "institute_id",
+        localField: "_id",
+        as: "institute",
+      },
+    },
+    {
+      $match: { role: "institute", approved: true },
+    },
+  ]);
   return resp.status(200).json(response);
 };
 
@@ -113,7 +125,6 @@ const getFeaturedInstitute = async (req, resp) => {
     {
       $sort: { _id: -1 },
     },
-   
   ]);
 
   return resp.status(200).json(response);

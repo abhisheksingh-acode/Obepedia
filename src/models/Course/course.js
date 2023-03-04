@@ -8,6 +8,10 @@ const CourseSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  about: {
+    type: String,
+    required: true,
+  },
   online: {
     type: Number,
     required: true,
@@ -24,31 +28,19 @@ const CourseSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  admit_card: {
+  speciality: {
     type: String,
     required: true,
   },
-  results: {
+  installment: {
     type: String,
     required: true,
   },
-  application_form: {
-    type: String,
-    required: true,
-  },
-  dates: {
-    type: String,
-    required: true,
-  },
-  notification: {
+  refund: {
     type: String,
     required: true,
   },
   preparation: {
-    type: String,
-    required: true,
-  },
-  pattern: {
     type: String,
     required: true,
   },

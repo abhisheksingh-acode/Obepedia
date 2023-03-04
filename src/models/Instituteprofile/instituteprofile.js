@@ -26,6 +26,33 @@ const InstituteProfileSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  since: {
+    type: String,
+  },
+  batch_strength: {
+    type: Number,
+    default: 0,
+  },
+  last_year_selection: {
+    type: Number,
+    default: 0,
+  },
+  overall_selection: {
+    type: Number,
+    default: 0,
+  },
+  fee_refund: {
+    type: String,
+    default: null,
+  },
+  emi: {
+    type: String,
+    default: null,
+  },
+  mentorship: {
+    type: String,
+    default: null,
+  },
   city: {
     type: String,
   },
