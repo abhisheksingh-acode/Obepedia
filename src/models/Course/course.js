@@ -32,6 +32,10 @@ const CourseSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  guidance: {
+    type: String,
+    required: true,
+  },
   refund: {
     type: String,
     required: true,
