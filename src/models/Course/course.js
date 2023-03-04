@@ -24,10 +24,6 @@ const CourseSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  duration: {
-    type: String,
-    required: true,
-  },
   speciality: {
     type: String,
     required: true,
