@@ -4,8 +4,16 @@ const instituteProfileModel = require("../../../models/Instituteprofile/institut
 
 // Adding profile Information
 const postProfile = (req, resp) => {
-  const { name, about, video, image, sliding_banner, location, institute_id } =
-    req.body;
+  const {
+    name,
+    about,
+    video,
+    image,
+    city,
+    sliding_banner,
+    location,
+    institute_id,
+  } = req.body;
   const Profile = new instituteProfileModel({
     _id: new mongoose.Types.ObjectId(),
     name,
@@ -13,6 +21,7 @@ const postProfile = (req, resp) => {
     video,
     image,
     sliding_banner,
+    city,
     location,
     institute_id: req.params.id,
   })
@@ -51,24 +60,12 @@ const delProfile = (req, resp) => {
     });
 };
 
-const putProfile = (req, resp) => {
-  // const {name, about, video, image, sliding_banner, location , institute_id } =
-  //   req.body;
-  instituteProfileModel
-    .findOneAndUpdate(
-      { institute_id: req.params.id },
-      {
-        $set: {
-          ...req.body,
-        },
-      }
-    )
-    .then((result) => {
-      resp.status(200).json(result);
-    })
-    .catch((err) => {
-      resp.status(500).json(err);
-    });
+const putProfile = async (req, resp) => {
+  const result = await instituteProfileModel
+    .findOne({ institute_id: req.params.id })
+    .updateOne({ ...req.body });
+
+  return resp.status(200).json(result);
 };
 
 module.exports = { postProfile, getProfile, delProfile, putProfile };
