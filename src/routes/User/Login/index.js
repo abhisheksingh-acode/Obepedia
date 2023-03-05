@@ -5,15 +5,15 @@ const bcrypt = require("bcrypt");
 const User = require("../../../models/signupmodel");
 const jwt = require("jsonwebtoken");
 
-const Login = async  (req, resp) => {
+const Login = async (req, resp) => {
   User.findOne({ email: req.body.email })
     .exec()
     .then((user) => {
       if (!user) {
-        resp.json("user not found");
+        return resp.json({ msg: "user not found" });
       } else {
         if (user.role !== "user") {
-          resp.send("You aren't registerd User!");
+          return resp.json({ msg: "You aren't registerd User!" });
         } else {
           bcrypt.compare(req.body.password, user.password, (err, result) => {
             if (err) {
@@ -21,36 +21,37 @@ const Login = async  (req, resp) => {
             } else if (result) {
               const token = jwt.sign(
                 {
-                name: user.name,
-                role: user.role,
-                email: user.email,
+                  name: user.name,
+                  role: user.role,
+                  email: user.email,
                 },
-                'This is Token Key',
+                "This is Token Key",
                 {
-                  expiresIn:"24h"
+                  expiresIn: "24h",
                 }
               );
 
-              resp.status(200).json({
-                greeting: `Hello ${user.name}!`,
+              return resp.status(200).json({
+                msg: `Hello ${user.name}!`,
                 user,
-                token:token
-              })
-            }
-            else{
-              resp.status(500).json({Mgs:"Password is wrong!"})
+                token: token,
+              });
+            } else {
+              return resp.status(500).json({ msg: "Password is wrong!" });
             }
           });
         }
       }
     })
     .catch((err) => {
-      resp.status(500).json({error:err});
+      return resp
+        .status(500)
+        .json({ error: err, msg: "internal server error" });
     });
 };
 
-const getLogin = (req,resp)=>{
-    resp.status(200).json({msg:"hello Please Login"})
-}
+const getLogin = (req, resp) => {
+  resp.status(200).json({ msg: "hello Please Login" });
+};
 
-module.exports = {Login , getLogin};
+module.exports = { Login, getLogin };

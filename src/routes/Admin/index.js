@@ -31,7 +31,7 @@ const {
 
 router.get("/instilist/getinsti", TokenAuth, getInsti);
 router.put("/institute/approve/:id", TokenAuth, approveInsti);
-router.post("/instilist/markfeatured/:id", TokenAuth, markFeatured);
+router.post("/instilist/markfeatured", TokenAuth, markFeatured);
 router.get("/instilist/getinstidet/:id", TokenAuth, getInstiDet);
 router.delete("/instilist/delinsti/:id", TokenAuth, delInsti);
 router.delete("/instilist/clear", TokenAuth, destroyInst);

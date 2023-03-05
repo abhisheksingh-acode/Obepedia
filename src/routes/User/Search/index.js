@@ -8,6 +8,7 @@ const InstituteProfileModel = require("../../../models/Instituteprofile/institut
 const VacancyModel = require("../../../models/Vacancy/vacancy");
 const CourseModel = require("../../../models/Course/course");
 const reviewsoncoursemodel = require("../../../models/Reviews/reviewsoncourse");
+const Sponsor = require("../../../models/Sponsor/Sponsor");
 
 const Search = async (req, resp) => {
   try {
@@ -169,16 +170,16 @@ const listingInstituteFilter = async (req, res) => {
         localField: "institute_id",
         foreignField: "institute_id",
         as: "institute",
-        pipeline: [
-          {
-            $match: {
-              name: { $regex: `^${key}`, $options: "i" },
-            },
-          },
-          {
-            $sort: sortQuery,
-          },
-        ],
+        // pipeline: [
+        // {
+        //   $match: {
+        //     name: { $regex: `^${key}`, $options: "i" },
+        //   },
+        // },
+        //   {
+        //     $sort: sortQuery,
+        //   },
+        // ],
       },
     },
     {
@@ -186,6 +187,21 @@ const listingInstituteFilter = async (req, res) => {
     },
   ]);
 
+  const featured = await Sponsor.find({
+    category: { $eq: mongoose.Types.ObjectId(category) },
+  })
+    .sort({ order: 1 })
+    .populate({ path: "category" })
+    .populate({ path: "institute_id" });
+
+  return res.status(200).json({
+    featured: featured,
+    institutes: institutes[0] ? institutes[0].result : [],
+  });
+  // return res.status(200).json(institutes);
+};
+
+const instituteByCourseCategory = async () => {
   const featured = await CourseModel.aggregate([
     {
       $match: { category: { $eq: mongoose.Types.ObjectId(category) } },
@@ -198,7 +214,7 @@ const listingInstituteFilter = async (req, res) => {
         as: "institute",
         pipeline: [
           {
-            $match: { featured: true },
+            $match: { featured: false },
           },
           {
             $sort: { _id: 1 },
@@ -212,10 +228,13 @@ const listingInstituteFilter = async (req, res) => {
   ]);
 
   return res.status(200).json({
-    featured: featured[0]?.result,
-    institutes: institutes[0] ? institutes[0].result : [],
+    institutes: featured[0] ? featured[0].result : [],
   });
-  // return res.status(200).json(institutes);
 };
 
-module.exports = { Search, SearchInstitute, listingInstituteFilter };
+module.exports = {
+  Search,
+  SearchInstitute,
+  listingInstituteFilter,
+  instituteByCourseCategory,
+};

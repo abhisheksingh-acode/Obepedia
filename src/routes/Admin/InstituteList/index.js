@@ -8,6 +8,7 @@ const facultyModel = require("../../../models/Faculty/faculty");
 const CourseModel = require("../../../models/Course/course");
 const VacancyModel = require("../../../models/Vacancy/vacancy");
 const GallaryModel = require("../../../models/Gallary/gallary");
+const Sponsor = require("../../../models/Sponsor/Sponsor");
 
 // Getting all Institute ( role:institute is deafult)
 const getInsti = async (req, resp) => {
@@ -79,6 +80,7 @@ const unfeatureInst = (req, res) => {
 
   return res.status(200).json({ msg: "Selected institutes are unfeatured." });
 };
+
 const approveInsti = async (req, res) => {
   const result = await User.findOne({ _id: req.params.id });
 
@@ -94,43 +96,51 @@ const approveInsti = async (req, res) => {
 };
 
 const getFeatured = async (req, res) => {
-  const result = await InstituteProfileModel.find({ featured: true })
+  const result = await Sponsor.find()
     .sort({
       featured_order: 1,
     })
-    .select({ image: 0, sliding_banner: 0 });
+    .populate({ path: "category" })
+    .populate({ path: "institute_id" });
+
   return res.status(200).json(result);
 };
 
 const changeFeaturedOrder = async (req, res) => {
-  const result = await InstituteProfileModel.findOne({
+  const result = await Sponsor.findOne({
     _id: req.params.id,
-  }).updateOne({ featured_order: req.body.order });
+  }).updateOne({ order: req.body.order });
 
   return res.status(200).json({ result, msg: "Institute order changed." });
 };
 
 const markFeatured = async (req, res) => {
-  const id = req.params.id;
-  const user = await User.find({ _id: id });
-  const institute = await InstituteProfileModel.findOne({ institute_id: id });
+  // const id = req.params.id;
 
-  if (institute.featured) {
-    const result = await InstituteProfileModel.findOne({
-      institute_id: id,
-    }).updateOne({
-      featured: false,
-      featured_order: 0,
-    });
+  const { institute_id, category, order } = req.body;
+  const user = await InstituteProfileModel.findOne({ institute_id: institute_id });
+
+
+  const institute = await Sponsor.findOne({
+    institute_id: user._id,
+    category,
+  });
+
+  if (institute) {
+    const result = await Sponsor.findOne({
+      institute_id: user._id,
+      category,
+    }).deleteOne();
+
     return res.status(200).json({ msg: "Unmarked as featured", result });
   }
 
-  const result = await InstituteProfileModel.findOne({
-    institute_id: id,
-  }).updateOne({
-    featured: true,
-    featured_order: req.body.featured_order,
+  const result = await Sponsor.create({
+    institute_id : user._id,
+    category,
+    order,
   });
+
   return res.status(200).json({ msg: "Marked as featured", result });
 };
 

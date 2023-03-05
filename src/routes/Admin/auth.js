@@ -9,14 +9,14 @@ router.get("/login", (req, resp) => {
   resp.send("Hello, Please Login!");
 });
 
-router.post("/login",  (req, resp) => {
+router.post("/login", (req, resp) => {
   User.findOne({ email: req.body.email })
     .then((user) => {
       if (!user) {
-        resp.json({msg: "user not found"});
+        return resp.json({ msg: "user not found" });
       } else {
         if (user.role !== "admin") {
-          resp.json({msg:"You arent admin"});
+          return resp.json({ msg: "You arent admin" });
         } else {
           bcrypt.compare(req.body.password, user.password, (err, result) => {
             if (err) {
@@ -24,31 +24,30 @@ router.post("/login",  (req, resp) => {
             } else if (result) {
               const token = jwt.sign(
                 {
-                name: user.name,
-                role: user.role,
-                email: user.email,
+                  name: user.name,
+                  role: user.role,
+                  email: user.email,
                 },
-                'This is Token Key',
+                "This is Token Key",
                 {
-                  expiresIn:"24h"
+                  expiresIn: "24h",
                 }
               );
 
-              resp.status(200).json({
-                greeting: "Hello Admin",
+              return resp.status(200).json({
+                msg: "Hello Admin",
                 user,
-                token:token
-              })
-            }
-            else{
-              resp.status(500).json({Mgs:"Password is wrong!"})
+                token: token,
+              });
+            } else {
+              return resp.status(500).json({ msg: "Password is wrong!" });
             }
           });
         }
       }
     })
     .catch((err) => {
-      resp.status(500).json({error:err});
+      return resp.status(500).json({ error: err });
     });
 });
 
