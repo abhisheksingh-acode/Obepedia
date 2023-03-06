@@ -116,8 +116,9 @@ const markFeatured = async (req, res) => {
   // const id = req.params.id;
 
   const { institute_id, category, order } = req.body;
-  const user = await InstituteProfileModel.findOne({ institute_id: institute_id });
-
+  const user = await InstituteProfileModel.findOne({
+    institute_id: institute_id,
+  });
 
   const institute = await Sponsor.findOne({
     institute_id: user._id,
@@ -134,7 +135,7 @@ const markFeatured = async (req, res) => {
   }
 
   const result = await Sponsor.create({
-    institute_id : user._id,
+    institute_id: user._id,
     category,
     order,
   });
@@ -142,18 +143,13 @@ const markFeatured = async (req, res) => {
   return res.status(200).json({ msg: "Marked as featured", result });
 };
 
-
-
 const sponsorByCategory = async (req, res) => {
-       
-     const result = await Sponsor.find({category : req.body.category});
+  const result = await Sponsor.find({ category: req.body.category })
+    .populate({ path: "category" })
+    .populate({ path: "institute_id" });
 
-
-     return res.json(result)
-}
-
-
-
+  return res.json(result);
+};
 
 module.exports = {
   getInsti,
@@ -165,5 +161,5 @@ module.exports = {
   changeFeaturedOrder,
   unfeatureInst,
   approveInsti,
-  sponsorByCategory
+  sponsorByCategory,
 };
