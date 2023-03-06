@@ -96,7 +96,7 @@ const approveInsti = async (req, res) => {
 const getFeatured = async (req, res) => {
   const result = await Sponsor.find()
     .sort({
-      featured_order: 1,
+      order: 1,
     })
     .populate({ path: "category" })
     .populate({ path: "institute_id" });
