@@ -73,9 +73,7 @@ const destroyInst = (req, res) => {
 
 const unfeatureInst = (req, res) => {
   req.body.ids.forEach(async (el, index) => {
-    await InstituteProfileModel.findOne({ _id: el }).updateOne({
-      featured: false,
-    });
+    await Sponsor.findOne({ _id: el }).deleteOne();
   });
 
   return res.status(200).json({ msg: "Selected institutes are unfeatured." });
