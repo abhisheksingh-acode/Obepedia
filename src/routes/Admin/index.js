@@ -38,7 +38,7 @@ router.delete("/instilist/delinsti/:id", TokenAuth, delInsti);
 router.delete("/instilist/clear", TokenAuth, destroyInst);
 
 router.get("/instilist/getfeatured", TokenAuth, getFeatured);
-router.get("/instilist/feature-by-category", TokenAuth, sponsorByCategory);
+router.post("/instilist/feature-by-category", TokenAuth, sponsorByCategory);
 router.put("/instilist/changeorder/:id", TokenAuth, changeFeaturedOrder);
 router.put("/instilist/unfeature", TokenAuth, unfeatureInst);
 
