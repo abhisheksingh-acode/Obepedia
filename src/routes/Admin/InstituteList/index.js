@@ -142,6 +142,19 @@ const markFeatured = async (req, res) => {
   return res.status(200).json({ msg: "Marked as featured", result });
 };
 
+
+
+const sponsorByCategory = async (req, res) => {
+       
+     const result = await Sponsor.find({category : req.body.category});
+
+
+     return res.json(result)
+}
+
+
+
+
 module.exports = {
   getInsti,
   getInstiDet,
@@ -152,4 +165,5 @@ module.exports = {
   changeFeaturedOrder,
   unfeatureInst,
   approveInsti,
+  sponsorByCategory
 };
