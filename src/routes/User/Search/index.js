@@ -161,7 +161,7 @@ const listingInstituteFilter = async (req, res) => {
     {
       $match: {
         category: { $eq: mongoose.Types.ObjectId(category) },
-        subject: { $in: regexSubject },
+        // subject: { $in: regexSubject },
       },
     },
     {
