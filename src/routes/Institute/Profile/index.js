@@ -71,6 +71,7 @@ const putProfile = async (req, resp) => {
       phone: req.body.phone,
       email: req.body.email,
     });
+    
   }
 
   return resp.status(200).json(result);
