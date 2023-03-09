@@ -27,6 +27,7 @@ const getVacancy = async (req, resp) => {
     institute_id: data.institute_id,
   });
 
+
   const result = {
     ...data._doc,
     posted: moment().diff(data._doc.date, "days", false),
