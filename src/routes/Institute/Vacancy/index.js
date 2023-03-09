@@ -81,6 +81,12 @@ const getAllVacancies = async (req, resp) => {
 
   return resp.status(200).json(result);
 };
+const getRecentVacancies = async (req, resp) => {
+  let result = await VacancyModel.find().sort({_id : -1}).limit(8);
+
+
+  return resp.status(200).json(result);
+};
 
 // Get All Vacancies by a particular institute
 const getVacancyByInstitute = (req, resp) => {
@@ -112,4 +118,5 @@ module.exports = {
   delVacancy,
   getVacancyByInstitute,
   getAllVacancies,
+  getRecentVacancies
 };

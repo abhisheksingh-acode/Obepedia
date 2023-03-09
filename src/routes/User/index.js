@@ -108,12 +108,14 @@ const {
   getVacancyByInstitute,
   getAllVacancies,
   postVacancy,
+  getRecentVacancies
 } = require("../Institute/Vacancy/index");
 
 router.get("/vacancy/postvacancydetails/:id", postVacancy);
 router.get("/vacancy/getvacancy/:id", getVacancy);
 router.get("/vacancy/getvacancybyinstitute/:id", getVacancyByInstitute);
 router.get("/vacancy/allvacancies", getAllVacancies);
+router.get("/vacancy/recentvacancies", getRecentVacancies);
 
 // Institute Page
 const {
