@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const VacancyModel = require("../../../models/Vacancy/vacancy");
 const Job_Form_Model = require("../../../models/Job_Form/job_form");
 const moment = require("moment");
+const instituteprofile = require("../../../models/Instituteprofile/instituteprofile");
 
 // Posting  Vacancy
 const postVacancy = async (req, resp) => {
@@ -22,10 +23,14 @@ const getVacancy = async (req, resp) => {
   const vacancy_id = req.params.id;
 
   const data = await VacancyModel.findOne({ _id: vacancy_id });
+  const institute = await instituteprofile.findOne({
+    institute_id: data.institute_id,
+  });
 
   const result = {
     ...data._doc,
     posted: moment().diff(data._doc.date, "days", false),
+    institute: { logo: institute.image, banner: institute.sliding_banner },
   };
 
   return resp.status(200).json(result);
