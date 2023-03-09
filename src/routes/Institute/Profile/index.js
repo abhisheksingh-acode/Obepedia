@@ -65,11 +65,13 @@ const putProfile = async (req, resp) => {
     .findOne({ institute_id: req.params.id })
     .updateOne({ ...req.body });
 
-  await User.findOne({ _id: req.params.id }).updateOne({
-    name : req.body.name,
-    phone : req.body.phone,
-    email : req.body.email,
-  });
+  if ((req.body.name, req.body.phone, req.body.email)) {
+    await User.findOne({ _id: req.params.id }).updateOne({
+      name: req.body.name,
+      phone: req.body.phone,
+      email: req.body.email,
+    });
+  }
 
   return resp.status(200).json(result);
 };
